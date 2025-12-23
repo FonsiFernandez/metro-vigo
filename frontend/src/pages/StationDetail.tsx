@@ -67,22 +67,72 @@ const arrivalsQuery = useQuery({
           </div>
 
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-base">Next trains</CardTitle>
+
+              <div className="text-xs text-muted-foreground">
+                {arrivalsQuery.isFetching ? "Updating…" : "Updated"}
+              </div>
             </CardHeader>
+
             <CardContent className="space-y-2">
-              {arrivalsQuery.data?.length ? (
-                arrivalsQuery.data.map((a: NextArrival) => (
-                  <div key={a.lineId} className="flex items-center justify-between text-sm">
-                    <div className="font-medium">
-                      {a.lineCode} <span className="text-muted-foreground">→ {a.direction}</span>
+              {arrivalsQuery.isLoading && (
+                <div className="space-y-3">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <div className="h-4 w-48 rounded bg-muted animate-pulse" />
+                      <div className="h-4 w-14 rounded bg-muted animate-pulse" />
                     </div>
-                    <div className="tabular-nums font-semibold">
-                      {a.minutes} min
-                    </div>
-                  </div>
-                ))
-              ) : (
+                  ))}
+                </div>
+              )}
+
+              {arrivalsQuery.isError && (
+                <div className="text-sm text-destructive">
+                  {(arrivalsQuery.error as Error).message}
+                </div>
+              )}
+
+              {!arrivalsQuery.isLoading && !!arrivalsQuery.data?.length && (
+                <div className="divide-y rounded-xl border">
+                  {arrivalsQuery.data.map((a) => {
+                    const minutes = a.minutes;
+                    const isArriving = minutes <= 1;
+                    const soon = minutes <= 3;
+                    const long = minutes >= 10;
+
+                    const rightClass = isArriving
+                      ? "text-emerald-700"
+                      : long
+                      ? "text-muted-foreground"
+                      : soon
+                      ? "text-amber-700"
+                      : "text-foreground";
+
+                    return (
+                      <div
+                        key={`${a.lineCode}-${a.direction}`}
+                        className="flex items-center justify-between px-4 py-3 text-sm"
+                      >
+                        <div className="min-w-0">
+                          <div className="font-medium truncate">
+                            {a.lineCode}{" "}
+                            <span className="text-muted-foreground font-normal">
+                              → {a.direction}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className={`tabular-nums font-semibold ${rightClass}`}>
+                          {isArriving ? "Arriving" : `${minutes} min`}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {!arrivalsQuery.isLoading && !arrivalsQuery.data?.length && (
                 <div className="text-sm text-muted-foreground">No upcoming trains.</div>
               )}
             </CardContent>
