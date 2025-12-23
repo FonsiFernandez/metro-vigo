@@ -6,7 +6,6 @@ import { getActiveIncidents, type Incident } from "../lib/api";
 import { AlertTriangle, CircleAlert, Info, Siren } from "lucide-react";
 
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import StationSearch from "./StationSearch";
 
 function NavItem({ to, label }: { to: string; label: string }) {
