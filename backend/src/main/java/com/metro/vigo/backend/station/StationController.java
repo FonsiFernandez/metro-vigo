@@ -1,5 +1,8 @@
 package com.metro.vigo.backend.station;
 
+import com.metro.vigo.backend.api.Mapper;
+import com.metro.vigo.backend.api.dto.StationDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +18,18 @@ public class StationController {
     }
 
     @GetMapping
-    public List<Station> search(@RequestParam(name = "query", required = false) String query) {
-        if (query == null || query.trim().isEmpty()) {
-            return repo.findTop20ByOrderByNameAsc();
-        }
-        return repo.findTop10ByNameContainingIgnoreCaseOrderByNameAsc(query.trim());
+    public List<StationDto> search(@RequestParam(name = "query", required = false) String query) {
+        var list = (query == null || query.trim().isEmpty())
+                ? repo.findTop20ByOrderByNameAsc()
+                : repo.findTop10ByNameContainingIgnoreCaseOrderByNameAsc(query.trim());
+        return list.stream().map(Mapper::toStationDto).toList();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StationDto> byId(@PathVariable Long id) {
+        return repo.findById(id)
+                .map(Mapper::toStationDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

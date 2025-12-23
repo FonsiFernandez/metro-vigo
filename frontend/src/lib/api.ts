@@ -30,3 +30,17 @@ export async function searchStations(query: string): Promise<Station[]> {
   if (!res.ok) throw new Error(`Failed to fetch stations (HTTP ${res.status})`);
   return res.json();
 }
+
+export async function getStation(id: number): Promise<Station> {
+  const res = await fetch(`${API_BASE}/api/stations/${id}`);
+  if (!res.ok) throw new Error(`Station not found (HTTP ${res.status})`);
+  return res.json();
+}
+
+export type LineDetail = Line & { stations: Station[] };
+
+export async function getLine(id: number): Promise<LineDetail> {
+  const res = await fetch(`${API_BASE}/api/lines/${id}`);
+  if (!res.ok) throw new Error(`Line not found (HTTP ${res.status})`);
+  return res.json();
+}

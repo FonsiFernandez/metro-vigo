@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getLines, type Line } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { Link } from "react-router-dom";
 
 function StatusBadge({ status }: { status: Line["status"] }) {
   if (status === "OK") return <Badge className="bg-emerald-600">OK</Badge>;
@@ -35,7 +36,9 @@ export default function Lines() {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <CardTitle className="text-base">
-                      {line.code} · {line.name}
+                      <Link to={`/lines/${line.id}`} className="hover:underline">
+                        {line.code} · {line.name}
+                      </Link>
                     </CardTitle>
                     <p className="mt-1 text-sm text-muted-foreground">{line.colorHex}</p>
                   </div>

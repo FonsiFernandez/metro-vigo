@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getLines, type Line } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { Link } from "react-router-dom";
 
 function StatusBadge({ status }: { status: Line["status"] }) {
   if (status === "OK") return <Badge className="bg-emerald-600 text-white">OK</Badge>;
@@ -66,32 +67,31 @@ export default function Home() {
 
       {data && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {data.map((line) => (
-            <Card
-              key={line.id}
-              className="group overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg"
-            >
-              <div className="h-1.5" style={{ backgroundColor: line.colorHex }} />
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <CardTitle className="text-base">
-                      {line.code} · {line.name}
-                    </CardTitle>
-                    <p className="mt-1 text-sm text-muted-foreground truncate">
-                      Color {line.colorHex}
-                    </p>
-                  </div>
-                  <StatusBadge status={line.status} />
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <p className="text-sm text-muted-foreground">
-                  Next: stations, incidents and arrivals.
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+         {data.map((line) => (
+           <Link key={line.id} to={`/lines/${line.id}`} className="block">
+             <Card className="overflow-hidden transition hover:shadow-md">
+               <div className="h-1.5" style={{ backgroundColor: line.colorHex }} />
+               <CardHeader className="pb-3">
+                 <div className="flex items-start justify-between gap-3">
+                   <div>
+                     <CardTitle className="text-base">
+                       {line.code} · {line.name}
+                     </CardTitle>
+                     <p className="mt-1 text-sm text-muted-foreground">
+                       Color {line.colorHex}
+                     </p>
+                   </div>
+                   <StatusBadge status={line.status} />
+                 </div>
+               </CardHeader>
+               <CardContent className="pt-0">
+                 <p className="text-sm text-muted-foreground">
+                   View line details →
+                 </p>
+               </CardContent>
+             </Card>
+           </Link>
+         ))}
         </div>
       )}
     </div>
