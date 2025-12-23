@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getLines } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { getActiveIncidents } from "../lib/api";
 
 export default function Status() {
   const { data } = useQuery({ queryKey: ["lines"], queryFn: getLines });
+
+const incidentsQuery = useQuery({ queryKey: ["incidents", "active"], queryFn: getActiveIncidents });
 
   const summary = (() => {
     const lines = data ?? [];
@@ -43,6 +46,31 @@ export default function Status() {
         <CardHeader><CardTitle className="text-base">Next</CardTitle></CardHeader>
         <CardContent className="text-sm text-muted-foreground">
           Add incidents endpoint and show banners + details here.
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Active incidents</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {incidentsQuery.data?.length ? (
+            incidentsQuery.data.map((i) => (
+              <div key={i.id} className="rounded-xl border p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-sm font-medium">{i.title}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {i.lineCode ? `Line ${i.lineCode}` : i.stationName ? i.stationName : "Network"} · {i.severity}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 text-sm text-muted-foreground">{i.message}</div>
+              </div>
+            ))
+          ) : (
+            <div className="text-sm text-muted-foreground">No active incidents.</div>
+          )}
         </CardContent>
       </Card>
     </div>

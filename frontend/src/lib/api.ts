@@ -44,3 +44,24 @@ export async function getLine(id: number): Promise<LineDetail> {
   if (!res.ok) throw new Error(`Line not found (HTTP ${res.status})`);
   return res.json();
 }
+
+export type Incident = {
+  id: number;
+  severity: "INFO" | "MINOR" | "MAJOR" | "CRITICAL" | string;
+  scope: "NETWORK" | "LINE" | "STATION" | string;
+  title: string;
+  message: string;
+  active: boolean;
+  createdAt: string;
+  lineId: number | null;
+  lineCode: string | null;
+  stationId: number | null;
+  stationName: string | null;
+};
+
+export async function getActiveIncidents(): Promise<Incident[]> {
+  const res = await fetch(`${API_BASE}/api/incidents`);
+  if (!res.ok) throw new Error(`Failed to fetch incidents (HTTP ${res.status})`);
+  return res.json();
+}
+

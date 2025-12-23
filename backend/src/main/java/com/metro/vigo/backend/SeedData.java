@@ -9,6 +9,8 @@ import com.metro.vigo.backend.station.StationRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.metro.vigo.backend.incident.*;
+import com.metro.vigo.backend.incident.IncidentRepository;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,8 +19,10 @@ import java.util.stream.Collectors;
 public class SeedData {
 
     @Bean
-    CommandLineRunner init(LineRepository lineRepo, StationRepository stationRepo, LineStationRepository lsRepo) {
-        return args -> {
+    CommandLineRunner init(LineRepository lineRepo, StationRepository stationRepo, LineStationRepository lsRepo, IncidentRepository incidentRepo) {
+        return args ->
+
+        {
 
             // -------------------------
             // 1) LINES
@@ -174,6 +178,43 @@ public class SeedData {
                 lsRepo.save(new LineStation(lines.get("M8"), stations.get("Terminal de Cruceros (Transatlánticos)"), 4));
                 lsRepo.save(new LineStation(lines.get("M8"), stations.get("Berbés"), 5));
                 lsRepo.save(new LineStation(lines.get("M8"), stations.get("Casco Vello"), 6));
+            }
+            if (incidentRepo.count() == 0) {
+                var lines = lineRepo.findAll().stream().collect(Collectors.toMap(Line::getCode, l -> l));
+                var stations = stationRepo.findAll().stream().collect(Collectors.toMap(Station::getName, s -> s));
+
+                // Network-wide info
+                incidentRepo.save(new Incident(
+                        IncidentSeverity.INFO,
+                        IncidentScope.NETWORK,
+                        "Maintenance window tonight",
+                        "Scheduled maintenance between 01:00 and 03:00. Minor delays possible on all lines.",
+                        true,
+                        null,
+                        null
+                ));
+
+                // Line incident (e.g. Airport Express)
+                incidentRepo.save(new Incident(
+                        IncidentSeverity.MAJOR,
+                        IncidentScope.LINE,
+                        "M7 reduced service",
+                        "Airport Express running every 20 minutes due to rolling stock constraints.",
+                        true,
+                        lines.get("M7"),
+                        null
+                ));
+
+                // Station incident (e.g. Vigo Central)
+                incidentRepo.save(new Incident(
+                        IncidentSeverity.MINOR,
+                        IncidentScope.STATION,
+                        "Elevator out of service",
+                        "One elevator is temporarily out of service at Vigo Central. Staff assistance available.",
+                        true,
+                        null,
+                        stations.get("Vigo Central (Urzaiz)")
+                ));
             }
         };
     }

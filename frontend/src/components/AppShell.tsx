@@ -1,6 +1,12 @@
 import { PropsWithChildren } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import { getActiveIncidents, type Incident } from "../lib/api";
+import { AlertTriangle, CircleAlert, Info, Siren } from "lucide-react";
+
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 import StationSearch from "./StationSearch";
 
 function NavItem({ to, label }: { to: string; label: string }) {
@@ -19,7 +25,56 @@ function NavItem({ to, label }: { to: string; label: string }) {
   );
 }
 
+function SeverityPill({ severity }: { severity: string }) {
+  const base =
+    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold border";
+
+  if (severity === "CRITICAL") {
+    return (
+      <span className={`${base} bg-red-50 text-red-700 border-red-200`}>
+        <Siren className="h-3.5 w-3.5" />
+        CRITICAL
+      </span>
+    );
+  }
+
+  if (severity === "MAJOR") {
+    return (
+      <span className={`${base} bg-orange-50 text-orange-700 border-orange-200`}>
+        <CircleAlert className="h-3.5 w-3.5" />
+        MAJOR
+      </span>
+    );
+  }
+
+  if (severity === "MINOR") {
+    return (
+      <span className={`${base} bg-yellow-50 text-yellow-800 border-yellow-200`}>
+        <AlertTriangle className="h-3.5 w-3.5" />
+        MINOR
+      </span>
+    );
+  }
+
+  // INFO (default)
+  return (
+    <span className={`${base} bg-blue-50 text-blue-700 border-blue-200`}>
+      <Info className="h-3.5 w-3.5" />
+      INFO
+    </span>
+  );
+}
+
 export default function AppShell({ children }: PropsWithChildren) {
+  const incidentsQuery = useQuery({
+    queryKey: ["incidents", "active"],
+    queryFn: getActiveIncidents,
+    refetchInterval: 30_000,
+    staleTime: 10_000,
+  });
+
+  const incidents = incidentsQuery.data ?? [];
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
@@ -35,7 +90,11 @@ export default function AppShell({ children }: PropsWithChildren) {
 
             <div className="flex items-center gap-2">
               <Button variant="secondary" asChild>
-                <a href="http://localhost:8080/api/lines" target="_blank" rel="noreferrer">
+                <a
+                  href="http://localhost:8080/api/lines"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   API
                 </a>
               </Button>
@@ -53,6 +112,42 @@ export default function AppShell({ children }: PropsWithChildren) {
           </div>
         </div>
       </header>
+
+      {incidents.length > 0 && (
+        <div className="border-b bg-muted/30">
+          <div className="mx-auto max-w-5xl px-4 py-2">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-sm">
+                <span className="font-medium">Service alerts</span>
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {incidents.length} active
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+               {incidents.slice(0, 3).map((i: Incident) => (
+                 <span key={i.id} className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs">
+ <SeverityPill severity={i.severity} />
+
+  <span className="text-muted-foreground">
+    {i.lineCode ? `${i.lineCode}: ` : i.stationName ? `${i.stationName}: ` : ""}
+  </span>
+
+  <span className="truncate max-w-[40ch] font-medium">{i.title}</span>
+                  </span>
+                ))}
+
+                {incidents.length > 3 && (
+                  <span className="text-xs text-muted-foreground self-center">
+                    +{incidents.length - 3} more
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="mx-auto max-w-5xl px-4 py-10">{children}</main>
 
