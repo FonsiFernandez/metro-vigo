@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    container_name: metro_vigo_db
+    environment:
+      POSTGRES_DB: metro_vigo
+      POSTGRES_USER: metro
+      POSTGRES_PASSWORD: metro
+    ports:
+      - "5432:5432"
+    volumes:
+      - metro_vigo_pgdata:/var/lib/postgresql/data
+
+volumes:
+  metro_vigo_pgdata:
