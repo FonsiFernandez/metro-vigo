@@ -40,7 +40,6 @@ export default function Lines() {
                         {line.code} · {line.name}
                       </Link>
                     </CardTitle>
-                    <p className="mt-1 text-sm text-muted-foreground">{line.colorHex}</p>
                   </div>
                   <StatusBadge status={line.status} />
                 </div>
