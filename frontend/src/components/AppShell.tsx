@@ -4,6 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getActiveIncidents, type Incident } from "../lib/api";
 import { AlertTriangle, CircleAlert, Info, Siren } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import { applyTheme, getStoredTheme, type Theme } from "../lib/theme";
 
 import { Button } from "./ui/button";
 import StationSearch from "./StationSearch";
@@ -74,6 +77,12 @@ export default function AppShell({ children }: PropsWithChildren) {
 
   const incidents = incidentsQuery.data ?? [];
 
+  const [theme, setTheme] = useState<Theme>(() => getStoredTheme() ?? "light");
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
@@ -88,6 +97,13 @@ export default function AppShell({ children }: PropsWithChildren) {
             </Link>
 
             <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+                aria-label="Toggle theme">
+                      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
               <Button variant="secondary" asChild>
                 <a
                   href="http://localhost:8080/api/lines"
