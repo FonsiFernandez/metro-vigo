@@ -28,10 +28,10 @@ public class SeedData {
             // 1) LINES
             // -------------------------
             if (lineRepo.count() == 0) {
-                lineRepo.save(new Line("M1", "Centro ↔ Samil", "#00AEEF", "OK"));
+                lineRepo.save(new Line("M1", "Príncipe ↔ Samil", "#00AEEF", "OK"));
                 lineRepo.save(new Line("M2", "Vialia ↔ Navia", "#8E44AD", "OK"));
                 lineRepo.save(new Line("M3", "Teis ↔ Castrelos", "#27AE60", "DELAYED"));
-                lineRepo.save(new Line("M4", "CUVI ↔ Centro", "#E67E22", "OK"));
+                lineRepo.save(new Line("M4", "CUVI ↔ Príncipe", "#E67E22", "OK"));
                 lineRepo.save(new Line("M5", "Oia ↔ Teis", "#E11D48", "OK"));
                 lineRepo.save(new Line("M6", "Chapela ↔ Vigo Central", "#0EA5E9", "OK"));
 
@@ -45,7 +45,7 @@ public class SeedData {
             // -------------------------
             if (stationRepo.count() == 0) {
                 // Core / downtown
-                stationRepo.save(new Station("Centro", 42.2406, -8.7207, true));
+                stationRepo.save(new Station("Príncipe", 42.2406, -8.7207, true));
                 stationRepo.save(new Station("Puerta del Sol", 42.2393, -8.7243, true));
                 stationRepo.save(new Station("Policarpo Sanz", 42.2408, -8.7230, true));
                 stationRepo.save(new Station("Areál", 42.2386, -8.7182, true));
@@ -109,8 +109,8 @@ public class SeedData {
                 Map<String, Station> stations =
                         stationRepo.findAll().stream().collect(Collectors.toMap(Station::getName, s -> s));
 
-                // ---- M1: Centro ↔ Samil (axis to beaches)
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Centro"), 1));
+                // ---- M1: Príncipe ↔ Samil (axis to beaches)
+                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Príncipe"), 1));
                 lsRepo.save(new LineStation(lines.get("M1"), stations.get("Puerta del Sol"), 2));
                 lsRepo.save(new LineStation(lines.get("M1"), stations.get("Policarpo Sanz"), 3));
                 lsRepo.save(new LineStation(lines.get("M1"), stations.get("Praza de América"), 4));
@@ -132,18 +132,18 @@ public class SeedData {
                 lsRepo.save(new LineStation(lines.get("M3"), stations.get("Travesía de Vigo"), 2));
                 lsRepo.save(new LineStation(lines.get("M3"), stations.get("Guixar"), 3));
                 lsRepo.save(new LineStation(lines.get("M3"), stations.get("Berbés"), 4));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Centro"), 5));
+                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Príncipe"), 5));
                 lsRepo.save(new LineStation(lines.get("M3"), stations.get("O Calvario"), 6));
                 lsRepo.save(new LineStation(lines.get("M3"), stations.get("Castrelos"), 7));
 
-                // ---- M4: CUVI ↔ Centro (university axis)
+                // ---- M4: CUVI ↔ Príncipe (university axis)
                 lsRepo.save(new LineStation(lines.get("M4"), stations.get("CUVI (Universidade)"), 1));
                 lsRepo.save(new LineStation(lines.get("M4"), stations.get("Matamá"), 2));
                 lsRepo.save(new LineStation(lines.get("M4"), stations.get("Beade"), 3));
                 lsRepo.save(new LineStation(lines.get("M4"), stations.get("Sárdoma"), 4));
                 lsRepo.save(new LineStation(lines.get("M4"), stations.get("Balaídos"), 5));
                 lsRepo.save(new LineStation(lines.get("M4"), stations.get("Praza de América"), 6));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Centro"), 7));
+                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Príncipe"), 7));
 
                 // ---- M5: Oia ↔ Teis (coastal + cross-city)
                 lsRepo.save(new LineStation(lines.get("M5"), stations.get("Oia"), 1));
@@ -152,7 +152,7 @@ public class SeedData {
                 lsRepo.save(new LineStation(lines.get("M5"), stations.get("Alcabre"), 4));
                 lsRepo.save(new LineStation(lines.get("M5"), stations.get("Coia"), 5));
                 lsRepo.save(new LineStation(lines.get("M5"), stations.get("Praza de América"), 6));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Centro"), 7));
+                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Príncipe"), 7));
                 lsRepo.save(new LineStation(lines.get("M5"), stations.get("Travesía de Vigo"), 8));
                 lsRepo.save(new LineStation(lines.get("M5"), stations.get("Teis"), 9));
 

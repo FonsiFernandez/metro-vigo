@@ -4,6 +4,7 @@ import { getStation } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { getNextArrivals, type NextArrival } from "../lib/api";
+import TrainTicker from "../components/TrainTicker";
 
 export default function StationDetail() {
   const params = useParams();
@@ -74,6 +75,11 @@ const arrivalsQuery = useQuery({
                 {arrivalsQuery.isFetching ? "Updating…" : "Updated"}
               </div>
             </CardHeader>
+
+            <div className="px-6 pb-4">
+              <TrainTicker />
+            </div>
+
 
             <CardContent className="space-y-2">
               {arrivalsQuery.isLoading && (

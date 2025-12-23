@@ -80,3 +80,12 @@
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
 }
+
+@keyframes train-move {
+  0%   { transform: translateX(0) translateY(-50%); }
+  100% { transform: translateX(calc(100vw + 80px)) translateY(-50%); }
+}
+
+.animate-train {
+  animation: train-move 10s linear infinite;
+}
