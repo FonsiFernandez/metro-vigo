@@ -5,6 +5,7 @@ import Lines from "./pages/Lines";
 import Status from "./pages/Status";
 import StationDetail from "./pages/StationDetail";
 import LineDetail from "./pages/LineDetail";
+import MapPage from "./pages/Map";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/lines/:id" element={<LineDetail />} />
           <Route path="/status" element={<Status />} />
           <Route path="/stations/:id" element={<StationDetail />} />
+          <Route path="/map" element={<MapPage />} />
         </Routes>
       </AppShell>
     </BrowserRouter>
