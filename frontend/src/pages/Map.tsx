@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { useNavigate } from "react-router-dom";
 
 import { getLine, getLines, type LineDetail } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
@@ -65,6 +66,8 @@ function buildGeo(lines: LineDetail[]) {
 }
 
 export default function MapPage() {
+    const navigate = useNavigate();
+
   const linesQuery = useQuery({
     queryKey: ["lines"],
     queryFn: getLines,
@@ -106,7 +109,11 @@ export default function MapPage() {
         </CardHeader>
         <CardContent>
           <div className="h-[520px] w-full overflow-hidden rounded-xl border">
-            <MapLibreView initial={initial} geo={geo} />
+            <MapLibreView
+              initial={initial}
+              geo={geo}
+              onStationClick={(stationId) => navigate(`/stations/${stationId}`)}
+            />
           </div>
         </CardContent>
       </Card>
@@ -117,10 +124,13 @@ export default function MapPage() {
 function MapLibreView({
   initial,
   geo,
+  onStationClick,
 }: {
   initial: { lng: number; lat: number; zoom: number };
   geo: { stations: FeatureCollection; lines: FeatureCollection } | null;
+  onStationClick: (stationId: number) => void;
 }) {
+
   // Simple imperative mount (no extra libs)
   return (
     <div
@@ -198,22 +208,12 @@ function MapLibreView({
           });
 
           // Click station -> show popup (y luego lo conectamos a /stations/:id)
-          map.on("click", "stations-layer", (e) => {
-            const f = e.features?.[0];
-            if (!f) return;
-            const name = (f.properties as any)?.name ?? "Station";
-            const id = (f.properties as any)?.id;
-
-            new maplibregl.Popup({ closeButton: true })
-              .setLngLat(e.lngLat)
-              .setHTML(
-                `<div style="font-size:12px">
-                   <div style="font-weight:600">${name}</div>
-                   <div style="opacity:.7">id: ${id}</div>
-                 </div>`
-              )
-              .addTo(map);
-          });
+         map.on("click", "stations-layer", (e) => {
+           const f = e.features?.[0];
+           const rawId = (f?.properties as any)?.id;
+           const stationId = Number(rawId);
+           if (Number.isFinite(stationId)) onStationClick(stationId);
+         });
 
           map.on("mouseenter", "stations-layer", () => {
             map.getCanvas().style.cursor = "pointer";
