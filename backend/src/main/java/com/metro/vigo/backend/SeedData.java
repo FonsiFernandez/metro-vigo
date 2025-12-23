@@ -41,61 +41,61 @@ public class SeedData {
             }
 
             // -------------------------
-            // 2) STATIONS
-            // -------------------------
+// 2) STATIONS
+// -------------------------
             if (stationRepo.count() == 0) {
-                // Core / downtown
-                stationRepo.save(new Station("Príncipe", 42.2406, -8.7207, true));
-                stationRepo.save(new Station("Puerta del Sol", 42.2393, -8.7243, true));
-                stationRepo.save(new Station("Policarpo Sanz", 42.2408, -8.7230, true));
-                stationRepo.save(new Station("Areál", 42.2386, -8.7182, true));
-                stationRepo.save(new Station("Berbés", 42.2380, -8.7290, false));
-                stationRepo.save(new Station("Casco Vello", 42.2392, -8.7269, false));
+                // Core / downtown (more accurate)
+                stationRepo.save(new Station("Príncipe", 42.2360488, -8.7201362, true));              // Rua do Príncipe :contentReference[oaicite:1]{index=1}
+                stationRepo.save(new Station("Puerta del Sol", 42.2381667, -8.7260000, true));         // Porta do Sol :contentReference[oaicite:2]{index=2}
+                stationRepo.save(new Station("Policarpo Sanz", 42.2375000, -8.7224444, true));         // Rúa Policarpo Sanz :contentReference[oaicite:3]{index=3}
+                stationRepo.save(new Station("Areál", 42.2369000, -8.7159000, true));                  // keep close to Areal / Guixar axis (approx)
+                stationRepo.save(new Station("Berbés", 42.2369167, -8.7296944, false));                // Ribeira do Berbés :contentReference[oaicite:4]{index=4}
+                stationRepo.save(new Station("Casco Vello", 42.2389000, -8.7268000, false));           // old town core (approx)
 
-                // Transport hub (Vigo Central = Urzaiz)
-                stationRepo.save(new Station("Vigo Central (Urzaiz)", 42.2329, -8.7110, true));
-                stationRepo.save(new Station("Vialia", 42.2325, -8.7120, true));
-                stationRepo.save(new Station("Guixar", 42.2372, -8.7086, true));
+                // Transport hub (Vigo Central = Urzaiz) + Vialia + Guixar
+                stationRepo.save(new Station("Vigo Central (Urzaiz)", 42.2342570, -8.7136120, true));  // Vigo-Urzáiz :contentReference[oaicite:5]{index=5}
+                stationRepo.save(new Station("Vialia", 42.2342570, -8.7136120, true));                 // same complex as Urzaiz/Vialia :contentReference[oaicite:6]{index=6}
+                stationRepo.save(new Station("Guixar", 42.2395030, -8.7129150, true));                 // Guixar (photo coords) :contentReference[oaicite:7]{index=7}
 
-                // Port / Cruise (Transatlánticos)
-                stationRepo.save(new Station("Estación Marítima (Puerto)", 42.2402, -8.7260, true));
-                stationRepo.save(new Station("Terminal de Cruceros (Transatlánticos)", 42.2400, -8.7281, true));
+                // Port / Cruise (Transatlánticos) — use passenger terminal area
+                stationRepo.save(new Station("Estación Marítima (Puerto)", 42.2424167, -8.7235833, true));             // Estación Marítima area :contentReference[oaicite:8]{index=8}
+                stationRepo.save(new Station("Terminal de Cruceros (Transatlánticos)", 42.2429000, -8.7254000, true)); // very close to maritime station (approx)
 
                 // East / Teis
-                stationRepo.save(new Station("Travesía de Vigo", 42.2482, -8.7079, true));
-                stationRepo.save(new Station("Teis", 42.2538, -8.7005, false));
-                stationRepo.save(new Station("A Guía", 42.2496, -8.6991, false));
+                stationRepo.save(new Station("Travesía de Vigo", 42.2449000, -8.6999000, true));       // approx (avenue area)
+                stationRepo.save(new Station("Teis", 42.2511520, -8.6897100, false));                   // Teis reference point :contentReference[oaicite:9]{index=9}
+                stationRepo.save(new Station("A Guía", 42.2469000, -8.7058000, false));                 // approx (Monte da Guía area)
 
                 // South / Calvario / Lavadores
-                stationRepo.save(new Station("O Calvario", 42.2268, -8.7137, true));
-                stationRepo.save(new Station("A Doblada", 42.2286, -8.7179, true));
-                stationRepo.save(new Station("Lavadores", 42.2254, -8.7009, false));
-                stationRepo.save(new Station("Sárdoma", 42.2193, -8.6906, false));
+                stationRepo.save(new Station("O Calvario", 42.2246000, -8.7079000, true));              // approx
+                stationRepo.save(new Station("A Doblada", 42.2280000, -8.7155000, true));               // approx
+                stationRepo.save(new Station("Lavadores", 42.2239000, -8.6955000, false));              // approx
+                stationRepo.save(new Station("Sárdoma", 42.2118000, -8.6887000, false));                // approx
 
-                // West / Coia / Navia / Beaches (Plaza América is a key interchange)
-                stationRepo.save(new Station("Praza de América", 42.2258, -8.7411, true));
-                stationRepo.save(new Station("As Travesas", 42.2239, -8.7439, true));
-                stationRepo.save(new Station("Balaídos", 42.2128, -8.7396, true));
-                stationRepo.save(new Station("Castrelos", 42.2147, -8.7372, true));
-                stationRepo.save(new Station("Coia", 42.2168, -8.7630, true));
-                stationRepo.save(new Station("Alcabre", 42.2127, -8.7708, false));
-                stationRepo.save(new Station("Navia", 42.2097, -8.7702, true));
-                stationRepo.save(new Station("Samil", 42.2067, -8.7956, true));
+                // West / Coia / Navia / Beaches (Plaza América key)
+                stationRepo.save(new Station("Praza de América", 42.2210278, -8.7327778, true));        // Plaza América :contentReference[oaicite:10]{index=10}
+                stationRepo.save(new Station("As Travesas", 42.2232000, -8.7398000, true));             // approx
+                stationRepo.save(new Station("Balaídos", 42.2118417, -8.7397111, true));                // Balaídos :contentReference[oaicite:11]{index=11}
+                stationRepo.save(new Station("Castrelos", 42.2137778, -8.7292500, true));               // Parque de Castrelos :contentReference[oaicite:12]{index=12}
+                stationRepo.save(new Station("Coia", 42.2182924, -8.7441073, true));                    // Coia (neighborhood point) :contentReference[oaicite:13]{index=13}
+                stationRepo.save(new Station("Alcabre", 42.2236667, -8.7625556, false));                // Alcabre (Carril/area) :contentReference[oaicite:14]{index=14}
+                stationRepo.save(new Station("Navia", 42.2064889, -8.7674194, true));                   // Navia :contentReference[oaicite:15]{index=15}
+                stationRepo.save(new Station("Samil", 42.2090833, -8.7759722, true));                   // Samil :contentReference[oaicite:16]{index=16}
 
                 // Southwest / Oia / Coruxo
-                stationRepo.save(new Station("Coruxo", 42.1997, -8.8052, false));
-                stationRepo.save(new Station("Oia", 42.1916, -8.8167, false));
+                stationRepo.save(new Station("Coruxo", 42.1809000, -8.7845000, false));                 // approx
+                stationRepo.save(new Station("Oia", 42.1728000, -8.8060000, false));                    // approx
 
                 // University / South
-                stationRepo.save(new Station("Beade", 42.1769, -8.7069, false));
-                stationRepo.save(new Station("Matamá", 42.1717, -8.6908, false));
-                stationRepo.save(new Station("CUVI (Universidade)", 42.1692, -8.6862, true));
+                stationRepo.save(new Station("Beade", 42.1896000, -8.7228000, false));                  // approx
+                stationRepo.save(new Station("Matamá", 42.1745000, -8.6905000, false));                 // approx
+                stationRepo.save(new Station("CUVI (Universidade)", 42.1682911, -8.6889985, true));     // UVigo campus :contentReference[oaicite:17]{index=17}
 
                 // Airport (Peinador)
-                stationRepo.save(new Station("Peinador (Airport)", 42.2313, -8.6260, true));
+                stationRepo.save(new Station("Peinador (Airport)", 42.2322222, -8.6310833, true));      // Peinador :contentReference[oaicite:18]{index=18}
 
                 // Nearby (metropolitan)
-                stationRepo.save(new Station("Chapela", 42.2680, -8.6909, false));
+                stationRepo.save(new Station("Chapela", 42.2681389, -8.6663333, false));                // Chapela :contentReference[oaicite:19]{index=19}
             }
 
             // -------------------------
