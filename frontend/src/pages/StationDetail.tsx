@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getStation } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { getNextArrivals, type NextArrival } from "../lib/api";
 
 export default function StationDetail() {
   const params = useParams();
@@ -13,6 +14,13 @@ export default function StationDetail() {
     queryFn: () => getStation(id),
     enabled: Number.isFinite(id),
   });
+
+const arrivalsQuery = useQuery({
+  queryKey: ["arrivals", data?.id],
+  queryFn: () => getNextArrivals(data!.id),
+  enabled: !!data,
+  refetchInterval: 30_000,
+});
 
   return (
     <div className="space-y-6">
@@ -60,10 +68,23 @@ export default function StationDetail() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Next</CardTitle>
+              <CardTitle className="text-base">Next trains</CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Next step: show arrivals for this station + lines passing through it.
+            <CardContent className="space-y-2">
+              {arrivalsQuery.data?.length ? (
+                arrivalsQuery.data.map((a: NextArrival) => (
+                  <div key={a.lineId} className="flex items-center justify-between text-sm">
+                    <div className="font-medium">
+                      {a.lineCode} <span className="text-muted-foreground">→ {a.direction}</span>
+                    </div>
+                    <div className="tabular-nums font-semibold">
+                      {a.minutes} min
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-sm text-muted-foreground">No upcoming trains.</div>
+              )}
             </CardContent>
           </Card>
         </>

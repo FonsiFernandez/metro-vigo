@@ -65,3 +65,15 @@ export async function getActiveIncidents(): Promise<Incident[]> {
   return res.json();
 }
 
+export type NextArrival = {
+  lineId: number;
+  lineCode: string;
+  direction: string;
+  minutes: number;
+};
+
+export async function getNextArrivals(stationId: number): Promise<NextArrival[]> {
+  const res = await fetch(`${API_BASE}/api/stations/${stationId}/arrivals`);
+  if (!res.ok) throw new Error("Failed to fetch arrivals");
+  return res.json();
+}
