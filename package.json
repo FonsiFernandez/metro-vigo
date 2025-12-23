@@ -1,0 +1,20 @@
+{
+  "name": "metro-vigo",
+  "version": "1.0.0",
+  "description": "Proyecto personal de como seria la web del metro de Vigo.",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -k -n DB,BACK,FRONT -c blue,green,magenta \"npm run dev:db\" \"npm run dev:back\" \"npm run dev:front\"",
+    "dev:db": "docker compose up",
+    "dev:back": "cd backend && gradlew.bat bootRun",
+    "dev:front": "cd frontend && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

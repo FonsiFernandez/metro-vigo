@@ -1,0 +1,29 @@
+# ========================
+# Node / Frontend
+# ========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+
+# ========================
+# Java / Spring / Gradle
+# ========================
+.gradle/
+build/
+out/
+
+# ========================
+# IntelliJ
+# ========================
+.idea/
+*.iml
+
+# ========================
+# OS
+# ========================
+.DS_Store
+Thumbs.db
