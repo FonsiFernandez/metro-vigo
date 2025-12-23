@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge";
 import { getNextArrivals, type NextArrival } from "../lib/api";
 import TrainTicker from "../components/TrainTicker";
+import { getStationLines, type Line } from "../lib/api";
+import { Link } from "react-router-dom";
 
 export default function StationDetail() {
   const params = useParams();
@@ -16,12 +18,19 @@ export default function StationDetail() {
     enabled: Number.isFinite(id),
   });
 
-const arrivalsQuery = useQuery({
-  queryKey: ["arrivals", data?.id],
-  queryFn: () => getNextArrivals(data!.id),
-  enabled: !!data,
-  refetchInterval: 30_000,
-});
+    const arrivalsQuery = useQuery({
+      queryKey: ["arrivals", data?.id],
+      queryFn: () => getNextArrivals(data!.id),
+      enabled: !!data,
+      refetchInterval: 30_000,
+    });
+
+    const linesServingQuery = useQuery({
+      queryKey: ["station-lines", data?.id],
+      queryFn: () => getStationLines(data!.id),
+      enabled: !!data,
+      staleTime: 30_000,
+    });
 
   return (
     <div className="space-y-6">
@@ -140,6 +149,49 @@ const arrivalsQuery = useQuery({
 
               {!arrivalsQuery.isLoading && !arrivalsQuery.data?.length && (
                 <div className="text-sm text-muted-foreground">No upcoming trains.</div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Lines serving this station</CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              {linesServingQuery.isLoading && (
+                <div className="text-sm text-muted-foreground">Loading lines…</div>
+              )}
+
+              {linesServingQuery.isError && (
+                <div className="text-sm text-destructive">
+                  {(linesServingQuery.error as Error).message}
+                </div>
+              )}
+
+              {!!linesServingQuery.data?.length && (
+                <div className="flex flex-wrap gap-2">
+                  {linesServingQuery.data.map((l: Line) => (
+                    <Link
+                      key={l.id}
+                      to={`/lines/${l.id}`}
+                      className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-sm hover:bg-muted/50 transition"
+                    >
+                      <span
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ backgroundColor: l.colorHex }}
+                      />
+                      <span className="font-medium">{l.code}</span>
+                      <span className="text-muted-foreground truncate max-w-[26ch]">
+                        {l.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {!linesServingQuery.isLoading && !linesServingQuery.data?.length && (
+                <div className="text-sm text-muted-foreground">No lines found.</div>
               )}
             </CardContent>
           </Card>

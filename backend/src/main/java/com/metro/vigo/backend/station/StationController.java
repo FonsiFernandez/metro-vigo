@@ -4,6 +4,10 @@ import com.metro.vigo.backend.api.Mapper;
 import com.metro.vigo.backend.api.dto.StationDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.metro.vigo.backend.api.dto.LineDto;
+import com.metro.vigo.backend.network.LineStationRepository;
+import java.util.stream.Collectors;
+
 
 import java.util.List;
 
@@ -13,8 +17,11 @@ public class StationController {
 
     private final StationRepository repo;
 
-    public StationController(StationRepository repo) {
+    private final LineStationRepository lineStationRepo;
+
+    public StationController(StationRepository repo, LineStationRepository lineStationRepo) {
         this.repo = repo;
+        this.lineStationRepo = lineStationRepo;
     }
 
     @GetMapping
@@ -31,5 +38,25 @@ public class StationController {
                 .map(Mapper::toStationDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/lines")
+    public List<LineDto> linesServingStation(@PathVariable Long id) {
+        // uses join fetch query you already have: findByStationIdWithLinesOrdered
+        var list = lineStationRepo.findByStationIdWithLinesOrdered(id);
+
+        // Deduplicate by line id (a station may appear once per line, but we keep it safe)
+        var byId = list.stream()
+                .map(ls -> ls.getLine())
+                .collect(Collectors.toMap(
+                        l -> l.getId(),
+                        l -> l,
+                        (a, b) -> a
+                ));
+
+        return byId.values().stream()
+                .sorted((a, b) -> a.getCode().compareToIgnoreCase(b.getCode()))
+                .map(l -> new LineDto(l.getId(), l.getCode(), l.getName(), l.getColorHex(), l.getStatus()))
+                .toList();
     }
 }

@@ -77,3 +77,9 @@ export async function getNextArrivals(stationId: number): Promise<NextArrival[]>
   if (!res.ok) throw new Error("Failed to fetch arrivals");
   return res.json();
 }
+
+export async function getStationLines(stationId: number): Promise<Line[]> {
+  const res = await fetch(`${API_BASE}/api/stations/${stationId}/lines`);
+  if (!res.ok) throw new Error(`Failed to fetch station lines (HTTP ${res.status})`);
+  return res.json();
+}
