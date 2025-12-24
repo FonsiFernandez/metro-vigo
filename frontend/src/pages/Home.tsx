@@ -1,136 +1,303 @@
-import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getLine, getLines, type Line, type LineDetail } from "../lib/api";
-import { buildInterchangeMap } from "../lib/interchanges";
+import {
+  searchStations,
+  type Station,
+  planJourney,
+  type JourneyPlan,
+} from "../lib/api";
+import { useDebouncedValue } from "../lib/useDebouncedValue";
 
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
-function StatusBadge({ status }: { status: Line["status"] }) {
-  if (status === "OK") return <Badge className="bg-emerald-600 text-white">OK</Badge>;
-  if (status === "DELAYED") return <Badge variant="secondary">Delayed</Badge>;
-  if (status === "DOWN") return <Badge variant="destructive">Down</Badge>;
-  return <Badge variant="outline">{status}</Badge>;
+function StationPicker({
+  label,
+  value,
+  onPick,
+  placeholder,
+}: {
+  label: string;
+  value: Station | null;
+  onPick: (s: Station | null) => void;
+  placeholder: string;
+}) {
+  const [q, setQ] = useState(value?.name ?? "");
+  const debounced = useDebouncedValue(q, 250);
+
+  const enabled = debounced.trim().length >= 1;
+
+  const { data, isFetching, isError } = useQuery({
+    queryKey: ["stations", "search", debounced],
+    queryFn: () => searchStations(debounced),
+    enabled,
+    staleTime: 30_000,
+  });
+
+  const results = useMemo(() => data ?? [], [data]);
+
+  return (
+    <div className="relative">
+      <div className="mb-1 text-xs font-medium text-muted-foreground">{label}</div>
+
+      <div className="relative">
+        <Input
+          value={q}
+          onChange={(e) => {
+            setQ(e.target.value);
+            if (value) onPick(null);
+          }}
+          placeholder={placeholder}
+          className="h-11 pr-10"
+        />
+
+        {q.length > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              setQ("");
+              onPick(null);
+            }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            aria-label="Clear"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      {enabled && !value && (
+        <div className="absolute z-30 mt-2 w-full">
+          <Card className="overflow-hidden bg-background/95 backdrop-blur-xl border border-border/60 shadow-2xl">
+            <div className="border-b border-border/60 px-3 py-2 text-xs text-muted-foreground">
+              {isError ? "Error" : isFetching ? "Searching…" : results.length ? "Stations" : "No results"}
+            </div>
+
+            {results.length > 0 && (
+              <ul className="max-h-72 overflow-auto">
+                {results.slice(0, 10).map((s) => (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onPick(s);
+                        setQ(s.name);
+                      }}
+                      className="w-full text-left flex items-center justify-between gap-3 px-3 py-2 hover:bg-muted/80 transition-colors"
+                    >
+                      <div className="min-w-0">
+                        <div className="truncate text-sm font-medium">{s.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {s.lat && s.lon ? `${s.lat.toFixed(4)}, ${s.lon.toFixed(4)}` : "No coordinates"}
+                        </div>
+                      </div>
+                      <Badge variant={s.accessible ? "secondary" : "outline"}>
+                        {s.accessible ? "Accessible" : "Limited"}
+                      </Badge>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
+      )}
+    </div>
+  );
 }
 
-function LineSkeleton() {
+function JourneyCard({ plan }: { plan: JourneyPlan }) {
+  if (!plan.legs?.length) {
+    return (
+      <Card className="border border-border/60">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Recommended route</CardTitle>
+        </CardHeader>
+        <CardContent className="text-sm text-muted-foreground">
+          No route found.
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="overflow-hidden">
-      <div className="h-1.5 bg-muted" />
+    <Card className="border border-border/60">
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2">
-            <div className="h-4 w-44 rounded bg-muted animate-pulse" />
-            <div className="h-3 w-28 rounded bg-muted animate-pulse" />
-          </div>
-          <div className="h-6 w-16 rounded bg-muted animate-pulse" />
-        </div>
+        <CardTitle className="text-base">Recommended route</CardTitle>
       </CardHeader>
-      <CardContent className="pt-0">
-        <div className="h-3 w-56 rounded bg-muted animate-pulse" />
+      <CardContent className="space-y-3 text-sm">
+        <div className="flex flex-wrap gap-2">
+          <Badge variant="secondary">{plan.totalDurationMin} min</Badge>
+          <Badge variant="outline">{plan.transfers} transfer{plan.transfers === 1 ? "" : "s"}</Badge>
+        </div>
+
+        <ol className="space-y-2">
+          {plan.legs.map((leg, idx) => (
+            <li
+              key={idx}
+              className="flex items-start justify-between gap-3 rounded-lg border border-border/50 bg-background/60 px-3 py-2"
+            >
+              <div className="min-w-0">
+                <div className="font-medium">
+                  {leg.type === "WALK" ? "Walk" : `Metro ${leg.lineCode ?? ""}`}
+                  {leg.direction ? <span className="text-muted-foreground"> · {leg.direction}</span> : null}
+                </div>
+                <div className="text-xs text-muted-foreground truncate">
+                  {leg.fromName} → {leg.toName}
+                </div>
+              </div>
+              <div className="whitespace-nowrap font-medium">{leg.durationMin} min</div>
+            </li>
+          ))}
+        </ol>
       </CardContent>
     </Card>
   );
 }
 
 export default function Home() {
-  // 1) Load lines
-  const linesQuery = useQuery({
-    queryKey: ["lines"],
-    queryFn: getLines,
-    staleTime: 30_000,
+  const tickets = [
+    { name: "Single ticket", price: "€1.45", note: "Valid for one trip (zone A)" },
+    { name: "24h pass", price: "€4.50", note: "Unlimited rides for 24 hours" },
+    { name: "10-trip bundle", price: "€11.00", note: "Best value for commuting" },
+    { name: "Monthly pass", price: "€29.00", note: "Unlimited rides for 30 days" },
+  ];
+
+  const promos = [
+    { title: "Tarjeta ciudadana", badge: "-20%", text: "Pay with the city card and get 20% off standard fares." },
+    { title: "Student discount", badge: "-30%", text: "Reduced fares for students (under 26)." },
+    { title: "Weekend promo", badge: "2×1", text: "Two-for-one tickets on weekends after 10:00." },
+  ];
+
+  const [from, setFrom] = useState<Station | null>(null);
+  const [to, setTo] = useState<Station | null>(null);
+
+  const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [time, setTime] = useState(() => {
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mm = String(d.getMinutes()).padStart(2, "0");
+    return `${hh}:${mm}`;
   });
 
-  const lineIds = (linesQuery.data ?? []).map((l) => l.id);
+  const datetimeISO = useMemo(() => {
+    // NOTE: this is OK for MVP; if you want timezone-correct later, we can improve.
+    return new Date(`${date}T${time}:00`).toISOString();
+  }, [date, time]);
 
-  // 2) Load line details (to compute interchanges)
-  const detailsQuery = useQuery({
-    queryKey: ["line-details", lineIds],
-    queryFn: async () => {
-      const details = await Promise.all(lineIds.map((id) => getLine(id)));
-      return details as LineDetail[];
-    },
-    enabled: lineIds.length > 0,
-    staleTime: 30_000,
+  const canPlan = !!from && !!to && from.id !== to.id;
+
+  const journeyMutation = useMutation({
+    mutationFn: (vars: { fromId: number; toId: number; datetimeISO: string }) =>
+      planJourney({
+        fromStationId: vars.fromId,
+        toStationId: vars.toId,
+        datetimeISO: vars.datetimeISO,
+      }),
   });
-
-  // 3) Build interchange map
-  const interchangeMap = useMemo(() => {
-    return detailsQuery.data
-      ? buildInterchangeMap(detailsQuery.data)
-      : new Map<number, { count: number; lineCodes: string[] }>();
-  }, [detailsQuery.data]);
-
-  // Optional: count how many stations are interchanges
-  const interchangeCount = useMemo(() => {
-    let n = 0;
-    for (const v of interchangeMap.values()) if (v.count > 1) n++;
-    return n;
-  }, [interchangeMap]);
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Metro de Vigo</h1>
-        <p className="text-sm text-muted-foreground">
-          Fictional network · React + Spring Boot + Postgres
-          {detailsQuery.isSuccess && (
-            <span className="ml-2">· Interchanges: {interchangeCount}</span>
-          )}
-        </p>
-      </div>
+       <Card className="border border-border/60">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Plan your trip</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-3 md:grid-cols-2">
+                  <StationPicker label="From" value={from} onPick={setFrom} placeholder="Start station (e.g., Urzaiz)" />
+                  <StationPicker label="To" value={to} onPick={setTo} placeholder="Destination (e.g., Samil)" />
+                </div>
 
-      {linesQuery.isLoading && (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <LineSkeleton key={i} />
-          ))}
-        </div>
-      )}
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div>
+                    <div className="mb-1 text-xs font-medium text-muted-foreground">Date</div>
+                    <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="h-11" />
+                  </div>
 
-      {linesQuery.error && (
-        <Card className="border-destructive/50">
-          <CardHeader>
-            <CardTitle className="text-destructive">Could not load lines</CardTitle>
+                  <div>
+                    <div className="mb-1 text-xs font-medium text-muted-foreground">Time</div>
+                    <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="h-11" />
+                  </div>
+
+                  <div className="flex items-end">
+                    <Button
+                      className="h-11 w-full"
+                      disabled={!canPlan || journeyMutation.isPending}
+                      onClick={() => {
+                        if (!from || !to) return;
+                        journeyMutation.mutate({ fromId: from.id, toId: to.id, datetimeISO });
+                      }}
+                    >
+                      {journeyMutation.isPending ? "Planning…" : "Get route"}
+                    </Button>
+                  </div>
+                </div>
+
+                {!canPlan && (
+                  <div className="text-xs text-muted-foreground">
+                    Choose origin + destination (different stations), then date and time.
+                  </div>
+                )}
+
+                {journeyMutation.isError && (
+                  <div className="text-sm text-destructive">
+                    {(journeyMutation.error as Error).message}
+                  </div>
+                )}
+
+                {journeyMutation.data && <JourneyCard plan={journeyMutation.data} />}
+              </CardContent>
+            </Card>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="border border-border/60">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">Ticket prices</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            {(linesQuery.error as Error).message}
+          <CardContent className="space-y-3">
+            {tickets.map((t) => (
+              <div
+                key={t.name}
+                className="flex items-start justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2"
+              >
+                <div className="min-w-0">
+                  <div className="font-medium">{t.name}</div>
+                  <div className="text-xs text-muted-foreground">{t.note}</div>
+                </div>
+                <div className="whitespace-nowrap font-semibold">{t.price}</div>
+              </div>
+            ))}
           </CardContent>
         </Card>
-      )}
 
-      {linesQuery.data && (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {linesQuery.data.map((line) => (
-            <Link
-              key={line.id}
-              to={`/lines/${line.id}`}
-              className="block rounded-2xl focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            >
-              <Card className="overflow-hidden transition hover:shadow-md">
-                <div className="h-1.5" style={{ backgroundColor: line.colorHex }} />
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <CardTitle className="text-base">
-                        {line.code} · {line.name}
-                      </CardTitle>
-                    </div>
-                    <StatusBadge status={line.status} />
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="text-sm text-muted-foreground">
-                    View line details →
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
+        <Card className="border border-border/60">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">Promotions & Tarjeta ciudadana</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {promos.map((p) => (
+              <div
+                key={p.title}
+                className="flex items-start justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2"
+              >
+                <div className="min-w-0">
+                  <div className="font-medium">{p.title}</div>
+                  <div className="text-xs text-muted-foreground">{p.text}</div>
+                </div>
+                <Badge variant="secondary" className="whitespace-nowrap">
+                  {p.badge}
+                </Badge>
+              </div>
+            ))}
+            <Button variant="outline" className="w-full">
+              Learn more
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

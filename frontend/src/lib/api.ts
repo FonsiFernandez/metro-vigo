@@ -6,7 +6,7 @@ export type Line = {
   status: "OK" | "DELAYED" | "DOWN" | string;
 };
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:8080";
 
 export async function getLines(): Promise<Line[]> {
   const res = await fetch(`${API_BASE}/api/lines`);
@@ -87,4 +87,34 @@ export async function getStationLines(stationId: number): Promise<Line[]> {
 export async function getLineStations(lineId: number): Promise<Station[]> {
   const line = await getLine(lineId);
   return line.stations ?? [];
+}
+
+export type JourneyLeg = {
+  type: "WALK" | "METRO";
+  lineCode?: string;
+  fromName: string;
+  toName: string;
+  durationMin: number;
+  direction?: string;
+};
+
+export type JourneyPlan = {
+  totalDurationMin: number;
+  transfers: number;
+  legs: JourneyLeg[];
+};
+
+export async function planJourney(params: {
+  fromStationId: number;
+  toStationId: number;
+  datetimeISO?: string;
+}): Promise<JourneyPlan> {
+  const url = new URL(`${API_BASE}/api/journey`);
+  url.searchParams.set("from", String(params.fromStationId));
+  url.searchParams.set("to", String(params.toStationId));
+  if (params.datetimeISO) url.searchParams.set("datetime", params.datetimeISO);
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`Failed to plan journey (HTTP ${res.status})`);
+  return res.json();
 }
