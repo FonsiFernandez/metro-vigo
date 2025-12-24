@@ -252,6 +252,84 @@ export default function Home() {
               </CardContent>
             </Card>
 
+                  {/* About / Info */}
+                  <div className="grid gap-4 lg:grid-cols-3">
+                    {/* Metro overview */}
+                    <Card className="border border-border/60 lg:col-span-2">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-base">About Metro de Vigo</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-sm text-muted-foreground">
+                         Metro de Vigo is a fictional urban rail network envisioned to connect the city’s key areas(the historic center, the waterfront, major transport hubs, beaches, and the airport) through fast, reliable transfers and frequent service.
+<br/><br/>
+                         Beyond a technical exercise, this project aims to inspire and encourage public institutions to reflect on the transformative value that a system like this could bring to Vigo. A modern metro network would not only improve daily mobility, but also support sustainable growth, reduce unnecessary road traffic, and create a better-connected, more accessible city for residents and visitors alike.
+<br/><br/>
+                         By strengthening links between neighborhoods, tourism hotspots, and strategic infrastructure, a network of this kind could play a meaningful role in Vigo’s economic development and international appeal, making movement across the city simpler, cleaner, and more efficient.
+                        </p>
+
+                        <div className="grid gap-3 sm:grid-cols-3">
+                          <div className="rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+                            <div className="text-xs text-muted-foreground">Service</div>
+                            <div className="mt-1 text-sm font-medium">Every 6–15 min</div>
+                          </div>
+                          <div className="rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+                            <div className="text-xs text-muted-foreground">Main hub</div>
+                            <div className="mt-1 text-sm font-medium">Vigo Central (Urzaiz)</div>
+                          </div>
+                          <div className="rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+                            <div className="text-xs text-muted-foreground">Interchanges</div>
+                            <div className="mt-1 text-sm font-medium">Fast, simple transfers</div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="secondary">Accessible-first</Badge>
+                          <Badge variant="outline">Live service alerts</Badge>
+                          <Badge variant="outline">Journey planner</Badge>
+                          <Badge variant="outline">Network map</Badge>
+                        </div>
+
+                        <div className="text-xs text-muted-foreground">
+                          More details (rules, fines, accessibility, tourism info) will live in a dedicated Info section.
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* City overview */}
+                    <Card className="border border-border/60">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-base">About Vigo</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-sm text-muted-foreground">
+                          Vigo is a coastal city in Galicia with a strong maritime identity, lively neighborhoods, and quick access
+                          to beaches and viewpoints. This project uses Vigo as inspiration for a realistic metro-style experience.
+                        </p>
+
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+                            <span className="text-sm font-medium">Waterfront</span>
+                            <span className="text-xs text-muted-foreground">Port & promenade</span>
+                          </div>
+                          <div className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+                            <span className="text-sm font-medium">Beaches</span>
+                            <span className="text-xs text-muted-foreground">Samil & beyond</span>
+                          </div>
+                          <div className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+                            <span className="text-sm font-medium">Connections</span>
+                            <span className="text-xs text-muted-foreground">Rail hub + airport</span>
+                          </div>
+                        </div>
+
+                        <Button variant="outline" className="w-full">
+                          Explore city info
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="border border-border/60">
           <CardHeader className="pb-3">
