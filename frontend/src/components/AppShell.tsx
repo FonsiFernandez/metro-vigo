@@ -134,6 +134,7 @@ export default function AppShell({ children }: PropsWithChildren) {
               <NavItem to="/lines" label="Lines" />
               <NavItem to="/status" label="Status" />
               <NavItem to="/map" label="Map" />
+              <NavItem to="/info" label="Info" />
             </nav>
 
             <StationSearch />

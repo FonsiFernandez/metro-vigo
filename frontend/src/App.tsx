@@ -6,6 +6,8 @@ import Status from "./pages/Status";
 import StationDetail from "./pages/StationDetail";
 import LineDetail from "./pages/LineDetail";
 import MapPage from "./pages/Map";
+import InfoPage from "./pages/Info";
+
 
 export default function App() {
   return (
@@ -18,6 +20,7 @@ export default function App() {
           <Route path="/status" element={<Status />} />
           <Route path="/stations/:id" element={<StationDetail />} />
           <Route path="/map" element={<MapPage />} />
+          <Route path="/info" element={<InfoPage />} />
         </Routes>
       </AppShell>
     </BrowserRouter>

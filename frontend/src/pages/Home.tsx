@@ -14,6 +14,8 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
+import { Link } from "react-router-dom";
+
 function StationPicker({
   label,
   value,
@@ -323,7 +325,7 @@ export default function Home() {
                         </div>
 
                         <Button variant="outline" className="w-full">
-                          Explore city info
+                           <Link to="/info">Learn more</Link>
                         </Button>
                       </CardContent>
                     </Card>
