@@ -1,21 +1,175 @@
-import { useQuery } from "@tanstack/react-query";
-import { getLines, type Line } from "../lib/api";
+import { useMemo } from "react";
+import { useQuery, useQueries } from "@tanstack/react-query";
+import {
+  getLines,
+  type Line,
+  type Station,
+  type Incident,
+  type NextArrival,
+  getLineStations,
+  getActiveIncidents,
+  getNextArrivals,
+} from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Link } from "react-router-dom";
 
 function StatusBadge({ status }: { status: Line["status"] }) {
-  if (status === "OK") return <Badge className="bg-emerald-600">OK</Badge>;
+  if (status === "OK") return <Badge className="bg-emerald-600 text-white">OK</Badge>;
   if (status === "DELAYED") return <Badge variant="secondary">Delayed</Badge>;
   if (status === "DOWN") return <Badge variant="destructive">Down</Badge>;
   return <Badge variant="outline">{status}</Badge>;
 }
 
+function IncidentBadge({ count }: { count: number | undefined }) {
+  if (count === undefined) return <Badge variant="outline">Incidents…</Badge>;
+  if (count === 0) return <Badge variant="outline">No incidents</Badge>;
+  return <Badge variant="destructive">{count} incident{count > 1 ? "s" : ""}</Badge>;
+}
+
+function StationsPreview({
+  stations,
+  isError,
+}: {
+  stations?: Station[];
+  isError?: boolean;
+}) {
+  if (isError) return <div className="text-xs text-destructive">Stations: failed</div>;
+  if (!stations) return <div className="text-xs text-muted-foreground">Stations: loading…</div>;
+  if (stations.length === 0) return <div className="text-xs text-muted-foreground">Stations: —</div>;
+
+  const shown = stations.slice(0, 4);
+  const remaining = Math.max(0, stations.length - shown.length);
+
+  return (
+    <div className="text-xs">
+      <span className="text-muted-foreground">Stations: </span>
+      {shown.map((s, idx) => (
+        <span key={s.id}>
+          <span className="font-medium">{s.name}</span>
+          {idx < shown.length - 1 ? <span className="text-muted-foreground"> → </span> : null}
+        </span>
+      ))}
+      {remaining > 0 && <span className="text-muted-foreground"> (+{remaining})</span>}
+    </div>
+  );
+}
+
+function ArrivalsPreview({
+  arrivals,
+  isError,
+}: {
+  arrivals?: NextArrival[];
+  isError?: boolean;
+}) {
+  if (isError) return <div className="text-xs text-destructive">Arrivals: failed</div>;
+  if (!arrivals) return <div className="text-xs text-muted-foreground">Arrivals: loading…</div>;
+  if (arrivals.length === 0) return <div className="text-xs text-muted-foreground">Arrivals: —</div>;
+
+  return (
+    <div className="text-xs">
+      <span className="text-muted-foreground">Next arrivals: </span>
+      <div className="mt-1 flex flex-col gap-1">
+        {arrivals.slice(0, 3).map((a, idx) => (
+          <div
+            key={`${a.lineId}-${a.direction}-${idx}`}
+            className="flex items-center justify-between gap-2"
+          >
+            <span className="truncate">
+              <span className="font-medium">{a.direction}</span>
+            </span>
+            <span className="whitespace-nowrap font-medium">{a.minutes} min</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Lines() {
-  const { data, isLoading, error } = useQuery({
+  const { data: lines, isLoading, error } = useQuery({
     queryKey: ["lines"],
     queryFn: getLines,
   });
+
+  // Incidents globales (una sola request) y luego filtramos por lineId
+  const { data: incidents } = useQuery({
+    queryKey: ["incidents", "active"],
+    queryFn: getActiveIncidents,
+    staleTime: 15_000,
+  });
+
+  // Estaciones por línea (1 request por línea)
+  const stationsQueries = useQueries({
+    queries:
+      lines?.map((line) => ({
+        queryKey: ["lineStations", line.id],
+        queryFn: () => getLineStations(line.id),
+        staleTime: 60_000,
+        enabled: !!lines,
+      })) ?? [],
+  });
+
+  // Map: lineId -> {data, isError}
+  const stationsStateByLineId = useMemo(() => {
+    const m = new Map<number, { data?: Station[]; isError: boolean }>();
+    (lines ?? []).forEach((line, idx) => {
+      m.set(line.id, {
+        data: stationsQueries[idx]?.data as Station[] | undefined,
+        isError: !!stationsQueries[idx]?.isError,
+      });
+    });
+    return m;
+  }, [lines, stationsQueries]);
+
+  // Arrivals: tu endpoint es por estación -> usamos la 1ª estación de la línea
+  const arrivalStationIds = useMemo(() => {
+    return (lines ?? []).map((line) => {
+      const st = stationsStateByLineId.get(line.id)?.data;
+      return st && st.length ? st[0].id : null;
+    });
+  }, [lines, stationsStateByLineId]);
+
+  const arrivalsQueries = useQueries({
+    queries:
+      (lines ?? []).map((line, idx) => {
+        const stationId = arrivalStationIds[idx];
+        return {
+          queryKey: ["arrivals", "line", line.id, "station", stationId],
+          queryFn: () => getNextArrivals(stationId as number),
+          enabled: typeof stationId === "number",
+          refetchInterval: 15_000,
+          staleTime: 5_000,
+        };
+      }) ?? [],
+  });
+
+  // Map: lineId -> {data(filtered), isError}
+  const arrivalsStateByLineId = useMemo(() => {
+    const m = new Map<number, { data?: NextArrival[]; isError: boolean }>();
+    (lines ?? []).forEach((line, idx) => {
+      const raw = arrivalsQueries[idx]?.data as NextArrival[] | undefined;
+      const filtered = raw?.filter((a) => a.lineId === line.id) ?? [];
+      m.set(line.id, {
+        data: raw ? filtered : undefined,
+        isError: !!arrivalsQueries[idx]?.isError,
+      });
+    });
+    return m;
+  }, [lines, arrivalsQueries]);
+
+  const incidentCountByLineId = useMemo(() => {
+    const m = new Map<number, number>();
+    (lines ?? []).forEach((l) => m.set(l.id, 0));
+
+    (incidents ?? []).forEach((i: Incident) => {
+      if (i.active && typeof i.lineId === "number") {
+        m.set(i.lineId, (m.get(i.lineId) ?? 0) + 1);
+      }
+    });
+
+    return m;
+  }, [lines, incidents]);
 
   return (
     <div className="space-y-6">
@@ -24,31 +178,50 @@ export default function Lines() {
         <p className="text-muted-foreground">All metro lines and their current status.</p>
       </div>
 
-      {isLoading && <div className="grid gap-4 sm:grid-cols-2">{Array.from({length:4}).map((_,i)=><Card key={i} className="h-[110px] animate-pulse" />)}</div>}
+      {isLoading && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="h-[190px] animate-pulse" />
+          ))}
+        </div>
+      )}
+
       {error && <div className="text-destructive">{(error as Error).message}</div>}
 
-      {data && (
+      {lines && (
         <div className="grid gap-4 sm:grid-cols-2">
-          {data.map((line) => (
-            <Card key={line.id} className="overflow-hidden">
-              <div className="h-1.5" style={{ backgroundColor: line.colorHex }} />
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-base">
-                      <Link to={`/lines/${line.id}`} className="hover:underline">
-                        {line.code} · {line.name}
-                      </Link>
-                    </CardTitle>
+          {lines.map((line) => {
+            const st = stationsStateByLineId.get(line.id);
+            const ar = arrivalsStateByLineId.get(line.id);
+            const incidentCount = incidents ? incidentCountByLineId.get(line.id) ?? 0 : undefined;
+
+            return (
+              <Card key={line.id} className="overflow-hidden">
+                <div className="h-1.5" style={{ backgroundColor: line.colorHex }} />
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <CardTitle className="text-base truncate">
+                        <Link to={`/lines/${line.id}`} className="hover:underline">
+                          {line.code} · {line.name}
+                        </Link>
+                      </CardTitle>
+
+                      <div className="mt-2 flex items-center gap-2">
+                        <StatusBadge status={line.status} />
+                        <IncidentBadge count={incidentCount} />
+                      </div>
+                    </div>
                   </div>
-                  <StatusBadge status={line.status} />
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0 text-sm text-muted-foreground">
-                Future: stations list per line, arrivals, incidents.
-              </CardContent>
-            </Card>
-          ))}
+                </CardHeader>
+
+                <CardContent className="pt-0 space-y-2">
+                  <StationsPreview stations={st?.data} isError={st?.isError} />
+                  <ArrivalsPreview arrivals={ar?.data} isError={ar?.isError} />
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

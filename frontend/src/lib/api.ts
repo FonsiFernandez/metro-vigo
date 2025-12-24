@@ -83,3 +83,8 @@ export async function getStationLines(stationId: number): Promise<Line[]> {
   if (!res.ok) throw new Error(`Failed to fetch station lines (HTTP ${res.status})`);
   return res.json();
 }
+
+export async function getLineStations(lineId: number): Promise<Station[]> {
+  const line = await getLine(lineId);
+  return line.stations ?? [];
+}

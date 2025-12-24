@@ -8,6 +8,8 @@ import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { applyTheme, getStoredTheme, type Theme } from "../lib/theme";
 
+import logo from "../assets/logo.png";
+
 import { Button } from "./ui/button";
 import StationSearch from "./StationSearch";
 
@@ -89,7 +91,17 @@ export default function AppShell({ children }: PropsWithChildren) {
         <div className="mx-auto max-w-5xl px-4 py-4 space-y-3">
           <div className="flex items-center justify-between gap-3">
             <Link to="/" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-xl bg-slate-900" />
+              <img
+                src={logo}
+                alt="Metro de Vigo"
+                className="
+                  h-8 w-8 rounded-xl p-1
+                  bg-background/80 backdrop-blur
+                  border border-border/60
+                  object-contain
+                "
+              />
+
               <div className="leading-tight">
                 <div className="text-sm font-semibold">Metro de Vigo</div>
                 <div className="text-xs text-muted-foreground">fictional</div>
