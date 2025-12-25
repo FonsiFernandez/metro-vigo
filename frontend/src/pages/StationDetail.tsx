@@ -10,6 +10,10 @@ import { Link } from "react-router-dom";
 
 import { BadgeCheck, BadgeX, Bike, Info, Toilet, ParkingSquare, ArrowUpDown } from "lucide-react";
 
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useEffect, useRef } from "react";
+
 export default function StationDetail() {
   const params = useParams();
   const id = Number(params.id);
@@ -33,6 +37,61 @@ export default function StationDetail() {
       enabled: !!data,
       staleTime: 30_000,
     });
+
+function StationMiniMap({
+  lon,
+  lat,
+  name,
+}: {
+  lon: number;
+  lat: number;
+  name: string;
+}) {
+  const elRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+  const markerRef = useRef<maplibregl.Marker | null>(null);
+
+  useEffect(() => {
+    if (!elRef.current) return;
+
+    // mount once
+    if (!mapRef.current) {
+      const map = new maplibregl.Map({
+        container: elRef.current,
+style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+        center: [lon, lat],
+        zoom: 14.5,
+        interactive: true, // puedes poner false si quieres que sea “preview”
+      });
+
+      map.addControl(new maplibregl.NavigationControl({ showZoom: true }), "top-right");
+
+      const marker = new maplibregl.Marker({ color: "#2563EB" }) // azul (puedes cambiarlo)
+        .setLngLat([lon, lat])
+        .setPopup(new maplibregl.Popup({ offset: 16 }).setText(name))
+        .addTo(map);
+
+      mapRef.current = map;
+      markerRef.current = marker;
+    }
+
+    // update center/marker if coords change
+    mapRef.current.setCenter([lon, lat]);
+    markerRef.current?.setLngLat([lon, lat]);
+
+    return () => {
+      mapRef.current?.remove();
+      mapRef.current = null;
+      markerRef.current = null;
+    };
+  }, [lon, lat, name]);
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-border/50">
+      <div ref={elRef} className="h-[220px] w-full" />
+    </div>
+  );
+}
 
 function FacilityPill({
   ok,
@@ -141,17 +200,54 @@ function FacilityPill({
                 Datos orientativos para el proyecto ficticio Metro Vigo.
               </div>
             </CardContent>
-
             </Card>
 
-            <Card className="sm:col-span-2">
+            <Card className="sm:col-span-2 border border-border/60">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Coordinates</CardTitle>
+                <CardTitle className="text-sm">Ubicación</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                {data.lat && data.lon ? `${data.lat.toFixed(4)}, ${data.lon.toFixed(4)}` : "No coordinates yet"}
+
+              <CardContent className="space-y-3">
+                {data.lat && data.lon ? (
+                  <>
+                    <div className="text-sm text-muted-foreground">
+                      {data.lat.toFixed(5)}, {data.lon.toFixed(5)}
+                    </div>
+
+                    <StationMiniMap
+                      lat={data.lat}
+                      lon={data.lon}
+                      name={data.name}
+                    />
+
+                    <div className="flex gap-2">
+                      <a
+                        className="text-xs underline text-muted-foreground hover:text-foreground"
+                        href={`https://www.google.com/maps?q=${data.lat},${data.lon}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Abrir en Google Maps
+                      </a>
+
+                      <span className="text-xs text-muted-foreground">·</span>
+
+                      <a
+                        className="text-xs underline text-muted-foreground hover:text-foreground"
+                        href={`https://www.openstreetmap.org/?mlat=${data.lat}&mlon=${data.lon}#map=17/${data.lat}/${data.lon}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Abrir en OSM
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-sm text-muted-foreground">No coordinates yet</div>
+                )}
               </CardContent>
             </Card>
+
           </div>
 
           <Card>
