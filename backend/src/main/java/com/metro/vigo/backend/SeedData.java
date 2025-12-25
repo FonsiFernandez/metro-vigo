@@ -28,16 +28,14 @@ public class SeedData {
             // 1) LINES
             // -------------------------
             if (lineRepo.count() == 0) {
-                lineRepo.save(new Line("M1", "Príncipe ↔ Samil", "#00AEEF", "OK"));
-                lineRepo.save(new Line("M2", "Vialia ↔ Navia", "#8E44AD", "OK"));
-                lineRepo.save(new Line("M3", "Teis ↔ Castrelos", "#27AE60", "DELAYED"));
-                lineRepo.save(new Line("M4", "CUVI ↔ Príncipe", "#E67E22", "OK"));
-                lineRepo.save(new Line("M5", "Oia ↔ Teis", "#E11D48", "OK"));
-                lineRepo.save(new Line("M6", "Chapela ↔ Vigo Central", "#0EA5E9", "OK"));
-
-                // NEW: Airport + Cruise terminal
-                lineRepo.save(new Line("M7", "Vigo Central ↔ Airport Express", "#111827", "OK"));
-                lineRepo.save(new Line("M8", "Vigo Central ↔ Cruise Terminal", "#06B6D4", "OK"));
+                lineRepo.save(new Line("V1", "Iago Aspas · Teis ↔ Balaídos ↔ Coruxo", "#00AEEF", "OK"));
+                lineRepo.save(new Line("V2", "Clara Campoamor · Vialia ↔ Navia", "#8E44AD", "OK"));
+                lineRepo.save(new Line("V3", "Atlántica · Teis ↔ Castrelos", "#27AE60", "DELAYED"));
+                lineRepo.save(new Line("V4", "Julio Verne · CUVI ↔ Centro", "#E67E22", "OK"));
+                lineRepo.save(new Line("V5", "Cíes · Oia ↔ Teis", "#E11D48", "OK"));
+                lineRepo.save(new Line("V6", "Oliveira · Chapela ↔ Vigo Central", "#0EA5E9", "OK"));
+                lineRepo.save(new Line("V7", "Peinador Express · Vigo Central ↔ Aeroporto", "#111827", "OK"));
+                lineRepo.save(new Line("V8", "Circular Ría · Vigo Central ↔ Chapela ↔ Samil ↔ Vigo Central", "#06B6D4", "OK"));
             }
 
             // -------------------------
@@ -96,6 +94,10 @@ public class SeedData {
 
                 // Nearby (metropolitan)
                 stationRepo.save(new Station("Chapela", 42.2681389, -8.6663333, false));                // Chapela :contentReference[oaicite:19]{index=19}
+
+                // Hospitals (CHUVI)
+                stationRepo.save(new Station("Hospital Álvaro Cunqueiro", 42.1883889, -8.7144444, true));
+                stationRepo.save(new Station("Hospital do Meixoeiro", 42.2147778, -8.6845278, true));
             }
 
             // -------------------------
@@ -109,75 +111,75 @@ public class SeedData {
                 Map<String, Station> stations =
                         stationRepo.findAll().stream().collect(Collectors.toMap(Station::getName, s -> s));
 
-                // ---- M1: Príncipe ↔ Samil (axis to beaches)
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Príncipe"), 1));
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Puerta del Sol"), 2));
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Policarpo Sanz"), 3));
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Praza de América"), 4));
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("As Travesas"), 5));
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Balaídos"), 6));
-                lsRepo.save(new LineStation(lines.get("M1"), stations.get("Samil"), 7));
+                // ---- V1: Príncipe ↔ Samil (axis to beaches)
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("Príncipe"), 1));
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("Puerta del Sol"), 2));
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("Policarpo Sanz"), 3));
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("Praza de América"), 4));
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("As Travesas"), 5));
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("Balaídos"), 6));
+                lsRepo.save(new LineStation(lines.get("V1"), stations.get("Samil"), 7));
 
-                // ---- M2: Vialia ↔ Navia (hub + west residential)
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Vialia"), 1));
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Vigo Central (Urzaiz)"), 2));
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Areál"), 3));
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Praza de América"), 4));
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Coia"), 5));
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Alcabre"), 6));
-                lsRepo.save(new LineStation(lines.get("M2"), stations.get("Navia"), 7));
+                // ---- V2: Vialia ↔ Navia (hub + west residential)
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Vialia"), 1));
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Vigo Central (Urzaiz)"), 2));
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Areál"), 3));
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Praza de América"), 4));
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Coia"), 5));
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Alcabre"), 6));
+                lsRepo.save(new LineStation(lines.get("V2"), stations.get("Navia"), 7));
 
-                // ---- M3: Teis ↔ Castrelos (east to park)
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Teis"), 1));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Travesía de Vigo"), 2));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Guixar"), 3));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Berbés"), 4));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Príncipe"), 5));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("O Calvario"), 6));
-                lsRepo.save(new LineStation(lines.get("M3"), stations.get("Castrelos"), 7));
+                // ---- V3: Teis ↔ Castrelos (east to park)
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("Teis"), 1));
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("Travesía de Vigo"), 2));
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("Guixar"), 3));
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("Berbés"), 4));
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("Príncipe"), 5));
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("O Calvario"), 6));
+                lsRepo.save(new LineStation(lines.get("V3"), stations.get("Castrelos"), 7));
 
-                // ---- M4: CUVI ↔ Príncipe (university axis)
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("CUVI (Universidade)"), 1));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Matamá"), 2));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Beade"), 3));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Sárdoma"), 4));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Balaídos"), 5));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Praza de América"), 6));
-                lsRepo.save(new LineStation(lines.get("M4"), stations.get("Príncipe"), 7));
+                // ---- V4: CUVI ↔ Príncipe (university axis)
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("CUVI (Universidade)"), 1));
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("Matamá"), 2));
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("Beade"), 3));
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("Sárdoma"), 4));
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("Balaídos"), 5));
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("Praza de América"), 6));
+                lsRepo.save(new LineStation(lines.get("V4"), stations.get("Príncipe"), 7));
 
-                // ---- M5: Oia ↔ Teis (coastal + cross-city)
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Oia"), 1));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Coruxo"), 2));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Samil"), 3));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Alcabre"), 4));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Coia"), 5));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Praza de América"), 6));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Príncipe"), 7));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Travesía de Vigo"), 8));
-                lsRepo.save(new LineStation(lines.get("M5"), stations.get("Teis"), 9));
+                // ---- V5: Oia ↔ Teis (coastal + cross-city)
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Oia"), 1));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Coruxo"), 2));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Samil"), 3));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Alcabre"), 4));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Coia"), 5));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Praza de América"), 6));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Príncipe"), 7));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Travesía de Vigo"), 8));
+                lsRepo.save(new LineStation(lines.get("V5"), stations.get("Teis"), 9));
 
-                // ---- M6: Chapela ↔ Vigo Central (metropolitan connector)
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("Chapela"), 1));
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("Teis"), 2));
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("A Guía"), 3));
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("Travesía de Vigo"), 4));
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("Guixar"), 5));
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("Vialia"), 6));
-                lsRepo.save(new LineStation(lines.get("M6"), stations.get("Vigo Central (Urzaiz)"), 7));
+                // ---- V6: Chapela ↔ Vigo Central (metropolitan connector)
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("Chapela"), 1));
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("Teis"), 2));
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("A Guía"), 3));
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("Travesía de Vigo"), 4));
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("Guixar"), 5));
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("Vialia"), 6));
+                lsRepo.save(new LineStation(lines.get("V6"), stations.get("Vigo Central (Urzaiz)"), 7));
 
-                // ---- M7: Vigo Central ↔ Airport Express (Peinador)
-                lsRepo.save(new LineStation(lines.get("M7"), stations.get("Vigo Central (Urzaiz)"), 1));
-                lsRepo.save(new LineStation(lines.get("M7"), stations.get("Lavadores"), 2));
-                lsRepo.save(new LineStation(lines.get("M7"), stations.get("Sárdoma"), 3));
-                lsRepo.save(new LineStation(lines.get("M7"), stations.get("Peinador (Airport)"), 4));
+                // ---- V7: Vigo Central ↔ Airport Express (Peinador)
+                lsRepo.save(new LineStation(lines.get("V7"), stations.get("Vigo Central (Urzaiz)"), 1));
+                lsRepo.save(new LineStation(lines.get("V7"), stations.get("Lavadores"), 2));
+                lsRepo.save(new LineStation(lines.get("V7"), stations.get("Sárdoma"), 3));
+                lsRepo.save(new LineStation(lines.get("V7"), stations.get("Peinador (Airport)"), 4));
 
-                // ---- M8: Vigo Central ↔ Cruise Terminal (Transatlánticos)
-                lsRepo.save(new LineStation(lines.get("M8"), stations.get("Vigo Central (Urzaiz)"), 1));
-                lsRepo.save(new LineStation(lines.get("M8"), stations.get("Areál"), 2));
-                lsRepo.save(new LineStation(lines.get("M8"), stations.get("Estación Marítima (Puerto)"), 3));
-                lsRepo.save(new LineStation(lines.get("M8"), stations.get("Terminal de Cruceros (Transatlánticos)"), 4));
-                lsRepo.save(new LineStation(lines.get("M8"), stations.get("Berbés"), 5));
-                lsRepo.save(new LineStation(lines.get("M8"), stations.get("Casco Vello"), 6));
+                // ---- V8: Vigo Central ↔ Cruise Terminal (Transatlánticos)
+                lsRepo.save(new LineStation(lines.get("V8"), stations.get("Vigo Central (Urzaiz)"), 1));
+                lsRepo.save(new LineStation(lines.get("V8"), stations.get("Areál"), 2));
+                lsRepo.save(new LineStation(lines.get("V8"), stations.get("Estación Marítima (Puerto)"), 3));
+                lsRepo.save(new LineStation(lines.get("V8"), stations.get("Terminal de Cruceros (Transatlánticos)"), 4));
+                lsRepo.save(new LineStation(lines.get("V8"), stations.get("Berbés"), 5));
+                lsRepo.save(new LineStation(lines.get("V8"), stations.get("Casco Vello"), 6));
             }
             if (incidentRepo.count() == 0) {
                 var lines = lineRepo.findAll().stream().collect(Collectors.toMap(Line::getCode, l -> l));
@@ -198,10 +200,10 @@ public class SeedData {
                 incidentRepo.save(new Incident(
                         IncidentSeverity.MAJOR,
                         IncidentScope.LINE,
-                        "M7 reduced service",
+                        "V7 reduced service",
                         "Airport Express running every 20 minutes due to rolling stock constraints.",
                         true,
-                        lines.get("M7"),
+                        lines.get("V7"),
                         null
                 ));
 

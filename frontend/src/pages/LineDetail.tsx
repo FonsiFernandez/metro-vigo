@@ -65,6 +65,75 @@ export default function LineDetail() {
   const data = lineQuery.data;
   if (!data) return null;
 
+function LineDiagram({
+  line,
+  stations,
+}: {
+  line: { colorHex: string };
+  stations: Array<{ id: number; name: string; interchangeCount: number }>;
+}) {
+  const W = 1000;
+  const H = 140;
+  const padding = 40;
+
+  const n = stations.length;
+  const step = n > 1 ? (W - padding * 2) / (n - 1) : 0;
+
+  const yLine = 60;
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto">
+      {/* Line */}
+      {n > 1 ? (
+        <line
+          x1={padding}
+          y1={yLine}
+          x2={W - padding}
+          y2={yLine}
+          stroke={line.colorHex}
+          strokeWidth={8}
+          strokeLinecap="round"
+        />
+      ) : (
+        <line
+          x1={W / 2 - 60}
+          y1={yLine}
+          x2={W / 2 + 60}
+          y2={yLine}
+          stroke={line.colorHex}
+          strokeWidth={8}
+          strokeLinecap="round"
+        />
+      )}
+
+      {stations.map((s, i) => {
+        const x = n > 1 ? padding + i * step : W / 2;
+
+        return (
+          <g key={s.id} transform={`translate(${x}, ${yLine})`}>
+            <circle
+              r={s.interchangeCount > 1 ? 7 : 5}
+              fill="#fff"
+              stroke={line.colorHex}
+              strokeWidth={3}
+            />
+
+            {s.interchangeCount > 1 && (
+              <text y={-14} textAnchor="middle" fontSize={10} fill="#666">
+                {s.interchangeCount} lines
+              </text>
+            )}
+
+            <text y={26} textAnchor="middle" fontSize={12} fill="#111">
+              {s.name}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
@@ -84,6 +153,15 @@ export default function LineDetail() {
         </CardHeader>
 
         <CardContent>
+         <div className="mb-4 rounded-xl border p-3">
+            <LineDiagram
+              line={data}
+              stations={data.stations.map((s) => ({
+                ...s,
+                interchangeCount: interchangeMap.get(s.id)?.count ?? 1,
+              }))}
+            />
+          </div>
           <ol className="space-y-2">
             {data.stations.map((s, idx) => {
               const interchange = interchangeMap.get(s.id); // may be undefined
