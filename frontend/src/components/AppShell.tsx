@@ -125,7 +125,7 @@ export default function AppShell({ children }: PropsWithChildren) {
                 {/* Logo */}
                 <img
                   src={logo}
-                  alt="Metro de Vigo"
+                  alt="Metro Vigo"
                   className={`
                     relative object-contain transition
                     ${isHome ? "h-12 w-12" : "h-10 w-10"}
@@ -142,7 +142,7 @@ export default function AppShell({ children }: PropsWithChildren) {
                     isHome ? "text-lg" : "text-sm",
                   ].join(" ")}
                 >
-                  Metro de Vigo
+                  Metro Vigo
                 </div>
                 <div className="text-xs text-muted-foreground">
                  Rede urbana · ficticia
