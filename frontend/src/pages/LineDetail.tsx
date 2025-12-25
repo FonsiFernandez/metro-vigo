@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,8 @@ import { buildInterchangeMap } from "../lib/interchanges";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 
+import { ChevronDown, ChevronUp } from "lucide-react";
+
 function LineDiagram({
   line,
   stations,
@@ -17,6 +19,8 @@ function LineDiagram({
   stations: Array<{ id: number; name: string; interchangeCount: number }>;
 }) {
   const { t } = useTranslation(["linesDetails", "common"]);
+
+  const showAllLabels = stations.length <= 10;
 
   const W = 1000;
   const H = 140;
@@ -69,13 +73,63 @@ function LineDiagram({
               </text>
             )}
 
-            <text y={26} textAnchor="middle" fontSize={12} fill="#111">
-              {s.name}
-            </text>
+            {(showAllLabels || s.interchangeCount > 1 || i === 0 || i === n - 1) && (
+              <text y={26} textAnchor="middle" fontSize={12} fill="#111">
+                {s.name}
+              </text>
+            )}
           </g>
         );
       })}
     </svg>
+  );
+}
+
+function MobileDiagram({
+  children,
+  summary,
+}: {
+  children: React.ReactNode;
+  summary: React.ReactNode;
+}) {
+  const { t } = useTranslation(["linesDetails", "common"]);
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="sm:hidden">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0 text-sm">{summary}</div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="shrink-0 inline-flex items-center justify-center rounded-md border px-2 py-1 text-muted-foreground hover:text-foreground"
+          aria-label={
+            open
+              ? t("linesDetails:diagram.hide", { defaultValue: "Hide diagram" })
+              : t("linesDetails:diagram.show", { defaultValue: "Show diagram" })
+          }
+        >
+          {open ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
+            <ChevronDown className="h-4 w-4" />
+          )}
+
+          <span className="sr-only">
+            {open
+              ? t("linesDetails:diagram.hide", { defaultValue: "Hide diagram" })
+              : t("linesDetails:diagram.show", { defaultValue: "Show diagram" })}
+          </span>
+        </button>
+      </div>
+
+      {open && (
+        <div className="mt-3 -mx-3 px-3 overflow-x-auto">
+          <div className="min-w-[900px]">{children}</div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -166,13 +220,44 @@ export default function LineDetail() {
 
         <CardContent>
           <div className="mb-4 rounded-xl border p-3">
-            <LineDiagram
-              line={data}
-              stations={data.stations.map((s) => ({
-                ...s,
-                interchangeCount: interchangeMap.get(s.id)?.count ?? 1,
-              }))}
-            />
+            {/* Mobile: resumen + desplegable */}
+            <MobileDiagram
+              summary={
+                <div className="text-muted-foreground">
+                  <span className="font-medium text-foreground">
+                    {data.stations[0]?.name}
+                  </span>
+                  <span className="mx-2">→</span>
+                  <span className="font-medium text-foreground">
+                    {data.stations[data.stations.length - 1]?.name}
+                  </span>
+                  <span className="ml-2">
+                    • {data.stations.length} paradas
+                  </span>
+                </div>
+              }
+              labelShow={t("linesDetails:diagram.show")}
+              labelHide={t("linesDetails:diagram.hide")}
+            >
+              <LineDiagram
+                line={data}
+                stations={data.stations.map((s) => ({
+                  ...s,
+                  interchangeCount: interchangeMap.get(s.id)?.count ?? 1,
+                }))}
+              />
+            </MobileDiagram>
+
+            {/* Desktop: siempre visible */}
+            <div className="hidden sm:block">
+              <LineDiagram
+                line={data}
+                stations={data.stations.map((s) => ({
+                  ...s,
+                  interchangeCount: interchangeMap.get(s.id)?.count ?? 1,
+                }))}
+              />
+            </div>
           </div>
 
           <ol className="space-y-2">

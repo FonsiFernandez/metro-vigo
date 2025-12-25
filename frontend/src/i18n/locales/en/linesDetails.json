@@ -6,7 +6,9 @@
   },
   "diagram": {
     "lines": "{{count}} line",
-    "lines_plural": "{{count}} lines"
+    "lines_plural": "{{count}} lines",
+    "show": "Show diagram",
+    "hide": "Hide diagram"
   },
   "interchange": {
     "badge": "Interchange · {{count}}",

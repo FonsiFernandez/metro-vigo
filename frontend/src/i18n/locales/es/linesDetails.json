@@ -6,7 +6,9 @@
   },
   "diagram": {
     "lines": "{{count}} línea",
-    "lines_plural": "{{count}} líneas"
+    "lines_plural": "{{count}} líneas",
+    "show": "Ver mapa",
+    "hide": "Ocultar mapa"
   },
   "interchange": {
     "badge": "Intercambio · {{count}}",
