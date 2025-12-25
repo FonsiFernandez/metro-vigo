@@ -125,7 +125,7 @@ export default function AppShell({ children }: PropsWithChildren) {
                 {/* Logo */}
                 <img
                   src={logo}
-                  alt="Metro Vigo"
+                  alt="Vigo Metro"
                   className={`
                     relative object-contain transition
                     ${isHome ? "h-12 w-12" : "h-10 w-10"}
@@ -142,7 +142,7 @@ export default function AppShell({ children }: PropsWithChildren) {
                     isHome ? "text-lg" : "text-sm",
                   ].join(" ")}
                 >
-                  Metro Vigo
+                  Vigo Metro
                 </div>
                 <div className="text-xs text-muted-foreground">
                  Rede urbana · ficticia
@@ -250,14 +250,14 @@ export default function AppShell({ children }: PropsWithChildren) {
         <div className="text-sm font-semibold tracking-tight">Sobre este proyecto</div>
 
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Soy Alfonso, desarrollador de esta aplicación. <span className="font-medium text-foreground">Metro Vigo</span>{" "}
+          Soy Alfonso, desarrollador de esta aplicación. <span className="font-medium text-foreground">Vigo Metro</span>{" "}
           es un proyecto <span className="font-medium text-foreground">ficticio</span> con fines lúdicos y demostrativos:
           una forma de explorar ideas de movilidad y ofrecer una imagen más moderna de la ciudad de Vigo, sin
           vinculación institucional.
         </p>
 
         <div className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Metro Vigo (fictional) · UI/UX demo · Datos simulados
+          © {new Date().getFullYear()} Vigo Metro (fictional) · UI/UX demo · Datos simulados
         </div>
       </div>
 

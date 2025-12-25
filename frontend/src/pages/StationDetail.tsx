@@ -197,7 +197,7 @@ function FacilityPill({
               </div>
 
               <div className="text-xs text-muted-foreground">
-                Datos orientativos para el proyecto ficticio Metro Vigo.
+                Datos orientativos para el proyecto ficticio Vigo Metro.
               </div>
             </CardContent>
             </Card>

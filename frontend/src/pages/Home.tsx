@@ -318,12 +318,12 @@ export default function Home() {
           />
 
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">About Metro Vigo</CardTitle>
+            <CardTitle className="text-base">About Vigo Metro</CardTitle>
           </CardHeader>
 
           <CardContent className="relative space-y-4">
             <p className="text-sm text-muted-foreground">
-              Metro Vigo is a fictional urban rail network envisioned to connect the city’s key areas (the historic
+              Vigo Metro is a fictional urban rail network envisioned to connect the city’s key areas (the historic
               center, the waterfront, major transport hubs, beaches, and the airport) through fast, reliable transfers
               and frequent service.
               <br />

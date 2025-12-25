@@ -79,7 +79,7 @@ export default function InfoPage() {
               </div>
             ))}
             <div className="text-xs text-muted-foreground">
-              These are illustrative guidelines for the fictional Metro Vigo project.
+              These are illustrative guidelines for the fictional Vigo Metro project.
             </div>
           </CardContent>
         </Card>
@@ -166,7 +166,7 @@ export default function InfoPage() {
        <div className="space-y-2">
          <p className="text-sm text-muted-foreground leading-relaxed">
            Hi, I’m <span className="font-medium text-foreground">Alfonso</span>, the developer behind this project.
-           <span className="font-medium text-foreground"> Metro Vigo</span> is a{" "}
+           <span className="font-medium text-foreground"> Vigo Metro</span> is a{" "}
            <span className="font-medium text-foreground">fictional</span> application created for fun and exploration:
            a way to experiment with UI/UX, transport systems, and present a more modern, digital vision of the city of Vigo.
          </p>

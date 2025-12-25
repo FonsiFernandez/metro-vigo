@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.metro.vigo'
 version = '1.0.0'
-description = 'Backend App Metro Vigo'
+description = 'Backend App Vigo Metro'
 
 java {
 	toolchain {
