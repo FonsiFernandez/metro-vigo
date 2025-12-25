@@ -8,6 +8,10 @@ import TrainTicker from "../components/TrainTicker";
 import { getStationLines, type Line } from "../lib/api";
 import { Link } from "react-router-dom";
 
+import { BadgeCheck, BadgeX, Bike, Info, Toilet, Elevator, ParkingSquare } from "lucide-react";
+import { Badge } from "../components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+
 export default function StationDetail() {
   const params = useParams();
   const id = Number(params.id);
