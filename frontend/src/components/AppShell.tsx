@@ -175,9 +175,9 @@ export default function AppShell({ children }: PropsWithChildren) {
               </Button>
 
               <Button variant="secondary" asChild>
-                <a href="http://localhost:8080/api/lines" target="_blank" rel="noreferrer">
-                  API
-                </a>
+               <a href={`${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}/api/lines`} target="_blank" rel="noreferrer">
+                 API
+               </a>
               </Button>
             </div>
           </div>
