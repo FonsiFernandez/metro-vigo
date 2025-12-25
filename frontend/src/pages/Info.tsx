@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Github, Linkedin } from "lucide-react";
-import profilePhoto from "../assets/Foto.JPG";
+import profilePhoto from "../assets/foto.jpg";
 
 export default function InfoPage() {
   const values = [
