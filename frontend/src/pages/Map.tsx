@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import maplibregl from "maplibre-gl";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getLine, getLines, type LineDetail } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+
 
 type FeatureCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry>;
 
@@ -129,94 +130,121 @@ function MapLibreView({
   geo: { stations: FeatureCollection; lines: FeatureCollection } | null;
   onStationClick: (stationId: number) => void;
 }) {
-  // Simple imperative mount (no extra libs)
-  return (
-    <div
-      id="metro-map"
-      className="h-full w-full"
-      ref={(el) => {
-        if (!el) return;
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
 
-        // prevent remount duplicates
-        if ((el as any).__map) return;
+  // 1) Mount map once
+  useEffect(() => {
+    if (!containerRef.current) return;
+    if (mapRef.current) return;
 
-        const map = new maplibregl.Map({
-          container: el,
-          style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-          center: [initial.lng, initial.lat],
-          zoom: initial.zoom,
-        });
+    const map = new maplibregl.Map({
+      container: containerRef.current,
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      center: [initial.lng, initial.lat],
+      zoom: initial.zoom,
+    });
 
-        (el as any).__map = map;
+    mapRef.current = map;
+    map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-        map.addControl(new maplibregl.NavigationControl(), "top-right");
+    map.on("load", () => {
+      // Sources (start empty; we'll setData when geo arrives)
+      map.addSource("lines", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [] },
+      });
 
-        map.on("load", () => {
-          map.addSource("lines", {
-            type: "geojson",
-            data: geo?.lines ?? { type: "FeatureCollection", features: [] },
-          });
+      map.addSource("stations", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [] },
+      });
 
-          map.addSource("stations", {
-            type: "geojson",
-            data: geo?.stations ?? { type: "FeatureCollection", features: [] },
-          });
+      // Layers
+      map.addLayer({
+        id: "lines-layer",
+        type: "line",
+        source: "lines",
+        paint: {
+          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 3, 13, 6, 15, 10],
+          "line-opacity": 0.85,
+          "line-color": ["get", "colorHex"],
+        },
+      });
 
-          map.addLayer({
-            id: "lines-layer",
-            type: "line",
-            source: "lines",
-            paint: {
-              "line-width": ["interpolate", ["linear"], ["zoom"], 10, 3, 13, 6, 15, 10],
-              "line-opacity": 0.85,
-              "line-color": ["get", "colorHex"],
-            },
-          });
+      map.addLayer({
+        id: "stations-layer",
+        type: "circle",
+        source: "stations",
+        paint: {
+          "circle-radius": 5,
+          "circle-color": "#111827",
+          "circle-stroke-width": 2,
+          "circle-stroke-color": "#ffffff",
+        },
+      });
 
-          map.addLayer({
-            id: "stations-layer",
-            type: "circle",
-            source: "stations",
-            paint: {
-              "circle-radius": 5,
-              "circle-color": "#111827",
-              "circle-stroke-width": 2,
-              "circle-stroke-color": "#ffffff",
-            },
-          });
+      map.addLayer({
+        id: "stations-labels",
+        type: "symbol",
+        source: "stations",
+        layout: {
+          "text-field": ["get", "name"],
+          "text-size": 12,
+          "text-offset": [0, 1.1],
+          "text-anchor": "top",
+        },
+        paint: {
+          "text-color": "#111827",
+          "text-halo-color": "#ffffff",
+          "text-halo-width": 1,
+        },
+      });
 
-          map.addLayer({
-            id: "stations-labels",
-            type: "symbol",
-            source: "stations",
-            layout: {
-              "text-field": ["get", "name"],
-              "text-size": 12,
-              "text-offset": [0, 1.1],
-              "text-anchor": "top",
-            },
-            paint: {
-              "text-color": "#111827",
-              "text-halo-color": "#ffffff",
-              "text-halo-width": 1,
-            },
-          });
+      // Click handlers
+      map.on("click", "stations-layer", (e) => {
+        const f = e.features?.[0];
+        const rawId = (f?.properties as any)?.id;
+        const stationId = Number(rawId);
+        if (Number.isFinite(stationId)) onStationClick(stationId);
+      });
 
-          map.on("click", "stations-layer", (e) => {
-            const f = e.features?.[0];
-            const rawId = (f?.properties as any)?.id;
-            const stationId = Number(rawId);
-            if (Number.isFinite(stationId)) onStationClick(stationId);
-          });
+      map.on("mouseenter", "stations-layer", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "stations-layer", () => {
+        map.getCanvas().style.cursor = "";
+      });
+    });
 
-          map.on("mouseenter", "stations-layer", () => {
-            map.getCanvas().style.cursor = "pointer";
-          });
-          map.on("mouseleave", "stations-layer", () => {
-            map.getCanvas().style.cursor = "";
-          });
-        });
-      }}
-    />
-  );
+    // Cleanup on unmount (important!)
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [initial.lng, initial.lat, initial.zoom, onStationClick]);
+
+  // 2) Update data whenever geo changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (!geo) return;
+
+    if (!map.isStyleLoaded()) {
+      // wait until style is loaded, then set data once
+      const onLoad = () => {
+        (map.getSource("lines") as maplibregl.GeoJSONSource)?.setData(geo.lines);
+        (map.getSource("stations") as maplibregl.GeoJSONSource)?.setData(geo.stations);
+        map.off("load", onLoad);
+      };
+      map.on("load", onLoad);
+      return;
+    }
+
+    // Style ready -> update immediately
+    (map.getSource("lines") as maplibregl.GeoJSONSource)?.setData(geo.lines);
+    (map.getSource("stations") as maplibregl.GeoJSONSource)?.setData(geo.stations);
+  }, [geo]);
+
+  return <div ref={containerRef} className="h-full w-full" />;
 }
