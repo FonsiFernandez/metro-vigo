@@ -1,5 +1,5 @@
 {
-  "app": { "name": "Metro de Vigo", "tagline": "Rede fictícia" },
+  "app": { "name": "Metro Vigo", "tagline": "Rede fictícia" },
   "nav": { "home": "Início", "lines": "Linhas", "status": "Estado", "map": "Mapa", "info": "Informação" },
   "home": { "planTrip": "Planeie a sua viagem", "from": "Origem", "to": "Destino", "date": "Data", "time": "Hora", "getRoute": "Calcular rota" }
 }

@@ -259,11 +259,11 @@ export default function Home() {
                     {/* Metro overview */}
                     <Card className="border border-border/60 lg:col-span-2">
                       <CardHeader className="pb-3">
-                        <CardTitle className="text-base">About Metro de Vigo</CardTitle>
+                        <CardTitle className="text-base">About Metro Vigo</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <p className="text-sm text-muted-foreground">
-                         Metro de Vigo is a fictional urban rail network envisioned to connect the city’s key areas(the historic center, the waterfront, major transport hubs, beaches, and the airport) through fast, reliable transfers and frequent service.
+                         Metro Vigo is a fictional urban rail network envisioned to connect the city’s key areas(the historic center, the waterfront, major transport hubs, beaches, and the airport) through fast, reliable transfers and frequent service.
 <br/><br/>
                          Beyond a technical exercise, this project aims to inspire and encourage public institutions to reflect on the transformative value that a system like this could bring to Vigo. A modern metro network would not only improve daily mobility, but also support sustainable growth, reduce unnecessary road traffic, and create a better-connected, more accessible city for residents and visitors alike.
 <br/><br/>

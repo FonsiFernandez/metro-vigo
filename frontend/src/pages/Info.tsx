@@ -77,7 +77,7 @@ export default function InfoPage() {
               </div>
             ))}
             <div className="text-xs text-muted-foreground">
-              These are illustrative guidelines for the fictional Metro de Vigo project.
+              These are illustrative guidelines for the fictional Metro Vigo project.
             </div>
           </CardContent>
         </Card>

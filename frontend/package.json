@@ -1,7 +1,7 @@
 {
-  "name": "Metro de Vigo",
+  "name": "Metro Vigo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.22",
   "type": "module",
   "scripts": {
     "dev": "vite",

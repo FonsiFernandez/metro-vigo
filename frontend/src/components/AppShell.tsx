@@ -96,7 +96,7 @@ export default function AppShell({ children }: PropsWithChildren) {
             <Link to="/" className="flex items-center gap-2">
               <img
                 src={logo}
-                alt="Metro de Vigo"
+                alt="Metro Vigo"
                 className="
                   h-8 w-8 rounded-xl p-1
                   bg-background/80 backdrop-blur
@@ -106,7 +106,7 @@ export default function AppShell({ children }: PropsWithChildren) {
               />
 
               <div className="leading-tight">
-                <div className="text-sm font-semibold">Metro de Vigo</div>
+                <div className="text-sm font-semibold">Metro Vigo</div>
                 <div className="text-xs text-muted-foreground">fictional</div>
               </div>
             </Link>
@@ -199,7 +199,7 @@ export default function AppShell({ children }: PropsWithChildren) {
 
       <footer className="border-t">
         <div className="mx-auto max-w-5xl px-4 py-6 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Metro de Vigo (fictional)
+          © {new Date().getFullYear()} Metro Vigo (fictional)
         </div>
       </footer>
     </div>

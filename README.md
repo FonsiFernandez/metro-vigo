@@ -1,7 +1,7 @@
-# Metro de Vigo 🚇
+# Metro Vigo 🚇
 **Fictional Metro System · React + Java API · Full-Stack Monorepo**
 
-Metro de Vigo is a **fictional full-stack project** that simulates a modern metro network.  
+Metro Vigo is a **fictional full-stack project** that simulates a modern metro network.  
 It is designed as a **learning-oriented, production-style setup** using a React frontend and a Java (Spring Boot) backend, all running together in a single repository.
 
 ---
