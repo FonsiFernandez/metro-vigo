@@ -1,0 +1,83 @@
+{
+  "actions": {
+    "learnMore": "Més informació"
+  },
+  "planner": {
+    "title": "Planifica el teu viatge",
+    "fromLabel": "Des de",
+    "toLabel": "Fins a",
+    "fromPlaceholder": "Estació d’origen (p. ex., Urzaiz)",
+    "toPlaceholder": "Destinació (p. ex., Samil)",
+    "dateLabel": "Data",
+    "timeLabel": "Hora",
+    "getRoute": "Veure ruta",
+    "planning": "Planificant…",
+    "helper": "Tria origen + destinació (estacions diferents) i després data i hora."
+  },
+  "stationPicker": {
+    "clearAria": "Esborrar",
+    "status": {
+      "error": "Error",
+      "searching": "Cercant…",
+      "stations": "Estacions",
+      "noResults": "Sense resultats"
+    },
+    "noCoordinates": "Sense coordenades",
+    "accessible": "Accessible",
+    "limited": "Accés limitat"
+  },
+  "journey": {
+    "recommendedRoute": "Ruta recomanada",
+    "noRouteFound": "No s’ha trobat cap ruta.",
+    "totalDuration": "{{minutes}} min",
+    "transfers": "{{count}} transbord",
+    "transfers_plural": "{{count}} transbords",
+    "leg": {
+      "walk": "A peu",
+      "metro": "Metro {{lineCode}}",
+      "duration": "{{minutes}} min"
+    }
+  },
+  "aboutMetro": {
+    "title": "Sobre el Metro de Vigo",
+    "description": "Vigo Metro és una xarxa ferroviària urbana fictícia concebuda per connectar les zones clau de la ciutat (el centre històric, el front marítim, els principals nodes de transport, les platges i l’aeroport) mitjançant transbords ràpids i fiables i un servei freqüent.\n\nMés enllà d’un exercici tècnic, aquest projecte vol inspirar i animar les institucions públiques a reflexionar sobre el valor transformador que un sistema així podria aportar a Vigo. Una xarxa de metro moderna no només milloraria la mobilitat diària, sinó que també donaria suport a un creixement sostenible, reduiria el trànsit viari innecessari i crearia una ciutat més ben connectada i accessible per a residents i visitants.\n\nEnfortint els vincles entre barris, punts turístics i infraestructures estratègiques, una xarxa d’aquest tipus podria tenir un paper rellevant en el desenvolupament econòmic de Vigo i el seu atractiu internacional, fent els desplaçaments per la ciutat més simples, nets i eficients.",
+    "stats": {
+      "service": { "label": "Servei", "value": "Cada 6–15 min" },
+      "mainHub": { "label": "Nus principal", "value": "Vigo Central (Urzaiz)" },
+      "interchanges": { "label": "Transbords", "value": "Ràpids i senzills" }
+    },
+    "badges": {
+      "accessibleFirst": "Accessibilitat primer",
+      "liveAlerts": "Avisos en temps real",
+      "journeyPlanner": "Planificador de viatges",
+      "networkMap": "Mapa de la xarxa"
+    },
+    "moreDetails": "Més detalls (normes, multes, accessibilitat, info turística) estaran en una secció d’Informació dedicada."
+  },
+  "aboutCity": {
+    "title": "Sobre Vigo",
+    "description": "Vigo és una ciutat costanera de Galícia amb una forta identitat marítima, barris plens de vida i accés ràpid a platges i miradors. Aquest projecte utilitza Vigo com a inspiració per a una experiència de metro realista.",
+    "highlights": {
+      "waterfront": { "title": "Front marítim", "subtitle": "Port i passeig" },
+      "beaches": { "title": "Platges", "subtitle": "Samil i més" },
+      "connections": { "title": "Connexions", "subtitle": "Estació + aeroport" }
+    }
+  },
+  "ticketPrices": {
+    "title": "Tarifes",
+    "items": [
+      { "name": "Bitllet senzill", "price": "€1.45", "note": "Vàlid per a un viatge (zona A)" },
+      { "name": "Passi 24 h", "price": "€4.50", "note": "Viatges il·limitats durant 24 hores" },
+      { "name": "Pack 10 viatges", "price": "€11.00", "note": "La millor opció per desplaçar-se cada dia" },
+      { "name": "Abonament mensual", "price": "€29.00", "note": "Viatges il·limitats durant 30 dies" }
+    ]
+  },
+  "promotions": {
+    "title": "Promocions i Tarjeta ciudadana",
+    "items": [
+      { "title": "Tarjeta ciudadana", "badge": "-20%", "text": "Paga amb la targeta de la ciutat i obtén un 20% de descompte en les tarifes estàndard." },
+      { "title": "Descompte per a estudiants", "badge": "-30%", "text": "Tarifes reduïdes per a estudiants (menors de 26)." },
+      { "title": "Promo cap de setmana", "badge": "2×1", "text": "Bitllets 2×1 els caps de setmana a partir de les 10:00." }
+    ]
+  }
+}

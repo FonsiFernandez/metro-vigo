@@ -1,42 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { getStation } from "../lib/api";
+import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { getStation, getNextArrivals, getStationLines, type Line } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { getNextArrivals, type NextArrival } from "../lib/api";
 import TrainTicker from "../components/TrainTicker";
-import { getStationLines, type Line } from "../lib/api";
-import { Link } from "react-router-dom";
 
-import { BadgeCheck, BadgeX, Bike, Info, Toilet, ParkingSquare, ArrowUpDown } from "lucide-react";
+import { Bike, Info, Toilet, ParkingSquare, ArrowUpDown } from "lucide-react";
 
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef } from "react";
-
-export default function StationDetail() {
-  const params = useParams();
-  const id = Number(params.id);
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["station", id],
-    queryFn: () => getStation(id),
-    enabled: Number.isFinite(id),
-  });
-
-    const arrivalsQuery = useQuery({
-      queryKey: ["arrivals", data?.id],
-      queryFn: () => getNextArrivals(data!.id),
-      enabled: !!data,
-      refetchInterval: 30_000,
-    });
-
-    const linesServingQuery = useQuery({
-      queryKey: ["station-lines", data?.id],
-      queryFn: () => getStationLines(data!.id),
-      enabled: !!data,
-      staleTime: 30_000,
-    });
 
 function StationMiniMap({
   lon,
@@ -54,19 +28,18 @@ function StationMiniMap({
   useEffect(() => {
     if (!elRef.current) return;
 
-    // mount once
     if (!mapRef.current) {
       const map = new maplibregl.Map({
         container: elRef.current,
-style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+        style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
         center: [lon, lat],
         zoom: 14.5,
-        interactive: true, // puedes poner false si quieres que sea “preview”
+        interactive: true,
       });
 
       map.addControl(new maplibregl.NavigationControl({ showZoom: true }), "top-right");
 
-      const marker = new maplibregl.Marker({ color: "#2563EB" }) // azul (puedes cambiarlo)
+      const marker = new maplibregl.Marker({ color: "#2563EB" })
         .setLngLat([lon, lat])
         .setPopup(new maplibregl.Popup({ offset: 16 }).setText(name))
         .addTo(map);
@@ -75,7 +48,6 @@ style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
       markerRef.current = marker;
     }
 
-    // update center/marker if coords change
     mapRef.current.setCenter([lon, lat]);
     markerRef.current?.setLngLat([lon, lat]);
 
@@ -102,16 +74,20 @@ function FacilityPill({
   label: string;
   Icon: React.ComponentType<{ className?: string }>;
 }) {
+  const { t } = useTranslation(["stationDetail", "common"]);
   const isOn = ok === true;
 
   return (
     <div
-     title={`${label}`}
+      title={label}
       className={`
         flex items-center gap-2 rounded-xl border px-3 py-2
         ${isOn ? "bg-background/70" : "bg-muted/30"}
       `}
-      aria-label={`${label}: ${isOn ? "available" : "not available"}`}
+      aria-label={t("stationDetail:facilities.aria", {
+        label,
+        status: isOn ? t("stationDetail:facilities.available") : t("stationDetail:facilities.notAvailable"),
+      })}
     >
       <Icon className="h-4 w-4 text-muted-foreground" />
 
@@ -121,11 +97,37 @@ function FacilityPill({
           ${isOn ? "text-emerald-600" : "text-muted-foreground"}
         `}
       >
-        {isOn ? "Sí" : "No"}
+        {isOn ? t("stationDetail:facilities.yes") : t("stationDetail:facilities.no")}
       </span>
     </div>
   );
 }
+
+export default function StationDetail() {
+  const { t } = useTranslation(["stationDetail", "common"]);
+
+  const params = useParams();
+  const id = Number(params.id);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["station", id],
+    queryFn: () => getStation(id),
+    enabled: Number.isFinite(id),
+  });
+
+  const arrivalsQuery = useQuery({
+    queryKey: ["arrivals", data?.id],
+    queryFn: () => getNextArrivals(data!.id),
+    enabled: !!data,
+    refetchInterval: 30_000,
+  });
+
+  const linesServingQuery = useQuery({
+    queryKey: ["station-lines", data?.id],
+    queryFn: () => getStationLines(data!.id),
+    enabled: !!data,
+    staleTime: 30_000,
+  });
 
   return (
     <div className="space-y-6">
@@ -134,7 +136,9 @@ function FacilityPill({
       {error && (
         <Card className="border-destructive/50">
           <CardHeader>
-            <CardTitle className="text-destructive">Station not found</CardTitle>
+            <CardTitle className="text-destructive">
+              {t("stationDetail:notFound")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">
             {(error as Error).message}
@@ -146,65 +150,76 @@ function FacilityPill({
         <>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{data.name}</h1>
-            <p className="text-muted-foreground">Station details</p>
+            <p className="text-muted-foreground">{t("stationDetail:subtitle")}</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
             <Card className="border border-border/60">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Accesibilidad y servicios</CardTitle>
+                <CardTitle className="text-base">
+                  {t("stationDetail:accessAndServices.title")}
+                </CardTitle>
               </CardHeader>
 
-            <CardContent className="space-y-5">
+              <CardContent className="space-y-5">
+                {/* ACCESSIBILITY */}
+                <div className="rounded-xl border border-border/50 bg-background/60 p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="text-xs text-muted-foreground">
+                        {t("stationDetail:accessAndServices.accessibility.label")}
+                      </div>
 
-              {/* ACCESIBILIDAD */}
-              <div className="rounded-xl border border-border/50 bg-background/60 p-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-xs text-muted-foreground">Accesibilidad</div>
-                    <div className="mt-1 text-base font-semibold">
-                      {data.accessible ? "Acceso sin escalones" : "Acceso limitado"}
+                      <div className="mt-1 text-base font-semibold">
+                        {data.accessible
+                          ? t("stationDetail:accessAndServices.accessibility.titleAccessible")
+                          : t("stationDetail:accessAndServices.accessibility.titleLimited")}
+                      </div>
+
+                      <div className="mt-1 text-sm text-muted-foreground">
+                        {data.accessible
+                          ? t("stationDetail:accessAndServices.accessibility.descAccessible")
+                          : t("stationDetail:accessAndServices.accessibility.descLimited")}
+                      </div>
                     </div>
-                    <div className="mt-1 text-sm text-muted-foreground">
+
+                    <Badge
+                      variant={data.accessible ? "secondary" : "outline"}
+                      className="shrink-0"
+                    >
                       {data.accessible
-                        ? "Apta para movilidad reducida en la mayor parte del recorrido."
-                        : "Puede requerir escaleras o tramos sin rampa o ascensor."}
-                    </div>
+                        ? t("stationDetail:accessAndServices.accessibility.badgeAccessible")
+                        : t("stationDetail:accessAndServices.accessibility.badgeLimited")}
+                    </Badge>
+                  </div>
+                </div>
+
+                {/* FACILITIES */}
+                <div>
+                  <div className="mb-2 text-xs font-medium text-muted-foreground">
+                    {t("stationDetail:accessAndServices.facilities.title")}
                   </div>
 
-                  <Badge
-                    variant={data.accessible ? "secondary" : "outline"}
-                    className="shrink-0"
-                  >
-                    {data.accessible ? "Accessible" : "Limited"}
-                  </Badge>
-                </div>
-              </div>
-
-              {/* SERVICIOS */}
-              <div>
-                <div className="mb-2 text-xs font-medium text-muted-foreground">
-                  Servicios en la estación
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    <FacilityPill ok={(data as any).hasElevator} label={t("stationDetail:facilities.labels.elevator")} Icon={ArrowUpDown} />
+                    <FacilityPill ok={(data as any).hasToilets} label={t("stationDetail:facilities.labels.toilets")} Icon={Toilet} />
+                    <FacilityPill ok={(data as any).hasInfoPoint} label={t("stationDetail:facilities.labels.info")} Icon={Info} />
+                    <FacilityPill ok={(data as any).hasEBikes} label={t("stationDetail:facilities.labels.ebikes")} Icon={Bike} />
+                    <FacilityPill ok={(data as any).hasBikeParking} label={t("stationDetail:facilities.labels.bikeParking")} Icon={ParkingSquare} />
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  <FacilityPill ok={(data as any).hasElevator} label="Ascensor" Icon={ArrowUpDown} />
-                  <FacilityPill ok={(data as any).hasToilets} label="Baños" Icon={Toilet} />
-                  <FacilityPill ok={(data as any).hasInfoPoint} label="Info" Icon={Info} />
-                  <FacilityPill ok={(data as any).hasEBikes} label="e-Bikes" Icon={Bike} />
-                  <FacilityPill ok={(data as any).hasBikeParking} label="Parking bicis" Icon={ParkingSquare} />
+                <div className="text-xs text-muted-foreground">
+                  {t("stationDetail:accessAndServices.disclaimer")}
                 </div>
-              </div>
-
-              <div className="text-xs text-muted-foreground">
-                Datos orientativos para el proyecto ficticio Vigo Metro.
-              </div>
-            </CardContent>
+              </CardContent>
             </Card>
 
             <Card className="sm:col-span-2 border border-border/60">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Ubicación</CardTitle>
+                <CardTitle className="text-sm">
+                  {t("stationDetail:location.title")}
+                </CardTitle>
               </CardHeader>
 
               <CardContent className="space-y-3">
@@ -214,11 +229,7 @@ function FacilityPill({
                       {data.lat.toFixed(5)}, {data.lon.toFixed(5)}
                     </div>
 
-                    <StationMiniMap
-                      lat={data.lat}
-                      lon={data.lon}
-                      name={data.name}
-                    />
+                    <StationMiniMap lat={data.lat} lon={data.lon} name={data.name} />
 
                     <div className="flex gap-2">
                       <a
@@ -227,7 +238,7 @@ function FacilityPill({
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Abrir en Google Maps
+                        {t("stationDetail:location.openGoogleMaps")}
                       </a>
 
                       <span className="text-xs text-muted-foreground">·</span>
@@ -238,31 +249,35 @@ function FacilityPill({
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Abrir en OSM
+                        {t("stationDetail:location.openOSM")}
                       </a>
                     </div>
                   </>
                 ) : (
-                  <div className="text-sm text-muted-foreground">No coordinates yet</div>
+                  <div className="text-sm text-muted-foreground">
+                    {t("stationDetail:location.noCoordinates")}
+                  </div>
                 )}
               </CardContent>
             </Card>
-
           </div>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-base">Next trains</CardTitle>
+              <CardTitle className="text-base">
+                {t("stationDetail:nextTrains.title")}
+              </CardTitle>
 
               <div className="text-xs text-muted-foreground">
-                {arrivalsQuery.isFetching ? "Updating…" : "Updated"}
+                {arrivalsQuery.isFetching
+                  ? t("stationDetail:nextTrains.updating")
+                  : t("stationDetail:nextTrains.updated")}
               </div>
             </CardHeader>
 
             <div className="px-6 pb-4">
               <TrainTicker />
             </div>
-
 
             <CardContent className="space-y-2">
               {arrivalsQuery.isLoading && (
@@ -287,16 +302,6 @@ function FacilityPill({
                   {arrivalsQuery.data.map((a) => {
                     const minutes = a.minutes;
                     const isArriving = minutes <= 1;
-                    const soon = minutes <= 3;
-                    const long = minutes >= 10;
-
-                    const rightClass = isArriving
-                      ? "text-emerald-700"
-                      : long
-                      ? "text-muted-foreground"
-                      : soon
-                      ? "text-amber-700"
-                      : "text-foreground";
 
                     return (
                       <div
@@ -312,8 +317,10 @@ function FacilityPill({
                           </div>
                         </div>
 
-                        <div className={`tabular-nums font-semibold ${rightClass}`}>
-                          {isArriving ? "Arriving" : `${minutes} min`}
+                        <div className="tabular-nums font-semibold">
+                          {isArriving
+                            ? t("stationDetail:nextTrains.arriving")
+                            : t("stationDetail:nextTrains.inMinutes", { minutes })}
                         </div>
                       </div>
                     );
@@ -322,19 +329,25 @@ function FacilityPill({
               )}
 
               {!arrivalsQuery.isLoading && !arrivalsQuery.data?.length && (
-                <div className="text-sm text-muted-foreground">No upcoming trains.</div>
+                <div className="text-sm text-muted-foreground">
+                  {t("stationDetail:nextTrains.none")}
+                </div>
               )}
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Lines serving this station</CardTitle>
+              <CardTitle className="text-base">
+                {t("stationDetail:linesServing.title")}
+              </CardTitle>
             </CardHeader>
 
             <CardContent>
               {linesServingQuery.isLoading && (
-                <div className="text-sm text-muted-foreground">Loading lines…</div>
+                <div className="text-sm text-muted-foreground">
+                  {t("stationDetail:linesServing.loading")}
+                </div>
               )}
 
               {linesServingQuery.isError && (
@@ -365,7 +378,9 @@ function FacilityPill({
               )}
 
               {!linesServingQuery.isLoading && !linesServingQuery.data?.length && (
-                <div className="text-sm text-muted-foreground">No lines found.</div>
+                <div className="text-sm text-muted-foreground">
+                  {t("stationDetail:linesServing.none")}
+                </div>
               )}
             </CardContent>
           </Card>

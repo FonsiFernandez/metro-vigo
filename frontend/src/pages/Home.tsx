@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import {
   searchStations,
@@ -28,6 +29,8 @@ function StationPicker({
   onPick: (s: Station | null) => void;
   placeholder: string;
 }) {
+  const { t } = useTranslation(["home", "common"]);
+
   const [q, setQ] = useState(value?.name ?? "");
   const debounced = useDebouncedValue(q, 250);
 
@@ -44,7 +47,9 @@ function StationPicker({
 
   return (
     <div className="relative">
-      <div className="mb-1 text-xs font-medium text-muted-foreground">{label}</div>
+      <div className="mb-1 text-xs font-medium text-muted-foreground">
+        {label}
+      </div>
 
       <div className="relative">
         <Input
@@ -65,7 +70,8 @@ function StationPicker({
               onPick(null);
             }}
             className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="Clear"
+            aria-label={t("home:stationPicker.clearAria")}
+            title={t("home:stationPicker.clearAria")}
           >
             ✕
           </button>
@@ -77,12 +83,12 @@ function StationPicker({
           <Card className="overflow-hidden bg-background/95 backdrop-blur-xl border border-border/60 shadow-2xl">
             <div className="border-b border-border/60 px-3 py-2 text-xs text-muted-foreground">
               {isError
-                ? "Error"
+                ? t("home:stationPicker.status.error")
                 : isFetching
-                ? "Searching…"
+                ? t("home:stationPicker.status.searching")
                 : results.length
-                ? "Stations"
-                : "No results"}
+                ? t("home:stationPicker.status.stations")
+                : t("home:stationPicker.status.noResults")}
             </div>
 
             {results.length > 0 && (
@@ -98,15 +104,20 @@ function StationPicker({
                       className="w-full text-left flex items-center justify-between gap-3 px-3 py-2 hover:bg-muted/80 transition-colors"
                     >
                       <div className="min-w-0">
-                        <div className="truncate text-sm font-medium">{s.name}</div>
+                        <div className="truncate text-sm font-medium">
+                          {s.name}
+                        </div>
                         <div className="text-xs text-muted-foreground">
                           {s.lat && s.lon
                             ? `${s.lat.toFixed(4)}, ${s.lon.toFixed(4)}`
-                            : "No coordinates"}
+                            : t("home:stationPicker.noCoordinates")}
                         </div>
                       </div>
+
                       <Badge variant={s.accessible ? "secondary" : "outline"}>
-                        {s.accessible ? "Accessible" : "Limited"}
+                        {s.accessible
+                          ? t("home:stationPicker.accessible")
+                          : t("home:stationPicker.limited")}
                       </Badge>
                     </button>
                   </li>
@@ -121,14 +132,18 @@ function StationPicker({
 }
 
 function JourneyCard({ plan }: { plan: JourneyPlan }) {
+  const { t } = useTranslation(["home", "common"]);
+
   if (!plan.legs?.length) {
     return (
       <Card className="border border-border/60">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Recommended route</CardTitle>
+          <CardTitle className="text-base">
+            {t("home:journey.recommendedRoute")}
+          </CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          No route found.
+          {t("home:journey.noRouteFound")}
         </CardContent>
       </Card>
     );
@@ -137,13 +152,19 @@ function JourneyCard({ plan }: { plan: JourneyPlan }) {
   return (
     <Card className="border border-border/60">
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Recommended route</CardTitle>
+        <CardTitle className="text-base">
+          {t("home:journey.recommendedRoute")}
+        </CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-3 text-sm">
         <div className="flex flex-wrap gap-2">
-          <Badge variant="secondary">{plan.totalDurationMin} min</Badge>
+          <Badge variant="secondary">
+            {t("home:journey.totalDuration", { minutes: plan.totalDurationMin })}
+          </Badge>
+
           <Badge variant="outline">
-            {plan.transfers} transfer{plan.transfers === 1 ? "" : "s"}
+            {t("home:journey.transfers", { count: plan.transfers })}
           </Badge>
         </div>
 
@@ -155,16 +176,28 @@ function JourneyCard({ plan }: { plan: JourneyPlan }) {
             >
               <div className="min-w-0">
                 <div className="font-medium">
-                  {leg.type === "WALK" ? "Walk" : `Metro ${leg.lineCode ?? ""}`}
+                  {leg.type === "WALK"
+                    ? t("home:journey.leg.walk")
+                    : t("home:journey.leg.metro", {
+                        lineCode: leg.lineCode ?? "",
+                      })}
+
                   {leg.direction ? (
-                    <span className="text-muted-foreground"> · {leg.direction}</span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      · {leg.direction}
+                    </span>
                   ) : null}
                 </div>
+
                 <div className="text-xs text-muted-foreground truncate">
                   {leg.fromName} → {leg.toName}
                 </div>
               </div>
-              <div className="whitespace-nowrap font-medium">{leg.durationMin} min</div>
+
+              <div className="whitespace-nowrap font-medium">
+                {t("home:journey.leg.duration", { minutes: leg.durationMin })}
+              </div>
             </li>
           ))}
         </ol>
@@ -174,30 +207,19 @@ function JourneyCard({ plan }: { plan: JourneyPlan }) {
 }
 
 export default function Home() {
-  const tickets = [
-    { name: "Single ticket", price: "€1.45", note: "Valid for one trip (zone A)" },
-    { name: "24h pass", price: "€4.50", note: "Unlimited rides for 24 hours" },
-    { name: "10-trip bundle", price: "€11.00", note: "Best value for commuting" },
-    { name: "Monthly pass", price: "€29.00", note: "Unlimited rides for 30 days" },
-  ];
+  const { t } = useTranslation(["home", "common"]);
 
-  const promos = [
-    {
-      title: "Tarjeta ciudadana",
-      badge: "-20%",
-      text: "Pay with the city card and get 20% off standard fares.",
-    },
-    {
-      title: "Student discount",
-      badge: "-30%",
-      text: "Reduced fares for students (under 26).",
-    },
-    {
-      title: "Weekend promo",
-      badge: "2×1",
-      text: "Two-for-one tickets on weekends after 10:00.",
-    },
-  ];
+  const tickets = t("home:ticketPrices.items", { returnObjects: true }) as Array<{
+    name: string;
+    price: string;
+    note: string;
+  }>;
+
+  const promos = t("home:promotions.items", { returnObjects: true }) as Array<{
+    title: string;
+    badge: string;
+    text: string;
+  }>;
 
   const [from, setFrom] = useState<Station | null>(null);
   const [to, setTo] = useState<Station | null>(null);
@@ -230,33 +252,48 @@ export default function Home() {
     <div className="space-y-8">
       <Card className="border border-border/60">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Plan your trip</CardTitle>
+          <CardTitle className="text-base">{t("home:planner.title")}</CardTitle>
         </CardHeader>
+
         <CardContent className="space-y-4">
           <div className="grid gap-3 md:grid-cols-2">
             <StationPicker
-              label="From"
+              label={t("home:planner.fromLabel")}
               value={from}
               onPick={setFrom}
-              placeholder="Start station (e.g., Urzaiz)"
+              placeholder={t("home:planner.fromPlaceholder")}
             />
             <StationPicker
-              label="To"
+              label={t("home:planner.toLabel")}
               value={to}
               onPick={setTo}
-              placeholder="Destination (e.g., Samil)"
+              placeholder={t("home:planner.toPlaceholder")}
             />
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div>
-              <div className="mb-1 text-xs font-medium text-muted-foreground">Date</div>
-              <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="h-11" />
+              <div className="mb-1 text-xs font-medium text-muted-foreground">
+                {t("home:planner.dateLabel")}
+              </div>
+              <Input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="h-11"
+              />
             </div>
 
             <div>
-              <div className="mb-1 text-xs font-medium text-muted-foreground">Time</div>
-              <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="h-11" />
+              <div className="mb-1 text-xs font-medium text-muted-foreground">
+                {t("home:planner.timeLabel")}
+              </div>
+              <Input
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="h-11"
+              />
             </div>
 
             <div className="flex items-end">
@@ -265,17 +302,23 @@ export default function Home() {
                 disabled={!canPlan || journeyMutation.isPending}
                 onClick={() => {
                   if (!from || !to) return;
-                  journeyMutation.mutate({ fromId: from.id, toId: to.id, datetimeISO });
+                  journeyMutation.mutate({
+                    fromId: from.id,
+                    toId: to.id,
+                    datetimeISO,
+                  });
                 }}
               >
-                {journeyMutation.isPending ? "Planning…" : "Get route"}
+                {journeyMutation.isPending
+                  ? t("home:planner.planning")
+                  : t("home:planner.getRoute")}
               </Button>
             </div>
           </div>
 
           {!canPlan && (
             <div className="text-xs text-muted-foreground">
-              Choose origin + destination (different stations), then date and time.
+              {t("home:planner.helper")}
             </div>
           )}
 
@@ -318,51 +361,62 @@ export default function Home() {
           />
 
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">About Vigo Metro</CardTitle>
+            <CardTitle className="text-base">
+              {t("home:aboutMetro.title")}
+            </CardTitle>
           </CardHeader>
 
           <CardContent className="relative space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Vigo Metro is a fictional urban rail network envisioned to connect the city’s key areas (the historic
-              center, the waterfront, major transport hubs, beaches, and the airport) through fast, reliable transfers
-              and frequent service.
-              <br />
-              <br />
-              Beyond a technical exercise, this project aims to inspire and encourage public institutions to reflect on
-              the transformative value that a system like this could bring to Vigo. A modern metro network would not
-              only improve daily mobility, but also support sustainable growth, reduce unnecessary road traffic, and
-              create a better-connected, more accessible city for residents and visitors alike.
-              <br />
-              <br />
-              By strengthening links between neighborhoods, tourism hotspots, and strategic infrastructure, a network of
-              this kind could play a meaningful role in Vigo’s economic development and international appeal, making
-              movement across the city simpler, cleaner, and more efficient.
+            <p className="text-sm text-muted-foreground whitespace-pre-line">
+              {t("home:aboutMetro.description")}
             </p>
 
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-border/50 bg-background/60 px-3 py-2">
-                <div className="text-xs text-muted-foreground">Service</div>
-                <div className="mt-1 text-sm font-medium">Every 6–15 min</div>
+                <div className="text-xs text-muted-foreground">
+                  {t("home:aboutMetro.stats.service.label")}
+                </div>
+                <div className="mt-1 text-sm font-medium">
+                  {t("home:aboutMetro.stats.service.value")}
+                </div>
               </div>
+
               <div className="rounded-xl border border-border/50 bg-background/60 px-3 py-2">
-                <div className="text-xs text-muted-foreground">Main hub</div>
-                <div className="mt-1 text-sm font-medium">Vigo Central (Urzaiz)</div>
+                <div className="text-xs text-muted-foreground">
+                  {t("home:aboutMetro.stats.mainHub.label")}
+                </div>
+                <div className="mt-1 text-sm font-medium">
+                  {t("home:aboutMetro.stats.mainHub.value")}
+                </div>
               </div>
+
               <div className="rounded-xl border border-border/50 bg-background/60 px-3 py-2">
-                <div className="text-xs text-muted-foreground">Interchanges</div>
-                <div className="mt-1 text-sm font-medium">Fast, simple transfers</div>
+                <div className="text-xs text-muted-foreground">
+                  {t("home:aboutMetro.stats.interchanges.label")}
+                </div>
+                <div className="mt-1 text-sm font-medium">
+                  {t("home:aboutMetro.stats.interchanges.value")}
+                </div>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">Accessible-first</Badge>
-              <Badge variant="outline">Live service alerts</Badge>
-              <Badge variant="outline">Journey planner</Badge>
-              <Badge variant="outline">Network map</Badge>
+              <Badge variant="secondary">
+                {t("home:aboutMetro.badges.accessibleFirst")}
+              </Badge>
+              <Badge variant="outline">
+                {t("home:aboutMetro.badges.liveAlerts")}
+              </Badge>
+              <Badge variant="outline">
+                {t("home:aboutMetro.badges.journeyPlanner")}
+              </Badge>
+              <Badge variant="outline">
+                {t("home:aboutMetro.badges.networkMap")}
+              </Badge>
             </div>
 
             <div className="text-xs text-muted-foreground">
-              More details (rules, fines, accessibility, tourism info) will live in a dedicated Info section.
+              {t("home:aboutMetro.moreDetails")}
             </div>
           </CardContent>
         </Card>
@@ -370,31 +424,45 @@ export default function Home() {
         {/* City overview */}
         <Card className="border border-border/60">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">About Vigo</CardTitle>
+            <CardTitle className="text-base">{t("home:aboutCity.title")}</CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Vigo is a coastal city in Galicia with a strong maritime identity, lively neighborhoods, and quick access
-              to beaches and viewpoints. This project uses Vigo as inspiration for a realistic metro-style experience.
+              {t("home:aboutCity.description")}
             </p>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2">
-                <span className="text-sm font-medium">Waterfront</span>
-                <span className="text-xs text-muted-foreground">Port & promenade</span>
+                <span className="text-sm font-medium">
+                  {t("home:aboutCity.highlights.waterfront.title")}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {t("home:aboutCity.highlights.waterfront.subtitle")}
+                </span>
               </div>
+
               <div className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2">
-                <span className="text-sm font-medium">Beaches</span>
-                <span className="text-xs text-muted-foreground">Samil & beyond</span>
+                <span className="text-sm font-medium">
+                  {t("home:aboutCity.highlights.beaches.title")}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {t("home:aboutCity.highlights.beaches.subtitle")}
+                </span>
               </div>
+
               <div className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2">
-                <span className="text-sm font-medium">Connections</span>
-                <span className="text-xs text-muted-foreground">Rail hub + airport</span>
+                <span className="text-sm font-medium">
+                  {t("home:aboutCity.highlights.connections.title")}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {t("home:aboutCity.highlights.connections.subtitle")}
+                </span>
               </div>
             </div>
 
             <Button variant="outline" className="w-full" asChild>
-              <Link to="/info">Learn more</Link>
+              <Link to="/info">{t("home:actions.learnMore")}</Link>
             </Button>
           </CardContent>
         </Card>
@@ -403,19 +471,21 @@ export default function Home() {
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="border border-border/60">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Ticket prices</CardTitle>
+            <CardTitle className="text-base">
+              {t("home:ticketPrices.title")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {tickets.map((t) => (
+            {tickets.map((it) => (
               <div
-                key={t.name}
+                key={it.name}
                 className="flex items-start justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2"
               >
                 <div className="min-w-0">
-                  <div className="font-medium">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.note}</div>
+                  <div className="font-medium">{it.name}</div>
+                  <div className="text-xs text-muted-foreground">{it.note}</div>
                 </div>
-                <div className="whitespace-nowrap font-semibold">{t.price}</div>
+                <div className="whitespace-nowrap font-semibold">{it.price}</div>
               </div>
             ))}
           </CardContent>
@@ -423,7 +493,9 @@ export default function Home() {
 
         <Card className="border border-border/60">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Promotions & Tarjeta ciudadana</CardTitle>
+            <CardTitle className="text-base">
+              {t("home:promotions.title")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {promos.map((p) => (
@@ -441,9 +513,9 @@ export default function Home() {
               </div>
             ))}
 
-           <Button variant="outline" className="w-full" asChild>
-                         <Link to="/info">Learn more</Link>
-                       </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/info">{t("home:actions.learnMore")}</Link>
+            </Button>
           </CardContent>
         </Card>
       </div>

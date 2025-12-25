@@ -1,0 +1,53 @@
+{
+  "subtitle": "Detalls de l’estació",
+  "notFound": "Estació no trobada",
+  "accessAndServices": {
+    "title": "Accessibilitat i serveis",
+    "accessibility": {
+      "label": "Accessibilitat",
+      "titleAccessible": "Accés sense esglaons",
+      "titleLimited": "Accés limitat",
+      "descAccessible": "Apta per a mobilitat reduïda en la major part del recorregut.",
+      "descLimited": "Pot requerir escales o trams sense rampa o ascensor.",
+      "badgeAccessible": "Accessible",
+      "badgeLimited": "Limitat"
+    },
+    "facilities": {
+      "title": "Serveis de l’estació"
+    },
+    "disclaimer": "Dades orientatives per al projecte fictici Vigo Metro."
+  },
+  "facilities": {
+    "yes": "Sí",
+    "no": "No",
+    "available": "disponible",
+    "notAvailable": "no disponible",
+    "aria": "{{label}}: {{status}}",
+    "labels": {
+      "elevator": "Ascensor",
+      "toilets": "Lavabos",
+      "info": "Informació",
+      "ebikes": "e-Bikes",
+      "bikeParking": "Aparcament de bicicletes"
+    }
+  },
+  "location": {
+    "title": "Ubicació",
+    "openGoogleMaps": "Obrir a Google Maps",
+    "openOSM": "Obrir a OSM",
+    "noCoordinates": "Sense coordenades"
+  },
+  "nextTrains": {
+    "title": "Propers trens",
+    "updating": "Actualitzant…",
+    "updated": "Actualitzat",
+    "arriving": "Arribant",
+    "inMinutes": "{{minutes}} min",
+    "none": "No hi ha trens propers."
+  },
+  "linesServing": {
+    "title": "Línies que donen servei a aquesta estació",
+    "loading": "Carregant línies…",
+    "none": "No s’han trobat línies."
+  }
+}

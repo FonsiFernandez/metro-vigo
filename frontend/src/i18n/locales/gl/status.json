@@ -1,0 +1,44 @@
+{
+  "title": "Estado da rede",
+  "subtitle": "Unha visión clara do servizo e das incidencias.",
+  "networkState": {
+    "disrupted": "Interrompida",
+    "delays": "Atrasos",
+    "goodService": "Bo servizo"
+  },
+  "activeAlerts": "{{count}} alerta activa",
+  "activeAlerts_plural": "{{count}} alertas activas",
+  "noActiveIncidents": "Non hai incidencias activas. O servizo funciona con normalidade.",
+  "actions": {
+    "viewIncidents": "Ver incidencias"
+  },
+  "severity": {
+    "critical": "CRÍTICO",
+    "major": "GRAVE",
+    "minor": "LEVE",
+    "info": "INFO"
+  },
+  "stats": {
+    "totalLines": "Total de liñas",
+    "ok": { "label": "OK", "hint": "Servizo normal" },
+    "delayed": { "label": "Con atraso", "hint": "Incidencias leves" },
+    "down": { "label": "Interrompida", "hint": "Interrupción grave" }
+  },
+  "incidents": {
+    "title": "Incidencias activas",
+    "loading": "Cargando incidencias…",
+    "none": "Non hai incidencias activas."
+  },
+  "groups": {
+    "networkWide": "En toda a rede",
+    "byLine": "Por liña",
+    "byStation": "Por estación",
+    "items": "{{count}} elemento",
+    "items_plural": "{{count}} elementos"
+  },
+  "scope": {
+    "network": "Rede",
+    "station": "Estación",
+    "lineWithCode": "Liña {{code}}"
+  }
+}

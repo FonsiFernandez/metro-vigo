@@ -1,0 +1,118 @@
+{
+  "page": {
+    "title": "Information",
+    "subtitle": "Practical guidelines, values, and city highlights. (Fictional project)"
+  },
+  "values": {
+    "title": "Our values",
+    "badge": "Vision",
+    "items": [
+      {
+        "title": "Safety first",
+        "text": "Designed around safe platforms, clear signage, and predictable service."
+      },
+      {
+        "title": "Accessibility",
+        "text": "Step-free access where possible, readable UI, and inclusive wayfinding."
+      },
+      {
+        "title": "Sustainability",
+        "text": "Better mobility with less traffic, noise, and emissions in the city center."
+      },
+      {
+        "title": "Reliability",
+        "text": "Simple lines, intuitive transfers, and service alerts when it matters."
+      }
+    ]
+  },
+  "rules": {
+    "title": "Metro rules",
+    "badge": "Good to know",
+    "items": [
+      {
+        "title": "Validate before travel",
+        "text": "Keep a valid ticket or pass ready for inspection."
+      },
+      {
+        "title": "Keep moving on escalators",
+        "text": "Stand to the right, let others pass on the left."
+      },
+      {
+        "title": "Respect quiet zones",
+        "text": "Lower volume and keep calls short, especially during peak hours."
+      },
+      {
+        "title": "No smoking / vaping",
+        "text": "Not allowed in stations, trains, or entrances."
+      },
+      {
+        "title": "Priority seating",
+        "text": "Reserved for people with reduced mobility, pregnant passengers, and the elderly."
+      },
+      {
+        "title": "Bikes & scooters",
+        "text": "Allowed off-peak when space permits. Foldables anytime."
+      }
+    ],
+    "disclaimer": "These are illustrative guidelines for the fictional Vigo Metro project."
+  },
+  "fines": {
+    "title": "Fines & enforcement",
+    "badge": "Indicative",
+    "items": [
+      {
+        "label": "No valid ticket",
+        "amount": "€60–€120",
+        "note": "Depends on repeated offenses and situation."
+      },
+      {
+        "label": "Misuse of emergency equipment",
+        "amount": "€150+",
+        "note": "Includes false alarms and obstruction."
+      },
+      {
+        "label": "Vandalism / damage",
+        "amount": "€300+",
+        "note": "Plus repair costs and legal action if needed."
+      },
+      {
+        "label": "Disruptive behavior",
+        "amount": "€80–€200",
+        "note": "Safety-related incidents are treated seriously."
+      }
+    ],
+    "disclaimer": "Final policies would be defined by the relevant authorities."
+  },
+  "vigo": {
+    "title": "Vigo — city highlights",
+    "badge": "Tourism",
+    "items": [
+      {
+        "title": "Waterfront city",
+        "text": "A strong maritime identity with port life, promenades, and viewpoints."
+      },
+      {
+        "title": "Beaches & nature",
+        "text": "Quick access to Samil and coastal areas, plus nearby hikes and miradores."
+      },
+      {
+        "title": "Culture & food",
+        "text": "Galician cuisine, seafood, and local neighborhoods with character."
+      },
+      {
+        "title": "Easy connections",
+        "text": "Rail hub + airport links make Vigo a great base for exploring the region."
+      }
+    ],
+    "nextText": "Next: we can add curated suggestions, walking routes, and station-based tips.",
+    "comingSoon": "Coming soon"
+  },
+  "about": {
+    "title": "About the developer",
+    "badge": "Personal",
+    "photoAlt": "Alfonso",
+    "paragraph1": "Hi, I’m {{name}}, the developer behind this project. Vigo Metro is a fictional application created for fun and exploration: a way to experiment with UI/UX, transport systems, and present a more modern, digital vision of the city of Vigo.",
+    "paragraph2": "The project combines frontend design, data modeling, and interaction patterns inspired by real metro networks, but it has no official or institutional affiliation.",
+    "footer": "Built as a personal UI/UX and engineering showcase · Data and services simulated."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "subtitle": "Detalles da liña",
+  "notFound": "Liña non atopada",
+  "stations": {
+    "title": "Estacións (ordenadas)"
+  },
+  "diagram": {
+    "lines": "{{count}} liña",
+    "lines_plural": "{{count}} liñas"
+  },
+  "interchange": {
+    "badge": "Intercambio · {{count}}",
+    "lines": "Liñas:"
+  },
+  "accessibility": {
+    "accessible": "Accesible",
+    "limited": "Accesibilidade limitada"
+  },
+  "actions": {
+    "view": "Ver"
+  }
+}

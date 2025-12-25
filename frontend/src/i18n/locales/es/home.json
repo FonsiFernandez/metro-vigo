@@ -1,0 +1,83 @@
+{
+  "actions": {
+    "learnMore": "Saber más"
+  },
+  "planner": {
+    "title": "Planifica tu viaje",
+    "fromLabel": "Desde",
+    "toLabel": "Hasta",
+    "fromPlaceholder": "Estación de origen (p. ej., Urzaiz)",
+    "toPlaceholder": "Destino (p. ej., Samil)",
+    "dateLabel": "Fecha",
+    "timeLabel": "Hora",
+    "getRoute": "Ver ruta",
+    "planning": "Planificando…",
+    "helper": "Elige origen + destino (estaciones distintas) y después fecha y hora."
+  },
+  "stationPicker": {
+    "clearAria": "Borrar",
+    "status": {
+      "error": "Error",
+      "searching": "Buscando…",
+      "stations": "Estaciones",
+      "noResults": "Sin resultados"
+    },
+    "noCoordinates": "Sin coordenadas",
+    "accessible": "Accesible",
+    "limited": "Acceso limitado"
+  },
+  "journey": {
+    "recommendedRoute": "Ruta recomendada",
+    "noRouteFound": "No se ha encontrado ninguna ruta.",
+    "totalDuration": "{{minutes}} min",
+    "transfers": "{{count}} transbordo",
+    "transfers_plural": "{{count}} transbordos",
+    "leg": {
+      "walk": "A pie",
+      "metro": "Metro {{lineCode}}",
+      "duration": "{{minutes}} min"
+    }
+  },
+  "aboutMetro": {
+    "title": "Sobre el Metro de Vigo",
+    "description": "Vigo Metro es una red ferroviaria urbana ficticia concebida para conectar las principales zonas de la ciudad (el casco histórico, el frente marítimo, los grandes nodos de transporte, las playas y el aeropuerto) mediante transbordos rápidos y fiables y un servicio frecuente.\n\nMás allá de un ejercicio técnico, este proyecto pretende inspirar y animar a las instituciones públicas a reflexionar sobre el valor transformador que un sistema así podría aportar a Vigo. Una red de metro moderna no solo mejoraría la movilidad diaria, sino que también impulsaría un crecimiento sostenible, reduciría el tráfico innecesario y crearía una ciudad mejor conectada y más accesible para residentes y visitantes.\n\nAl reforzar los vínculos entre barrios, puntos turísticos e infraestructuras estratégicas, una red de este tipo podría desempeñar un papel relevante en el desarrollo económico de Vigo y su proyección internacional, haciendo los desplazamientos por la ciudad más simples, limpios y eficientes.",
+    "stats": {
+      "service": { "label": "Servicio", "value": "Cada 6–15 min" },
+      "mainHub": { "label": "Nudo principal", "value": "Vigo Central (Urzaiz)" },
+      "interchanges": { "label": "Transbordos", "value": "Rápidos y sencillos" }
+    },
+    "badges": {
+      "accessibleFirst": "Accesibilidad primero",
+      "liveAlerts": "Avisos en tiempo real",
+      "journeyPlanner": "Planificador de viajes",
+      "networkMap": "Mapa de la red"
+    },
+    "moreDetails": "Más detalles (normas, multas, accesibilidad, info turística) estarán en una sección de Información dedicada."
+  },
+  "aboutCity": {
+    "title": "Sobre Vigo",
+    "description": "Vigo es una ciudad costera de Galicia con una fuerte identidad marítima, barrios con mucha vida y acceso rápido a playas y miradores. Este proyecto usa Vigo como inspiración para una experiencia de metro realista.",
+    "highlights": {
+      "waterfront": { "title": "Frente marítimo", "subtitle": "Puerto y paseo" },
+      "beaches": { "title": "Playas", "subtitle": "Samil y más" },
+      "connections": { "title": "Conexiones", "subtitle": "Estación + aeropuerto" }
+    }
+  },
+  "ticketPrices": {
+    "title": "Tarifas",
+    "items": [
+      { "name": "Billete sencillo", "price": "€1.45", "note": "Válido para un viaje (zona A)" },
+      { "name": "Bono 24h", "price": "€4.50", "note": "Viajes ilimitados durante 24 horas" },
+      { "name": "Bono 10 viajes", "price": "€11.00", "note": "Mejor opción para ir a diario" },
+      { "name": "Abono mensual", "price": "€29.00", "note": "Viajes ilimitados durante 30 días" }
+    ]
+  },
+  "promotions": {
+    "title": "Promociones y Tarjeta ciudadana",
+    "items": [
+      { "title": "Tarjeta ciudadana", "badge": "-20%", "text": "Paga con la tarjeta ciudadana y consigue un 20% de descuento en las tarifas estándar." },
+      { "title": "Descuento estudiante", "badge": "-30%", "text": "Tarifas reducidas para estudiantes (menores de 26)." },
+      { "title": "Promo fin de semana", "badge": "2×1", "text": "Entradas 2×1 los fines de semana a partir de las 10:00." }
+    ]
+  }
+}

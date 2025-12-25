@@ -1,0 +1,29 @@
+{
+  "title": "Lines",
+  "subtitle": "All metro lines and their current status.",
+  "status": {
+    "ok": "OK",
+    "delayed": "Delayed",
+    "down": "Down"
+  },
+  "incidents": {
+    "loading": "Incidents…",
+    "none": "No incidents",
+    "count": "{{count}} incident",
+    "count_plural": "{{count}} incidents"
+  },
+  "stations": {
+    "label": "Stations:",
+    "loading": "Stations: loading…",
+    "failed": "Stations: failed",
+    "empty": "Stations: —",
+    "more": " (+{{count}})"
+  },
+  "arrivals": {
+    "label": "Next arrivals:",
+    "loading": "Arrivals: loading…",
+    "failed": "Arrivals: failed",
+    "empty": "Arrivals: —",
+    "minutes": "{{minutes}} min"
+  }
+}

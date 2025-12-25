@@ -1,0 +1,44 @@
+{
+  "title": "Network Status",
+  "subtitle": "A clearer view of service and incidents.",
+  "networkState": {
+    "disrupted": "Disrupted",
+    "delays": "Delays",
+    "goodService": "Good service"
+  },
+  "activeAlerts": "{{count}} active alert",
+  "activeAlerts_plural": "{{count}} active alerts",
+  "noActiveIncidents": "No active incidents. Service is running normally.",
+  "actions": {
+    "viewIncidents": "View incidents"
+  },
+  "severity": {
+    "critical": "CRITICAL",
+    "major": "MAJOR",
+    "minor": "MINOR",
+    "info": "INFO"
+  },
+  "stats": {
+    "totalLines": "Total lines",
+    "ok": { "label": "OK", "hint": "Normal service" },
+    "delayed": { "label": "Delayed", "hint": "Minor disruptions" },
+    "down": { "label": "Down", "hint": "Severe disruption" }
+  },
+  "incidents": {
+    "title": "Active incidents",
+    "loading": "Loading incidents…",
+    "none": "No active incidents."
+  },
+  "groups": {
+    "networkWide": "Network-wide",
+    "byLine": "By line",
+    "byStation": "By station",
+    "items": "{{count}} item",
+    "items_plural": "{{count}} items"
+  },
+  "scope": {
+    "network": "Network",
+    "station": "Station",
+    "lineWithCode": "Line {{code}}"
+  }
+}

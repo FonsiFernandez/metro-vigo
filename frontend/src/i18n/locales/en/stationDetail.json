@@ -1,0 +1,53 @@
+{
+  "subtitle": "Station details",
+  "notFound": "Station not found",
+  "accessAndServices": {
+    "title": "Accessibility & services",
+    "accessibility": {
+      "label": "Accessibility",
+      "titleAccessible": "Step-free access",
+      "titleLimited": "Limited access",
+      "descAccessible": "Suitable for reduced mobility for most of the route.",
+      "descLimited": "May require stairs or sections without ramp or elevator.",
+      "badgeAccessible": "Accessible",
+      "badgeLimited": "Limited"
+    },
+    "facilities": {
+      "title": "Station facilities"
+    },
+    "disclaimer": "Indicative data for the fictional Vigo Metro project."
+  },
+  "facilities": {
+    "yes": "Yes",
+    "no": "No",
+    "available": "available",
+    "notAvailable": "not available",
+    "aria": "{{label}}: {{status}}",
+    "labels": {
+      "elevator": "Elevator",
+      "toilets": "Toilets",
+      "info": "Info",
+      "ebikes": "e-Bikes",
+      "bikeParking": "Bike parking"
+    }
+  },
+  "location": {
+    "title": "Location",
+    "openGoogleMaps": "Open in Google Maps",
+    "openOSM": "Open in OSM",
+    "noCoordinates": "No coordinates yet"
+  },
+  "nextTrains": {
+    "title": "Next trains",
+    "updating": "Updating…",
+    "updated": "Updated",
+    "arriving": "Arriving",
+    "inMinutes": "{{minutes}} min",
+    "none": "No upcoming trains."
+  },
+  "linesServing": {
+    "title": "Lines serving this station",
+    "loading": "Loading lines…",
+    "none": "No lines found."
+  }
+}

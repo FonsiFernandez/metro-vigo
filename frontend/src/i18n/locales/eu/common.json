@@ -1,5 +1,50 @@
 {
-  "app": { "name": "Vigoko Metroa", "tagline": "Sare fikziozkoa" },
-  "nav": { "home": "Hasiera", "lines": "Lineak", "status": "Egoera", "map": "Mapa", "info": "Informazioa" },
-  "home": { "planTrip": "Planifikatu zure bidaia", "from": "Irteera", "to": "Helmuga", "date": "Data", "time": "Ordua", "getRoute": "Ibilbidea kalkulatu" }
+  "app": {
+    "name": "Vigo Metro",
+    "tagline": "Sare fikziozkoa",
+    "subtitle": "Hiri sarea · fikziozkoa"
+  },
+  "nav": {
+    "home": "Hasiera",
+    "lines": "Lineak",
+    "status": "Egoera",
+    "map": "Mapa",
+    "info": "Info"
+  },
+  "language": { "label": "Hizkuntza" },
+  "theme": { "toggle": "Gaia aldatu" },
+  "alerts": {
+    "title": "Zerbitzuaren alertak",
+    "active": "{{count}} aktibo",
+    "more": "+{{count}} gehiago"
+  },
+  "severity": {
+    "critical": "LARRIA",
+    "major": "HANDIA",
+    "minor": "TXIKIA",
+    "info": "INFO"
+  },
+  "footer": {
+    "aboutTitle": "Proiektu honi buruz",
+    "aboutText": "Alfonso naiz, aplikazio honen garatzailea. Vigo Metro proiektu fikziozkoa da, esplorazio eta erakustaldi helburuetarako sortua, inolako lotura instituzionalik gabe.",
+    "copyright": "© {{year}} Vigo Metro (fikzioa) · UI/UX demo · Datu simulatuak",
+    "logosNote": "Logotipoak helburu ilustratiboetarako soilik erabili dira proiektu fikziozko (ez-ofizial) batean."
+  },
+  "stationSearch": {
+    "placeholder": "Geltokiak bilatu (adib., Urzaiz, Teis, Coia...)",
+    "aria": {
+      "input": "Geltokiak bilatu",
+      "clear": "Bilaketa garbitu"
+    },
+    "state": {
+      "error": "Errorea",
+      "searching": "Bilatzen…",
+      "stations": "Geltokiak",
+      "noResults": "Ez dago emaitzarik",
+      "genericError": "Zerbait gaizki atera da"
+    },
+    "noCoordinates": "Koordenaturik ez",
+    "accessible": "Irisgarria",
+    "limited": "Mugatua"
+  }
 }

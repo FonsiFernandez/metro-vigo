@@ -1,0 +1,44 @@
+{
+  "title": "Sarearen egoera",
+  "subtitle": "Zerbitzuaren eta gorabeheren ikuspegi argia.",
+  "networkState": {
+    "disrupted": "Etena",
+    "delays": "Atzerapenak",
+    "goodService": "Zerbitzu ona"
+  },
+  "activeAlerts": "{{count}} alerta aktibo",
+  "activeAlerts_plural": "{{count}} alerta aktibo",
+  "noActiveIncidents": "Ez dago gorabehera aktiborik. Zerbitzua normaltasunez dabil.",
+  "actions": {
+    "viewIncidents": "Ikusi gorabeherak"
+  },
+  "severity": {
+    "critical": "LARRIA",
+    "major": "HANDIA",
+    "minor": "TXIKIA",
+    "info": "INFO"
+  },
+  "stats": {
+    "totalLines": "Linea kopurua",
+    "ok": { "label": "OK", "hint": "Zerbitzu normala" },
+    "delayed": { "label": "Atzerapenarekin", "hint": "Gorabehera txikiak" },
+    "down": { "label": "Etena", "hint": "Etenaldi larria" }
+  },
+  "incidents": {
+    "title": "Gorabehera aktiboak",
+    "loading": "Gorabeherak kargatzen…",
+    "none": "Ez dago gorabehera aktiborik."
+  },
+  "groups": {
+    "networkWide": "Sare osoan",
+    "byLine": "Linearen arabera",
+    "byStation": "Geltokiaren arabera",
+    "items": "{{count}} elementu",
+    "items_plural": "{{count}} elementu"
+  },
+  "scope": {
+    "network": "Sarea",
+    "station": "Geltokia",
+    "lineWithCode": "Linea {{code}}"
+  }
+}

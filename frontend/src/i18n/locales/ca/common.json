@@ -1,5 +1,50 @@
 {
-  "app": { "name": "Vigo Metro", "tagline": "Xarxa fictícia" },
-  "nav": { "home": "Inici", "lines": "Línies", "status": "Estat", "map": "Mapa", "info": "Informació" },
-  "home": { "planTrip": "Planifica el teu viatge", "from": "Origen", "to": "Destinació", "date": "Data", "time": "Hora", "getRoute": "Calcular ruta" }
+  "app": {
+    "name": "Vigo Metro",
+    "tagline": "Xarxa fictícia",
+    "subtitle": "Xarxa urbana · fictícia"
+  },
+  "nav": {
+    "home": "Inici",
+    "lines": "Línies",
+    "status": "Estat",
+    "map": "Mapa",
+    "info": "Info"
+  },
+  "language": { "label": "Idioma" },
+  "theme": { "toggle": "Canviar tema" },
+  "alerts": {
+    "title": "Avisos del servei",
+    "active": "{{count}} actius",
+    "more": "+{{count}} més"
+  },
+  "severity": {
+    "critical": "CRÍTIC",
+    "major": "GREU",
+    "minor": "LLEU",
+    "info": "INFO"
+  },
+  "footer": {
+    "aboutTitle": "Sobre aquest projecte",
+    "aboutText": "Sóc l’Alfonso, desenvolupador d’aquesta aplicació. Vigo Metro és un projecte fictici creat amb finalitats demostratives i d’exploració, sense cap vinculació institucional.",
+    "copyright": "© {{year}} Vigo Metro (ficció) · Demo UI/UX · Dades simulades",
+    "logosNote": "Logotips utilitzats només amb finalitats il·lustratives dins d’un projecte fictici (no oficial)."
+  },
+  "stationSearch": {
+    "placeholder": "Cerca estacions (p. ex., Urzaiz, Teis, Coia...)",
+    "aria": {
+      "input": "Cerca estacions",
+      "clear": "Esborra la cerca"
+    },
+    "state": {
+      "error": "Error",
+      "searching": "Cercant…",
+      "stations": "Estacions",
+      "noResults": "Sense resultats",
+      "genericError": "Alguna cosa ha anat malament"
+    },
+    "noCoordinates": "Sense coordenades",
+    "accessible": "Accessible",
+    "limited": "Limitat"
+  }
 }

@@ -1,0 +1,83 @@
+{
+  "actions": {
+    "learnMore": "Gehiago jakin"
+  },
+  "planner": {
+    "title": "Zure bidaia planifikatu",
+    "fromLabel": "Nondik",
+    "toLabel": "Nora",
+    "fromPlaceholder": "Hasierako geltokia (adib., Urzaiz)",
+    "toPlaceholder": "Helmuga (adib., Samil)",
+    "dateLabel": "Data",
+    "timeLabel": "Ordua",
+    "getRoute": "Ibilbidea ikusi",
+    "planning": "Planifikatzen…",
+    "helper": "Aukeratu jatorria + helmuga (geltoki desberdinak) eta ondoren data eta ordua."
+  },
+  "stationPicker": {
+    "clearAria": "Garbitu",
+    "status": {
+      "error": "Errorea",
+      "searching": "Bilatzen…",
+      "stations": "Geltokiak",
+      "noResults": "Emaitzarik ez"
+    },
+    "noCoordinates": "Koordenaturik ez",
+    "accessible": "Irisgarria",
+    "limited": "Sarbide mugatua"
+  },
+  "journey": {
+    "recommendedRoute": "Gomendatutako ibilbidea",
+    "noRouteFound": "Ez da ibilbiderik aurkitu.",
+    "totalDuration": "{{minutes}} min",
+    "transfers": "{{count}} transbordo",
+    "transfers_plural": "{{count}} transbordo",
+    "leg": {
+      "walk": "Oinez",
+      "metro": "Metro {{lineCode}}",
+      "duration": "{{minutes}} min"
+    }
+  },
+  "aboutMetro": {
+    "title": "Vigoko Metroari buruz",
+    "description": "Vigo Metro hiri-tren sare fikziozko bat da, hiriko gune nagusiak konektatzeko pentsatua (hirigune historikoa, itsasertzeko eremua, garraio-nodo nagusiak, hondartzak eta aireportua), lotura azkar eta fidagarrien bidez eta maiztasun handiko zerbitzuarekin.\n\nAriketa teknikoa izateaz gain, proiektu honek erakunde publikoak inspiratu eta hausnarketa egitera bultzatu nahi ditu, halako sistema batek Vigori ekar liezaiokeen balio eraldatzaileari buruz. Metro sare moderno batek eguneroko mugikortasuna hobetzeaz gain, hazkunde jasangarria bultzatuko luke, errepideko trafiko alferrikakoa murriztuko luke, eta bizilagun zein bisitarientzat hiri konektatuago eta irisgarriagoa sortuko luke.\n\nAuzoen, gune turistikoen eta azpiegitura estrategikoen arteko loturak sendotuz, halako sare batek paper garrantzitsua izan lezake Vigoren garapen ekonomikoan eta nazioarteko erakargarritasunean, hirian zehar mugitzeko modua sinpleagoa, garbiagoa eta eraginkorragoa bihurtuz.",
+    "stats": {
+      "service": { "label": "Zerbitzua", "value": "6–15 min-ero" },
+      "mainHub": { "label": "Nodo nagusia", "value": "Vigo Central (Urzaiz)" },
+      "interchanges": { "label": "Transbordoak", "value": "Azkar eta erraz" }
+    },
+    "badges": {
+      "accessibleFirst": "Irisgarritasuna lehenik",
+      "liveAlerts": "Zuzeneko zerbitzu-oharrak",
+      "journeyPlanner": "Bidaia-planifikatzailea",
+      "networkMap": "Sarearen mapa"
+    },
+    "moreDetails": "Xehetasun gehiago (arauak, isunak, irisgarritasuna, turismo-informazioa) Informazio atal berezi batean egongo dira."
+  },
+  "aboutCity": {
+    "title": "Vigori buruz",
+    "description": "Vigo Galiziako kostaldeko hiri bat da, itsas identitate sendoarekin, auzo biziekin, eta hondartzetara zein behatokietara iristeko erraztasunarekin. Proiektu honek Vigo erabiltzen du metro estiloko esperientzia errealista baterako inspirazio gisa.",
+    "highlights": {
+      "waterfront": { "title": "Itsasertza", "subtitle": "Portua eta pasealekua" },
+      "beaches": { "title": "Hondartzak", "subtitle": "Samil eta gehiago" },
+      "connections": { "title": "Konexioak", "subtitle": "Geltokia + aireportua" }
+    }
+  },
+  "ticketPrices": {
+    "title": "Tarifak",
+    "items": [
+      { "name": "Txartel bakarra", "price": "€1.45", "note": "Bidaia bakarrerako balio du (A zona)" },
+      { "name": "24 orduko pasea", "price": "€4.50", "note": "24 orduz bidaia mugagabeak" },
+      { "name": "10 bidaiako bonoa", "price": "€11.00", "note": "Eguneroko joan-etorrietarako onena" },
+      { "name": "Hileko abonua", "price": "€29.00", "note": "30 egunez bidaia mugagabeak" }
+    ]
+  },
+  "promotions": {
+    "title": "Promozioak eta Tarjeta ciudadana",
+    "items": [
+      { "title": "Tarjeta ciudadana", "badge": "-20%", "text": "Hiriko txartelarekin ordaindu eta %20ko deskontua lortu tarifa estandarretan." },
+      { "title": "Ikasle-deskontua", "badge": "-30%", "text": "Tarifa murriztuak ikasleentzat (26 urtetik beherakoak)." },
+      { "title": "Asteburuko promoa", "badge": "2×1", "text": "2×1 txartelak asteburuetan 10:00etatik aurrera." }
+    ]
+  }
+}

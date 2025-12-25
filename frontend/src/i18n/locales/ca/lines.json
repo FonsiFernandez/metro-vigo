@@ -1,0 +1,29 @@
+{
+  "title": "Línies",
+  "subtitle": "Totes les línies i el seu estat actual.",
+  "status": {
+    "ok": "OK",
+    "delayed": "Amb retard",
+    "down": "Interrompuda"
+  },
+  "incidents": {
+    "loading": "Incidències…",
+    "none": "Sense incidències",
+    "count": "{{count}} incidència",
+    "count_plural": "{{count}} incidències"
+  },
+  "stations": {
+    "label": "Estacions:",
+    "loading": "Estacions: carregant…",
+    "failed": "Estacions: error",
+    "empty": "Estacions: —",
+    "more": " (+{{count}})"
+  },
+  "arrivals": {
+    "label": "Properes arribades:",
+    "loading": "Arribades: carregant…",
+    "failed": "Arribades: error",
+    "empty": "Arribades: —",
+    "minutes": "{{minutes}} min"
+  }
+}

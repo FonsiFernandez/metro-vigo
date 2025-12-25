@@ -1,0 +1,60 @@
+{
+  "page": {
+    "title": "Informazioa",
+    "subtitle": "Gida praktikoa, balioak eta hiriko aipagarriak. (Proiektu fikziozkoa)"
+  },
+  "values": {
+    "title": "Gure balioak",
+    "badge": "Ikuspegia",
+    "items": [
+      { "title": "Segurtasuna lehenik", "text": "Plataforma seguruak eta seinaleztapen argia." },
+      { "title": "Irisgarritasuna", "text": "Oztoporik gabeko sarbidea ahal denean." },
+      { "title": "Jasangarritasuna", "text": "Trafiko eta emisio gutxiago." },
+      { "title": "Fidagarritasuna", "text": "Linea sinpleak eta abisu erabilgarriak." }
+    ]
+  },
+  "rules": {
+    "title": "Metroaren arauak",
+    "badge": "Kontuan hartu",
+    "items": [
+      { "title": "Balioztatu bidaiatu aurretik", "text": "Txartel baliozkoa eduki." },
+      { "title": "Eskailera mekanikoak", "text": "Eskuinetik gelditu, ezkerretik pasa." },
+      { "title": "Isiltasun guneak", "text": "Bolumena jaitsi." },
+      { "title": "Debekatuta erretzea", "text": "Ez dago baimenduta." },
+      { "title": "Lehentasunezko eserlekuak", "text": "Mugikortasun murriztua dutenentzat." },
+      { "title": "Bizikletak", "text": "Puntako orduetatik kanpo." }
+    ],
+    "disclaimer": "Vigo Metro proiektu fikziozkoaren arauak."
+  },
+  "fines": {
+    "title": "Isunak",
+    "badge": "Orientagarria",
+    "items": [
+      { "label": "Txartel baliogabea", "amount": "60–120 €", "note": "Egoeraren arabera." },
+      { "label": "Larrialdien erabilera okerra", "amount": "150 €+", "note": "Alarma faltsuak barne." },
+      { "label": "Bandalismoa", "amount": "300 €+", "note": "Konponketa kostuekin." },
+      { "label": "Jokabide desegokia", "amount": "80–200 €", "note": "Segurtasuna serioa da." }
+    ],
+    "disclaimer": "Agintariek definituko lukete."
+  },
+  "vigo": {
+    "title": "Vigo — aipagarriak",
+    "badge": "Turismoa",
+    "items": [
+      { "title": "Itsas hiria", "text": "Portu izaera nabarmena." },
+      { "title": "Hondartzak", "text": "Samilera sarbide azkarra." },
+      { "title": "Kultura eta janaria", "text": "Galiziako gastronomia." },
+      { "title": "Lotura onak", "text": "Trena eta aireportua." }
+    ],
+    "nextText": "Laster: ibilbide eta gomendioak.",
+    "comingSoon": "Laster"
+  },
+  "about": {
+    "title": "Garatzaileari buruz",
+    "badge": "Pertsonala",
+    "photoAlt": "Alfonso",
+    "paragraph1": "Kaixo, {{name}} naiz, Vigo Metro proiektu fikziozkoaren garatzailea.",
+    "paragraph2": "Ez du inolako lotura ofizialik.",
+    "footer": "Proiektu pertsonala · Datu simulatuak."
+  }
+}

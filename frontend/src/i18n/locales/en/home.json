@@ -1,0 +1,111 @@
+{
+  "actions": {
+    "learnMore": "Learn more"
+  },
+  "planner": {
+    "title": "Plan your trip",
+    "fromLabel": "From",
+    "toLabel": "To",
+    "fromPlaceholder": "Start station (e.g., Urzaiz)",
+    "toPlaceholder": "Destination (e.g., Samil)",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "getRoute": "Get route",
+    "planning": "Planning…",
+    "helper": "Choose origin + destination (different stations), then date and time."
+  },
+  "stationPicker": {
+    "clearAria": "Clear",
+    "status": {
+      "error": "Error",
+      "searching": "Searching…",
+      "stations": "Stations",
+      "noResults": "No results"
+    },
+    "noCoordinates": "No coordinates",
+    "accessible": "Accessible",
+    "limited": "Limited"
+  },
+  "journey": {
+    "recommendedRoute": "Recommended route",
+    "noRouteFound": "No route found.",
+    "totalDuration": "{{minutes}} min",
+    "transfers": "{{count}} transfer",
+    "transfers_plural": "{{count}} transfers",
+    "leg": {
+      "walk": "Walk",
+      "metro": "Metro {{lineCode}}",
+      "duration": "{{minutes}} min"
+    }
+  },
+  "aboutMetro": {
+    "title": "About Vigo Metro",
+    "description": "Vigo Metro is a fictional urban rail network envisioned to connect the city’s key areas (the historic center, the waterfront, major transport hubs, beaches, and the airport) through fast, reliable transfers and frequent service.\n\nBeyond a technical exercise, this project aims to inspire and encourage public institutions to reflect on the transformative value that a system like this could bring to Vigo. A modern metro network would not only improve daily mobility, but also support sustainable growth, reduce unnecessary road traffic, and create a better-connected, more accessible city for residents and visitors alike.\n\nBy strengthening links between neighborhoods, tourism hotspots, and strategic infrastructure, a network of this kind could play a meaningful role in Vigo’s economic development and international appeal, making movement across the city simpler, cleaner, and more efficient.",
+    "stats": {
+      "service": { "label": "Service", "value": "Every 6–15 min" },
+      "mainHub": { "label": "Main hub", "value": "Vigo Central (Urzaiz)" },
+      "interchanges": { "label": "Interchanges", "value": "Fast, simple transfers" }
+    },
+    "badges": {
+      "accessibleFirst": "Accessible-first",
+      "liveAlerts": "Live service alerts",
+      "journeyPlanner": "Journey planner",
+      "networkMap": "Network map"
+    },
+    "moreDetails": "More details (rules, fines, accessibility, tourism info) will live in a dedicated Info section."
+  },
+  "aboutCity": {
+    "title": "About Vigo",
+    "description": "Vigo is a coastal city in Galicia with a strong maritime identity, lively neighborhoods, and quick access to beaches and viewpoints. This project uses Vigo as inspiration for a realistic metro-style experience.",
+    "highlights": {
+      "waterfront": { "title": "Waterfront", "subtitle": "Port & promenade" },
+      "beaches": { "title": "Beaches", "subtitle": "Samil & beyond" },
+      "connections": { "title": "Connections", "subtitle": "Rail hub + airport" }
+    }
+  },
+  "ticketPrices": {
+    "title": "Ticket prices",
+    "items": [
+      {
+        "name": "Single ticket",
+        "price": "€1.45",
+        "note": "Valid for one trip (zone A)"
+      },
+      {
+        "name": "24h pass",
+        "price": "€4.50",
+        "note": "Unlimited rides for 24 hours"
+      },
+      {
+        "name": "10-trip bundle",
+        "price": "€11.00",
+        "note": "Best value for commuting"
+      },
+      {
+        "name": "Monthly pass",
+        "price": "€29.00",
+        "note": "Unlimited rides for 30 days"
+      }
+    ]
+  },
+  "promotions": {
+    "title": "Promotions & Tarjeta ciudadana",
+    "items": [
+      {
+        "title": "Tarjeta ciudadana",
+        "badge": "-20%",
+        "text": "Pay with the city card and get 20% off standard fares."
+      },
+      {
+        "title": "Student discount",
+        "badge": "-30%",
+        "text": "Reduced fares for students (under 26)."
+      },
+      {
+        "title": "Weekend promo",
+        "badge": "2×1",
+        "text": "Two-for-one tickets on weekends after 10:00."
+      }
+    ]
+  }
+}

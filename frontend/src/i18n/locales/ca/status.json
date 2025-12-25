@@ -1,0 +1,44 @@
+{
+  "title": "Estat de la xarxa",
+  "subtitle": "Una visió clara del servei i de les incidències.",
+  "networkState": {
+    "disrupted": "Interrompuda",
+    "delays": "Retards",
+    "goodService": "Bon servei"
+  },
+  "activeAlerts": "{{count}} alerta activa",
+  "activeAlerts_plural": "{{count}} alertes actives",
+  "noActiveIncidents": "No hi ha incidències actives. El servei funciona amb normalitat.",
+  "actions": {
+    "viewIncidents": "Veure incidències"
+  },
+  "severity": {
+    "critical": "CRÍTIC",
+    "major": "GREU",
+    "minor": "LLEU",
+    "info": "INFO"
+  },
+  "stats": {
+    "totalLines": "Total de línies",
+    "ok": { "label": "OK", "hint": "Servei normal" },
+    "delayed": { "label": "Amb retard", "hint": "Incidències lleus" },
+    "down": { "label": "Interrompuda", "hint": "Interrupció greu" }
+  },
+  "incidents": {
+    "title": "Incidències actives",
+    "loading": "Carregant incidències…",
+    "none": "No hi ha incidències actives."
+  },
+  "groups": {
+    "networkWide": "A tota la xarxa",
+    "byLine": "Per línia",
+    "byStation": "Per estació",
+    "items": "{{count}} element",
+    "items_plural": "{{count}} elements"
+  },
+  "scope": {
+    "network": "Xarxa",
+    "station": "Estació",
+    "lineWithCode": "Línia {{code}}"
+  }
+}

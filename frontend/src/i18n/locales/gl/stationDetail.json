@@ -1,0 +1,53 @@
+{
+  "subtitle": "Detalles da estación",
+  "notFound": "Estación non atopada",
+  "accessAndServices": {
+    "title": "Accesibilidade e servizos",
+    "accessibility": {
+      "label": "Accesibilidade",
+      "titleAccessible": "Acceso sen chanzos",
+      "titleLimited": "Acceso limitado",
+      "descAccessible": "Apta para mobilidade reducida na maior parte do percorrido.",
+      "descLimited": "Pode requirir escaleiras ou tramos sen rampla ou ascensor.",
+      "badgeAccessible": "Accesible",
+      "badgeLimited": "Limitado"
+    },
+    "facilities": {
+      "title": "Servizos da estación"
+    },
+    "disclaimer": "Datos orientativos para o proxecto ficticio Vigo Metro."
+  },
+  "facilities": {
+    "yes": "Si",
+    "no": "Non",
+    "available": "dispoñible",
+    "notAvailable": "non dispoñible",
+    "aria": "{{label}}: {{status}}",
+    "labels": {
+      "elevator": "Ascensor",
+      "toilets": "Baños",
+      "info": "Información",
+      "ebikes": "e-Bikes",
+      "bikeParking": "Aparcadoiro de bicicletas"
+    }
+  },
+  "location": {
+    "title": "Localización",
+    "openGoogleMaps": "Abrir en Google Maps",
+    "openOSM": "Abrir en OSM",
+    "noCoordinates": "Sen coordenadas"
+  },
+  "nextTrains": {
+    "title": "Próximos trens",
+    "updating": "Actualizando…",
+    "updated": "Actualizado",
+    "arriving": "Chegando",
+    "inMinutes": "{{minutes}} min",
+    "none": "Non hai trens próximos."
+  },
+  "linesServing": {
+    "title": "Liñas que pasan por esta estación",
+    "loading": "Cargando liñas…",
+    "none": "Non se atoparon liñas."
+  }
+}

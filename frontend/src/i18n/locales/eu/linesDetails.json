@@ -1,0 +1,22 @@
+{
+  "subtitle": "Linearen xehetasunak",
+  "notFound": "Linea ez da aurkitu",
+  "stations": {
+    "title": "Geltokiak (ordenatuta)"
+  },
+  "diagram": {
+    "lines": "{{count}} linea",
+    "lines_plural": "{{count}} linea"
+  },
+  "interchange": {
+    "badge": "Trukagunea · {{count}}",
+    "lines": "Lineak:"
+  },
+  "accessibility": {
+    "accessible": "Irisgarria",
+    "limited": "Irisgarritasun mugatua"
+  },
+  "actions": {
+    "view": "Ikusi"
+  }
+}

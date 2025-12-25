@@ -1,0 +1,29 @@
+{
+  "title": "Linhas",
+  "subtitle": "Todas as linhas e o seu estado atual.",
+  "status": {
+    "ok": "OK",
+    "delayed": "Com atraso",
+    "down": "Interrompida"
+  },
+  "incidents": {
+    "loading": "Ocorrências…",
+    "none": "Sem ocorrências",
+    "count": "{{count}} ocorrência",
+    "count_plural": "{{count}} ocorrências"
+  },
+  "stations": {
+    "label": "Estações:",
+    "loading": "Estações: a carregar…",
+    "failed": "Estações: erro",
+    "empty": "Estações: —",
+    "more": " (+{{count}})"
+  },
+  "arrivals": {
+    "label": "Próximas chegadas:",
+    "loading": "Chegadas: a carregar…",
+    "failed": "Chegadas: erro",
+    "empty": "Chegadas: —",
+    "minutes": "{{minutes}} min"
+  }
+}

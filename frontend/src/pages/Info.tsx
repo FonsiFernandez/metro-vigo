@@ -1,55 +1,50 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Github, Linkedin } from "lucide-react";
 import profilePhoto from "../assets/foto.jpg";
 
+type KV = { title: string; text: string };
+type Fine = { label: string; amount: string; note: string };
+
 export default function InfoPage() {
-  const values = [
-    { title: "Safety first", text: "Designed around safe platforms, clear signage, and predictable service." },
-    { title: "Accessibility", text: "Step-free access where possible, readable UI, and inclusive wayfinding." },
-    { title: "Sustainability", text: "Better mobility with less traffic, noise, and emissions in the city center." },
-    { title: "Reliability", text: "Simple lines, intuitive transfers, and service alerts when it matters." },
-  ];
+  const { t } = useTranslation(["info", "common"]);
 
-  const rules = [
-    { title: "Validate before travel", text: "Keep a valid ticket or pass ready for inspection." },
-    { title: "Keep moving on escalators", text: "Stand to the right, let others pass on the left." },
-    { title: "Respect quiet zones", text: "Lower volume and keep calls short, especially during peak hours." },
-    { title: "No smoking / vaping", text: "Not allowed in stations, trains, or entrances." },
-    { title: "Priority seating", text: "Reserved for people with reduced mobility, pregnant passengers, and the elderly." },
-    { title: "Bikes & scooters", text: "Allowed off-peak when space permits. Foldables anytime." },
-  ];
+  const values = useMemo(
+    () => (t("info:values.items", { returnObjects: true }) as KV[]) ?? [],
+    [t]
+  );
 
-  const fines = [
-    { label: "No valid ticket", amount: "€60–€120", note: "Depends on repeated offenses and situation." },
-    { label: "Misuse of emergency equipment", amount: "€150+", note: "Includes false alarms and obstruction." },
-    { label: "Vandalism / damage", amount: "€300+", note: "Plus repair costs and legal action if needed." },
-    { label: "Disruptive behavior", amount: "€80–€200", note: "Safety-related incidents are treated seriously." },
-  ];
+  const rules = useMemo(
+    () => (t("info:rules.items", { returnObjects: true }) as KV[]) ?? [],
+    [t]
+  );
 
-  const vigo = [
-    { title: "Waterfront city", text: "A strong maritime identity with port life, promenades, and viewpoints." },
-    { title: "Beaches & nature", text: "Quick access to Samil and coastal areas, plus nearby hikes and miradores." },
-    { title: "Culture & food", text: "Galician cuisine, seafood, and local neighborhoods with character." },
-    { title: "Easy connections", text: "Rail hub + airport links make Vigo a great base for exploring the region." },
-  ];
+  const fines = useMemo(
+    () => (t("info:fines.items", { returnObjects: true }) as Fine[]) ?? [],
+    [t]
+  );
+
+  const vigo = useMemo(
+    () => (t("info:vigo.items", { returnObjects: true }) as KV[]) ?? [],
+    [t]
+  );
 
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight">Information</h1>
-        <p className="text-sm text-muted-foreground">
-          Practical guidelines, values, and city highlights. (Fictional project)
-        </p>
+        <h1 className="text-2xl font-bold tracking-tight">{t("info:page.title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("info:page.subtitle")}</p>
       </div>
 
       {/* Values */}
       <Card className="border border-border/60">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between gap-3">
-            <CardTitle className="text-base">Our values</CardTitle>
-            <Badge variant="secondary">Vision</Badge>
+            <CardTitle className="text-base">{t("info:values.title")}</CardTitle>
+            <Badge variant="secondary">{t("info:values.badge")}</Badge>
           </div>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-2">
@@ -67,8 +62,8 @@ export default function InfoPage() {
         <Card className="border border-border/60">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between gap-3">
-              <CardTitle className="text-base">Metro rules</CardTitle>
-              <Badge variant="outline">Good to know</Badge>
+              <CardTitle className="text-base">{t("info:rules.title")}</CardTitle>
+              <Badge variant="outline">{t("info:rules.badge")}</Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -78,22 +73,23 @@ export default function InfoPage() {
                 <div className="text-xs text-muted-foreground">{r.text}</div>
               </div>
             ))}
-            <div className="text-xs text-muted-foreground">
-              These are illustrative guidelines for the fictional Vigo Metro project.
-            </div>
+            <div className="text-xs text-muted-foreground">{t("info:rules.disclaimer")}</div>
           </CardContent>
         </Card>
 
         <Card className="border border-border/60">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between gap-3">
-              <CardTitle className="text-base">Fines & enforcement</CardTitle>
-              <Badge variant="outline">Indicative</Badge>
+              <CardTitle className="text-base">{t("info:fines.title")}</CardTitle>
+              <Badge variant="outline">{t("info:fines.badge")}</Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
             {fines.map((f) => (
-              <div key={f.label} className="flex items-start justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2">
+              <div
+                key={f.label}
+                className="flex items-start justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2"
+              >
                 <div className="min-w-0">
                   <div className="text-sm font-medium">{f.label}</div>
                   <div className="text-xs text-muted-foreground">{f.note}</div>
@@ -101,9 +97,7 @@ export default function InfoPage() {
                 <div className="whitespace-nowrap font-semibold">{f.amount}</div>
               </div>
             ))}
-            <div className="text-xs text-muted-foreground">
-              Final policies would be defined by the relevant authorities.
-            </div>
+            <div className="text-xs text-muted-foreground">{t("info:fines.disclaimer")}</div>
           </CardContent>
         </Card>
       </div>
@@ -112,8 +106,8 @@ export default function InfoPage() {
       <Card className="border border-border/60">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between gap-3">
-            <CardTitle className="text-base">Vigo — city highlights</CardTitle>
-            <Badge variant="secondary">Tourism</Badge>
+            <CardTitle className="text-base">{t("info:vigo.title")}</CardTitle>
+            <Badge variant="secondary">{t("info:vigo.badge")}</Badge>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -126,89 +120,72 @@ export default function InfoPage() {
             ))}
           </div>
 
-<div className="h-px bg-border" />
+          <div className="h-px bg-border" />
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="text-sm text-muted-foreground">
-              Next: we can add curated suggestions, walking routes, and station-based tips.
-            </div>
-            <Button variant="outline">Coming soon</Button>
+            <div className="text-sm text-muted-foreground">{t("info:vigo.nextText")}</div>
+            <Button variant="outline">{t("info:vigo.comingSoon")}</Button>
           </div>
         </CardContent>
       </Card>
 
- {/* About the developer */}
- <Card className="border border-border/60">
-   <CardHeader className="pb-3">
-     <div className="flex items-center justify-between gap-3">
-       <CardTitle className="text-base">About the developer</CardTitle>
-       <Badge variant="outline">Personal</Badge>
-     </div>
-   </CardHeader>
+      {/* About the developer */}
+      <Card className="border border-border/60">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between gap-3">
+            <CardTitle className="text-base">{t("info:about.title")}</CardTitle>
+            <Badge variant="outline">{t("info:about.badge")}</Badge>
+          </div>
+        </CardHeader>
 
-   <CardContent className="space-y-5">
-     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-       {/* Photo */}
-       <div className="flex-shrink-0">
-         <img
-           src={profilePhoto}
-           alt="Alfonso"
-           className="
-             h-28 w-28 rounded-2xl object-cover
-             border border-border/60
-             shadow-sm
-           "
-           draggable={false}
-         />
-       </div>
+        <CardContent className="space-y-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            {/* Photo */}
+            <div className="flex-shrink-0">
+              <img
+                src={profilePhoto}
+                alt={t("info:about.photoAlt")}
+                className="
+                  h-28 w-28 rounded-2xl object-cover
+                  border border-border/60
+                  shadow-sm
+                "
+                draggable={false}
+              />
+            </div>
 
-       {/* Text */}
-       <div className="space-y-2">
-         <p className="text-sm text-muted-foreground leading-relaxed">
-           Hi, I’m <span className="font-medium text-foreground">Alfonso</span>, the developer behind this project.
-           <span className="font-medium text-foreground"> Vigo Metro</span> is a{" "}
-           <span className="font-medium text-foreground">fictional</span> application created for fun and exploration:
-           a way to experiment with UI/UX, transport systems, and present a more modern, digital vision of the city of Vigo.
-         </p>
+            {/* Text */}
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("info:about.paragraph1", { name: "Alfonso" })}
+              </p>
 
-         <p className="text-sm text-muted-foreground leading-relaxed">
-           The project combines frontend design, data modeling, and interaction patterns inspired by real metro networks,
-           but it has <span className="font-medium text-foreground">no official or institutional affiliation</span>.
-         </p>
-       </div>
-     </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("info:about.paragraph2")}
+              </p>
+            </div>
+          </div>
 
-     {/* Actions */}
-     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-       <Button variant="outline" asChild className="gap-2">
-         <a
-           href="https://github.com/FonsiFernandez"
-           target="_blank"
-           rel="noreferrer"
-         >
-           <Github className="h-4 w-4" />
-           GitHub
-         </a>
-       </Button>
+          {/* Actions */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Button variant="outline" asChild className="gap-2">
+              <a href="https://github.com/FonsiFernandez" target="_blank" rel="noreferrer">
+                <Github className="h-4 w-4" />
+                GitHub
+              </a>
+            </Button>
 
-       <Button variant="outline" asChild className="gap-2">
-         <a
-           href="https://www.linkedin.com/in/fonsifernandez/"
-           target="_blank"
-           rel="noreferrer"
-         >
-           <Linkedin className="h-4 w-4" />
-           LinkedIn
-         </a>
-       </Button>
-     </div>
+            <Button variant="outline" asChild className="gap-2">
+              <a href="https://www.linkedin.com/in/fonsifernandez/" target="_blank" rel="noreferrer">
+                <Linkedin className="h-4 w-4" />
+                LinkedIn
+              </a>
+            </Button>
+          </div>
 
-     <div className="text-xs text-muted-foreground">
-       Built as a personal UI/UX and engineering showcase · Data and services simulated.
-     </div>
-   </CardContent>
- </Card>
+          <div className="text-xs text-muted-foreground">{t("info:about.footer")}</div>
+        </CardContent>
+      </Card>
     </div>
-
   );
 }

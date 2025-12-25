@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useQuery, useQueries } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import {
   getLines,
   type Line,
@@ -15,16 +16,29 @@ import { Badge } from "../components/ui/badge";
 import { Link } from "react-router-dom";
 
 function StatusBadge({ status }: { status: Line["status"] }) {
-  if (status === "OK") return <Badge className="bg-emerald-600 text-white">OK</Badge>;
-  if (status === "DELAYED") return <Badge variant="secondary">Delayed</Badge>;
-  if (status === "DOWN") return <Badge variant="destructive">Down</Badge>;
+  const { t } = useTranslation(["lines", "common"]);
+
+  if (status === "OK")
+    return <Badge className="bg-emerald-600 text-white">{t("lines:status.ok")}</Badge>;
+  if (status === "DELAYED")
+    return <Badge variant="secondary">{t("lines:status.delayed")}</Badge>;
+  if (status === "DOWN")
+    return <Badge variant="destructive">{t("lines:status.down")}</Badge>;
+
+  // fallback por si aparece un estado nuevo
   return <Badge variant="outline">{status}</Badge>;
 }
 
 function IncidentBadge({ count }: { count: number | undefined }) {
-  if (count === undefined) return <Badge variant="outline">Incidents…</Badge>;
-  if (count === 0) return <Badge variant="outline">No incidents</Badge>;
-  return <Badge variant="destructive">{count} incident{count > 1 ? "s" : ""}</Badge>;
+  const { t } = useTranslation(["lines", "common"]);
+
+  if (count === undefined) return <Badge variant="outline">{t("lines:incidents.loading")}</Badge>;
+  if (count === 0) return <Badge variant="outline">{t("lines:incidents.none")}</Badge>;
+  return (
+    <Badge variant="destructive">
+      {t("lines:incidents.count", { count })}
+    </Badge>
+  );
 }
 
 function StationsPreview({
@@ -34,23 +48,29 @@ function StationsPreview({
   stations?: Station[];
   isError?: boolean;
 }) {
-  if (isError) return <div className="text-xs text-destructive">Stations: failed</div>;
-  if (!stations) return <div className="text-xs text-muted-foreground">Stations: loading…</div>;
-  if (stations.length === 0) return <div className="text-xs text-muted-foreground">Stations: —</div>;
+  const { t } = useTranslation(["lines", "common"]);
+
+  if (isError) return <div className="text-xs text-destructive">{t("lines:stations.failed")}</div>;
+  if (!stations) return <div className="text-xs text-muted-foreground">{t("lines:stations.loading")}</div>;
+  if (stations.length === 0) return <div className="text-xs text-muted-foreground">{t("lines:stations.empty")}</div>;
 
   const shown = stations.slice(0, 4);
   const remaining = Math.max(0, stations.length - shown.length);
 
   return (
     <div className="text-xs">
-      <span className="text-muted-foreground">Stations: </span>
+      <span className="text-muted-foreground">{t("lines:stations.label")} </span>
       {shown.map((s, idx) => (
         <span key={s.id}>
           <span className="font-medium">{s.name}</span>
           {idx < shown.length - 1 ? <span className="text-muted-foreground"> → </span> : null}
         </span>
       ))}
-      {remaining > 0 && <span className="text-muted-foreground"> (+{remaining})</span>}
+      {remaining > 0 && (
+        <span className="text-muted-foreground">
+          {t("lines:stations.more", { count: remaining })}
+        </span>
+      )}
     </div>
   );
 }
@@ -62,13 +82,15 @@ function ArrivalsPreview({
   arrivals?: NextArrival[];
   isError?: boolean;
 }) {
-  if (isError) return <div className="text-xs text-destructive">Arrivals: failed</div>;
-  if (!arrivals) return <div className="text-xs text-muted-foreground">Arrivals: loading…</div>;
-  if (arrivals.length === 0) return <div className="text-xs text-muted-foreground">Arrivals: —</div>;
+  const { t } = useTranslation(["lines", "common"]);
+
+  if (isError) return <div className="text-xs text-destructive">{t("lines:arrivals.failed")}</div>;
+  if (!arrivals) return <div className="text-xs text-muted-foreground">{t("lines:arrivals.loading")}</div>;
+  if (arrivals.length === 0) return <div className="text-xs text-muted-foreground">{t("lines:arrivals.empty")}</div>;
 
   return (
     <div className="text-xs">
-      <span className="text-muted-foreground">Next arrivals: </span>
+      <span className="text-muted-foreground">{t("lines:arrivals.label")} </span>
       <div className="mt-1 flex flex-col gap-1">
         {arrivals.slice(0, 3).map((a, idx) => (
           <div
@@ -78,7 +100,9 @@ function ArrivalsPreview({
             <span className="truncate">
               <span className="font-medium">{a.direction}</span>
             </span>
-            <span className="whitespace-nowrap font-medium">{a.minutes} min</span>
+            <span className="whitespace-nowrap font-medium">
+              {t("lines:arrivals.minutes", { minutes: a.minutes })}
+            </span>
           </div>
         ))}
       </div>
@@ -87,6 +111,8 @@ function ArrivalsPreview({
 }
 
 export default function Lines() {
+  const { t } = useTranslation(["lines", "common"]);
+
   const { data: lines, isLoading, error } = useQuery({
     queryKey: ["lines"],
     queryFn: getLines,
@@ -174,8 +200,8 @@ export default function Lines() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Lines</h1>
-        <p className="text-muted-foreground">All metro lines and their current status.</p>
+        <h1 className="text-2xl font-bold tracking-tight">{t("lines:title")}</h1>
+        <p className="text-muted-foreground">{t("lines:subtitle")}</p>
       </div>
 
       {isLoading && (

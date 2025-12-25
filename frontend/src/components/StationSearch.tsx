@@ -6,8 +6,11 @@ import { Input } from "./ui/input";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function StationSearch() {
+  const { t } = useTranslation(["common"]);
+
   const [q, setQ] = useState("");
   const debounced = useDebouncedValue(q, 250);
 
@@ -22,10 +25,6 @@ export default function StationSearch() {
 
   const results = useMemo(() => data ?? [], [data]);
 
-  // Igual que el planner: solo mostramos sugerencias si:
-  // - enabled (>= 1 char)
-  // - hay query
-  // - y NO hay una estación "seleccionada" (aquí no hay selection, así que: enabled && q.trim().length > 0)
   const showSuggestions = enabled && q.trim().length > 0;
 
   return (
@@ -34,8 +33,9 @@ export default function StationSearch() {
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search stations (e.g., Urzaiz, Teis, Coia...)"
+          placeholder={t("stationSearch.placeholder")}
           className="h-11 pr-10"
+          aria-label={t("stationSearch.aria.input")}
         />
 
         {q.length > 0 && (
@@ -43,7 +43,8 @@ export default function StationSearch() {
             type="button"
             onClick={() => setQ("")}
             className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="Clear search"
+            aria-label={t("stationSearch.aria.clear")}
+            title={t("stationSearch.aria.clear")}
           >
             ✕
           </button>
@@ -52,21 +53,20 @@ export default function StationSearch() {
 
       {showSuggestions && (
         <div className="absolute z-30 mt-2 w-full">
-          {/* MISMO estilo que StationPicker */}
           <Card className="overflow-hidden bg-background/95 backdrop-blur-xl border border-border/60 shadow-2xl">
             <div className="border-b border-border/60 px-3 py-2 text-xs text-muted-foreground">
               {isError
-                ? "Error"
+                ? t("stationSearch.state.error")
                 : isFetching
-                ? "Searching…"
+                ? t("stationSearch.state.searching")
                 : results.length
-                ? "Stations"
-                : "No results"}
+                ? t("stationSearch.state.stations")
+                : t("stationSearch.state.noResults")}
             </div>
 
             {isError && (
               <div className="px-3 py-3 text-sm text-destructive">
-                {(error as Error)?.message ?? "Something went wrong"}
+                {(error as Error)?.message ?? t("stationSearch.state.genericError")}
               </div>
             )}
 
@@ -84,12 +84,14 @@ export default function StationSearch() {
                         <div className="text-xs text-muted-foreground">
                           {s.lat && s.lon
                             ? `${s.lat.toFixed(4)}, ${s.lon.toFixed(4)}`
-                            : "No coordinates"}
+                            : t("stationSearch.noCoordinates")}
                         </div>
                       </div>
 
                       <Badge variant={s.accessible ? "secondary" : "outline"}>
-                        {s.accessible ? "Accessible" : "Limited"}
+                        {s.accessible
+                          ? t("stationSearch.accessible")
+                          : t("stationSearch.limited")}
                       </Badge>
                     </Link>
                   </li>

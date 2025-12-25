@@ -1,0 +1,29 @@
+{
+  "title": "Lineak",
+  "subtitle": "Metro lineak eta haien uneko egoera.",
+  "status": {
+    "ok": "OK",
+    "delayed": "Atzerapenarekin",
+    "down": "Etena"
+  },
+  "incidents": {
+    "loading": "Gorabeherak…",
+    "none": "Gorabeherarik ez",
+    "count": "{{count}} gorabehera",
+    "count_plural": "{{count}} gorabehera"
+  },
+  "stations": {
+    "label": "Geltokiak:",
+    "loading": "Geltokiak: kargatzen…",
+    "failed": "Geltokiak: huts egin du",
+    "empty": "Geltokiak: —",
+    "more": " (+{{count}})"
+  },
+  "arrivals": {
+    "label": "Hurrengo iristeak:",
+    "loading": "Iritzeak: kargatzen…",
+    "failed": "Iritzeak: huts egin du",
+    "empty": "Iritzeak: —",
+    "minutes": "{{minutes}} min"
+  }
+}

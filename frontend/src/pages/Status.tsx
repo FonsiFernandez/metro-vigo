@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { getLines, getActiveIncidents, type Incident } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -7,40 +8,50 @@ import { Button } from "../components/ui/button";
 import { AlertTriangle, CircleAlert, Info, Siren } from "lucide-react";
 
 function SeverityPill({ severity }: { severity: Incident["severity"] | string }) {
+  const { t } = useTranslation(["status", "common"]);
+
   const base =
     "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold border";
 
   if (severity === "CRITICAL") {
     return (
-      <span className={`${base} bg-red-50 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-200 dark:border-red-900/40`}>
+      <span
+        className={`${base} bg-red-50 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-200 dark:border-red-900/40`}
+      >
         <Siren className="h-3.5 w-3.5" />
-        CRITICAL
+        {t("status:severity.critical")}
       </span>
     );
   }
 
   if (severity === "MAJOR") {
     return (
-      <span className={`${base} bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/25 dark:text-orange-200 dark:border-orange-900/40`}>
+      <span
+        className={`${base} bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/25 dark:text-orange-200 dark:border-orange-900/40`}
+      >
         <CircleAlert className="h-3.5 w-3.5" />
-        MAJOR
+        {t("status:severity.major")}
       </span>
     );
   }
 
   if (severity === "MINOR") {
     return (
-      <span className={`${base} bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-950/25 dark:text-yellow-200 dark:border-yellow-900/40`}>
+      <span
+        className={`${base} bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-950/25 dark:text-yellow-200 dark:border-yellow-900/40`}
+      >
         <AlertTriangle className="h-3.5 w-3.5" />
-        MINOR
+        {t("status:severity.minor")}
       </span>
     );
   }
 
   return (
-    <span className={`${base} bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/25 dark:text-blue-200 dark:border-blue-900/40`}>
+    <span
+      className={`${base} bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/25 dark:text-blue-200 dark:border-blue-900/40`}
+    >
       <Info className="h-3.5 w-3.5" />
-      INFO
+      {t("status:severity.info")}
     </span>
   );
 }
@@ -68,6 +79,8 @@ function StatusStat({
 }
 
 export default function Status() {
+  const { t } = useTranslation(["status", "common"]);
+
   const linesQuery = useQuery({ queryKey: ["lines"], queryFn: getLines, staleTime: 30_000 });
   const incidentsQuery = useQuery({
     queryKey: ["incidents", "active"],
@@ -94,13 +107,11 @@ export default function Status() {
     };
 
     for (const i of incidents) {
-      // en tu backend tienes scope: NETWORK/LINE/STATION (si no, esto sigue funcionando por fallback)
       const scope = (i as any).scope as "NETWORK" | "LINE" | "STATION" | undefined;
-      if (scope && byScope[scope]) byScope[scope].push(i);
+      if (scope && (byScope as any)[scope]) (byScope as any)[scope].push(i);
       else byScope.NETWORK.push(i);
     }
 
-    // ordena por severidad (CRITICAL > MAJOR > MINOR > INFO)
     const rank = (s: any) =>
       s === "CRITICAL" ? 0 : s === "MAJOR" ? 1 : s === "MINOR" ? 2 : 3;
 
@@ -125,19 +136,17 @@ export default function Status() {
 
   const networkState =
     summary.down > 0
-      ? { label: "Disrupted", badge: "DOWN", variant: "destructive" as const }
+      ? { label: t("status:networkState.disrupted"), badge: "DOWN", variant: "destructive" as const }
       : summary.delayed > 0
-      ? { label: "Delays", badge: "DELAYED", variant: "secondary" as const }
-      : { label: "Good service", badge: "OK", variant: "outline" as const };
+      ? { label: t("status:networkState.delays"), badge: "DELAYED", variant: "secondary" as const }
+      : { label: t("status:networkState.goodService"), badge: "OK", variant: "outline" as const };
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Network Status</h1>
-          <p className="text-muted-foreground">
-            A clearer view of service and incidents.
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{t("status:title")}</h1>
+          <p className="text-muted-foreground">{t("status:subtitle")}</p>
         </div>
 
         <Badge variant={networkState.variant} className="h-7">
@@ -145,7 +154,7 @@ export default function Status() {
         </Badge>
       </div>
 
-      {/* Top banner: “what matters now” */}
+      {/* Top banner */}
       <Card className="border border-border/60">
         <CardContent className="py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -153,7 +162,7 @@ export default function Status() {
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold">{networkState.label}</span>
                 <span className="text-xs text-muted-foreground">
-                  · {incidents.length} active alert{incidents.length === 1 ? "" : "s"}
+                  · {t("status:activeAlerts", { count: incidents.length })}
                 </span>
               </div>
 
@@ -164,15 +173,15 @@ export default function Status() {
                     {" "}
                     —{" "}
                     {(topSummary as any).lineCode
-                      ? `Line ${(topSummary as any).lineCode}`
+                      ? t("status:scope.lineWithCode", { code: (topSummary as any).lineCode })
                       : (topSummary as any).stationName
                       ? (topSummary as any).stationName
-                      : "Network"}
+                      : t("status:scope.network")}
                   </span>
                 </div>
               ) : (
                 <div className="mt-2 text-sm text-muted-foreground">
-                  No active incidents. Service is running normally.
+                  {t("status:noActiveIncidents")}
                 </div>
               )}
             </div>
@@ -183,7 +192,7 @@ export default function Status() {
                 onClick={() => window.scrollTo({ top: 99999, behavior: "smooth" })}
                 disabled={!incidents.length}
               >
-                View incidents
+                {t("status:actions.viewIncidents")}
               </Button>
             </div>
           </div>
@@ -192,43 +201,46 @@ export default function Status() {
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-4">
-        <StatusStat label="Total lines" value={summary.total} />
-        <StatusStat label="OK" value={summary.ok} hint="Normal service" />
-        <StatusStat label="Delayed" value={summary.delayed} hint="Minor disruptions" />
-        <StatusStat label="Down" value={summary.down} hint="Severe disruption" />
+        <StatusStat label={t("status:stats.totalLines")} value={summary.total} />
+        <StatusStat label={t("status:stats.ok.label")} value={summary.ok} hint={t("status:stats.ok.hint")} />
+        <StatusStat
+          label={t("status:stats.delayed.label")}
+          value={summary.delayed}
+          hint={t("status:stats.delayed.hint")}
+        />
+        <StatusStat label={t("status:stats.down.label")} value={summary.down} hint={t("status:stats.down.hint")} />
       </div>
 
       {/* Incidents */}
       <Card className="border border-border/60">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between gap-3">
-            <CardTitle className="text-base">Active incidents</CardTitle>
+            <CardTitle className="text-base">{t("status:incidents.title")}</CardTitle>
             <Badge variant="outline">{incidents.length}</Badge>
           </div>
         </CardHeader>
 
         <CardContent className="space-y-6">
           {incidentsQuery.isLoading ? (
-            <div className="text-sm text-muted-foreground">Loading incidents…</div>
+            <div className="text-sm text-muted-foreground">{t("status:incidents.loading")}</div>
           ) : incidentsQuery.isError ? (
             <div className="text-sm text-destructive">
               {(incidentsQuery.error as Error).message}
             </div>
           ) : incidents.length === 0 ? (
             <div className="rounded-xl border border-border/50 bg-background/60 p-4 text-sm text-muted-foreground">
-              No active incidents.
+              {t("status:incidents.none")}
             </div>
           ) : (
             <>
-              {/* Grouped sections for easier scanning */}
               {(
                 [
-                  ["NETWORK", "Network-wide"],
-                  ["LINE", "By line"],
-                  ["STATION", "By station"],
+                  ["NETWORK", t("status:groups.networkWide")],
+                  ["LINE", t("status:groups.byLine")],
+                  ["STATION", t("status:groups.byStation")],
                 ] as const
               ).map(([key, label]) => {
-                const list = grouped[key];
+                const list = (grouped as any)[key] as Incident[];
                 if (!list?.length) return null;
 
                 return (
@@ -236,7 +248,7 @@ export default function Status() {
                     <div className="flex items-center justify-between">
                       <div className="text-sm font-semibold">{label}</div>
                       <div className="text-xs text-muted-foreground">
-                        {list.length} item{list.length === 1 ? "" : "s"}
+                        {t("status:groups.items", { count: list.length })}
                       </div>
                     </div>
 
@@ -258,16 +270,19 @@ export default function Status() {
 
                               <div className="mt-1 text-xs text-muted-foreground">
                                 {i.lineCode
-                                  ? `Line ${i.lineCode}`
+                                  ? t("status:scope.lineWithCode", { code: i.lineCode })
                                   : i.stationName
                                   ? i.stationName
-                                  : "Network"}
+                                  : t("status:scope.network")}
                               </div>
                             </div>
 
-                            {/* Optional: show a short “chip” for where it applies */}
                             <Badge variant="secondary" className="self-start">
-                              {i.lineCode ? i.lineCode : i.stationName ? "Station" : "Network"}
+                              {i.lineCode
+                                ? i.lineCode
+                                : i.stationName
+                                ? t("status:scope.station")
+                                : t("status:scope.network")}
                             </Badge>
                           </div>
 

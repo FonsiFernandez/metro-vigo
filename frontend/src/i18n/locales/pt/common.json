@@ -1,5 +1,50 @@
 {
-  "app": { "name": "Vigo Metro", "tagline": "Rede fictícia" },
-  "nav": { "home": "Início", "lines": "Linhas", "status": "Estado", "map": "Mapa", "info": "Informação" },
-  "home": { "planTrip": "Planeie a sua viagem", "from": "Origem", "to": "Destino", "date": "Data", "time": "Hora", "getRoute": "Calcular rota" }
+  "app": {
+    "name": "Vigo Metro",
+    "tagline": "Rede fictícia",
+    "subtitle": "Rede urbana · fictícia"
+  },
+  "nav": {
+    "home": "Início",
+    "lines": "Linhas",
+    "status": "Estado",
+    "map": "Mapa",
+    "info": "Info"
+  },
+  "language": { "label": "Idioma" },
+  "theme": { "toggle": "Alternar tema" },
+  "alerts": {
+    "title": "Alertas de serviço",
+    "active": "{{count}} ativos",
+    "more": "+{{count}} mais"
+  },
+  "severity": {
+    "critical": "CRÍTICO",
+    "major": "GRAVE",
+    "minor": "LEVE",
+    "info": "INFO"
+  },
+  "footer": {
+    "aboutTitle": "Sobre este projeto",
+    "aboutText": "Sou Alfonso, desenvolvedor desta aplicação. Vigo Metro é um projeto fictício criado para fins exploratórios e demonstrativos, sem qualquer afiliação institucional.",
+    "copyright": "© {{year}} Vigo Metro (ficção) · Demo UI/UX · Dados simulados",
+    "logosNote": "Logótipos usados apenas para fins ilustrativos num projeto fictício (não oficial)."
+  },
+  "stationSearch": {
+    "placeholder": "Procurar estações (ex.: Urzaiz, Teis, Coia...)",
+    "aria": {
+      "input": "Procurar estações",
+      "clear": "Limpar pesquisa"
+    },
+    "state": {
+      "error": "Erro",
+      "searching": "A procurar…",
+      "stations": "Estações",
+      "noResults": "Sem resultados",
+      "genericError": "Algo correu mal"
+    },
+    "noCoordinates": "Sem coordenadas",
+    "accessible": "Acessível",
+    "limited": "Limitado"
+  }
 }

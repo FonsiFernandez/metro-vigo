@@ -1,0 +1,53 @@
+{
+  "subtitle": "Geltokiaren xehetasunak",
+  "notFound": "Geltokia ez da aurkitu",
+  "accessAndServices": {
+    "title": "Irisgarritasuna eta zerbitzuak",
+    "accessibility": {
+      "label": "Irisgarritasuna",
+      "titleAccessible": "Mailarik gabeko sarbidea",
+      "titleLimited": "Sarbide mugatua",
+      "descAccessible": "Ibilbidearen zati handi batean mugikortasun murrizturako egokia.",
+      "descLimited": "Eskailerak edo arrapalarik edo igogailurik gabeko zatiak behar izan ditzake.",
+      "badgeAccessible": "Irisgarria",
+      "badgeLimited": "Mugatua"
+    },
+    "facilities": {
+      "title": "Geltokiko zerbitzuak"
+    },
+    "disclaimer": "Vigo Metro proiektu fikziozkoarentzako datu orientagarriak."
+  },
+  "facilities": {
+    "yes": "Bai",
+    "no": "Ez",
+    "available": "eskuragarri",
+    "notAvailable": "ez dago eskuragarri",
+    "aria": "{{label}}: {{status}}",
+    "labels": {
+      "elevator": "Igogailua",
+      "toilets": "Komunak",
+      "info": "Informazioa",
+      "ebikes": "e-Bike-ak",
+      "bikeParking": "Bizikleten aparkalekua"
+    }
+  },
+  "location": {
+    "title": "Kokapena",
+    "openGoogleMaps": "Ireki Google Maps-en",
+    "openOSM": "Ireki OSM-en",
+    "noCoordinates": "Koordenaturik ez"
+  },
+  "nextTrains": {
+    "title": "Hurrengo trenak",
+    "updating": "Eguneratzen…",
+    "updated": "Eguneratuta",
+    "arriving": "Iristen",
+    "inMinutes": "{{minutes}} min",
+    "none": "Ez dago hurbileko trenik."
+  },
+  "linesServing": {
+    "title": "Geltoki hau zerbitzatzen duten lineak",
+    "loading": "Lineak kargatzen…",
+    "none": "Ez da linearik aurkitu."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "page": {
+    "title": "Informació",
+    "subtitle": "Guia pràctica, valors i punts destacats de la ciutat. (Projecte fictici)"
+  },
+  "values": {
+    "title": "Els nostres valors",
+    "badge": "Visió",
+    "items": [
+      { "title": "Seguretat primer", "text": "Andanes segures i senyalització clara." },
+      { "title": "Accessibilitat", "text": "Accés sense barreres quan és possible." },
+      { "title": "Sostenibilitat", "text": "Menys trànsit i emissions." },
+      { "title": "Fiabilitat", "text": "Línies simples i alertes útils." }
+    ]
+  },
+  "rules": {
+    "title": "Normes del metro",
+    "badge": "Cal saber",
+    "items": [
+      { "title": "Valida abans de viatjar", "text": "Porta sempre un títol vàlid." },
+      { "title": "Escales mecàniques", "text": "Dreta per estar, esquerra per passar." },
+      { "title": "Zones tranquil·les", "text": "Redueix el volum." },
+      { "title": "Prohibit fumar", "text": "No permès a estacions ni trens." },
+      { "title": "Seients prioritaris", "text": "Per a persones amb mobilitat reduïda." },
+      { "title": "Bicicletes", "text": "Permeses fora d’hores punta." }
+    ],
+    "disclaimer": "Normes orientatives del projecte Vigo Metro."
+  },
+  "fines": {
+    "title": "Multes",
+    "badge": "Orientatiu",
+    "items": [
+      { "label": "Bitllet no vàlid", "amount": "60–120 €", "note": "Segons la situació." },
+      { "label": "Ús indegut d’emergències", "amount": "150 €+", "note": "Inclou falses alarmes." },
+      { "label": "Vandalisme", "amount": "300 €+", "note": "Costos addicionals." },
+      { "label": "Conducta disruptiva", "amount": "80–200 €", "note": "Tractat seriosament." }
+    ],
+    "disclaimer": "Polítiques a definir."
+  },
+  "vigo": {
+    "title": "Vigo — punts destacats",
+    "badge": "Turisme",
+    "items": [
+      { "title": "Ciutat marítima", "text": "Identitat portuària." },
+      { "title": "Platges", "text": "Accés ràpid a Samil." },
+      { "title": "Cultura i menjar", "text": "Cuina gallega." },
+      { "title": "Bones connexions", "text": "Tren i aeroport." }
+    ],
+    "nextText": "Properament: rutes i suggeriments.",
+    "comingSoon": "Properament"
+  },
+  "about": {
+    "title": "Sobre el desenvolupador",
+    "badge": "Personal",
+    "photoAlt": "Alfonso",
+    "paragraph1": "Hola, soc {{name}}, el desenvolupador del projecte fictici Vigo Metro.",
+    "paragraph2": "Sense afiliació institucional.",
+    "footer": "Projecte personal · Dades simulades."
+  }
+}

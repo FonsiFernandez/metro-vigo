@@ -1,0 +1,60 @@
+{
+  "page": {
+    "title": "Información",
+    "subtitle": "Guía práctica, valores y destacados de la ciudad. (Proyecto ficticio)"
+  },
+  "values": {
+    "title": "Nuestros valores",
+    "badge": "Visión",
+    "items": [
+      { "title": "Seguridad ante todo", "text": "Diseñado en torno a andenes seguros, señalización clara y un servicio predecible." },
+      { "title": "Accesibilidad", "text": "Acceso sin escalones cuando es posible, interfaz legible y orientación inclusiva." },
+      { "title": "Sostenibilidad", "text": "Mejor movilidad con menos tráfico, ruido y emisiones en el centro urbano." },
+      { "title": "Fiabilidad", "text": "Líneas sencillas, transbordos intuitivos y avisos cuando realmente importan." }
+    ]
+  },
+  "rules": {
+    "title": "Normas del metro",
+    "badge": "A tener en cuenta",
+    "items": [
+      { "title": "Valida antes de viajar", "text": "Lleva siempre un billete o abono válido para posibles inspecciones." },
+      { "title": "Circula por las escaleras mecánicas", "text": "Permanece a la derecha y deja pasar por la izquierda." },
+      { "title": "Respeta las zonas tranquilas", "text": "Reduce el volumen y mantén las llamadas breves, sobre todo en horas punta." },
+      { "title": "No fumar ni vapear", "text": "No está permitido en estaciones, trenes ni accesos." },
+      { "title": "Asientos prioritarios", "text": "Reservados para personas con movilidad reducida, embarazadas y mayores." },
+      { "title": "Bicis y patinetes", "text": "Permitidos fuera de horas punta si hay espacio. Plegables en cualquier momento." }
+    ],
+    "disclaimer": "Normas orientativas para el proyecto ficticio Vigo Metro."
+  },
+  "fines": {
+    "title": "Multas y control",
+    "badge": "Orientativo",
+    "items": [
+      { "label": "Billete no válido", "amount": "60–120 €", "note": "Depende de reincidencia y circunstancias." },
+      { "label": "Uso indebido de equipos de emergencia", "amount": "150 €+", "note": "Incluye falsas alarmas y obstrucciones." },
+      { "label": "Vandalismo / daños", "amount": "300 €+", "note": "Más costes de reparación y acciones legales." },
+      { "label": "Comportamiento disruptivo", "amount": "80–200 €", "note": "Las incidencias de seguridad se tratan con seriedad." }
+    ],
+    "disclaimer": "Las políticas finales dependerían de las autoridades competentes."
+  },
+  "vigo": {
+    "title": "Vigo — destacados de la ciudad",
+    "badge": "Turismo",
+    "items": [
+      { "title": "Ciudad marítima", "text": "Fuerte identidad portuaria, paseos marítimos y miradores." },
+      { "title": "Playas y naturaleza", "text": "Acceso rápido a Samil y a la costa, además de rutas y miradores cercanos." },
+      { "title": "Cultura y gastronomía", "text": "Cocina gallega, marisco y barrios con personalidad." },
+      { "title": "Buenas conexiones", "text": "Nudo ferroviario y aeropuerto que facilitan explorar la región." }
+    ],
+    "nextText": "Siguiente paso: sugerencias, rutas a pie y consejos por estación.",
+    "comingSoon": "Próximamente"
+  },
+  "about": {
+    "title": "Sobre el desarrollador",
+    "badge": "Personal",
+    "photoAlt": "Alfonso",
+    "paragraph1": "Hola, soy {{name}}, el desarrollador detrás de este proyecto. Vigo Metro es una aplicación ficticia creada por diversión y exploración: una forma de experimentar con UI/UX, sistemas de transporte y una visión más moderna y digital de la ciudad de Vigo.",
+    "paragraph2": "El proyecto combina diseño frontend, modelado de datos y patrones de interacción inspirados en redes reales, pero no tiene ninguna afiliación oficial o institucional.",
+    "footer": "Creado como muestra personal de UI/UX e ingeniería · Datos y servicios simulados."
+  }
+}

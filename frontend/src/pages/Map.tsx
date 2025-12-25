@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +67,8 @@ function buildGeo(lines: LineDetail[]) {
 }
 
 export default function MapPage() {
-    const navigate = useNavigate();
+  const { t } = useTranslation(["map", "common"]);
+  const navigate = useNavigate();
 
   const linesQuery = useQuery({
     queryKey: ["lines"],
@@ -91,21 +93,18 @@ export default function MapPage() {
   }, [detailsQuery.data]);
 
   // Center around Vigo-ish
-  const initial = useMemo(
-    () => ({ lng: -8.72, lat: 42.235, zoom: 12.2 }),
-    []
-  );
+  const initial = useMemo(() => ({ lng: -8.72, lat: 42.235, zoom: 12.2 }), []);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Network map</h1>
-        <p className="text-muted-foreground">Stations and lines (fictional)</p>
+        <h1 className="text-2xl font-bold tracking-tight">{t("map:title")}</h1>
+        <p className="text-muted-foreground">{t("map:subtitle")}</p>
       </div>
 
       <Card className="overflow-hidden">
         <CardHeader>
-          <CardTitle className="text-base">Map</CardTitle>
+          <CardTitle className="text-base">{t("map:cardTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-[520px] w-full overflow-hidden rounded-xl border">
@@ -130,7 +129,6 @@ function MapLibreView({
   geo: { stations: FeatureCollection; lines: FeatureCollection } | null;
   onStationClick: (stationId: number) => void;
 }) {
-
   // Simple imperative mount (no extra libs)
   return (
     <div
@@ -144,7 +142,7 @@ function MapLibreView({
 
         const map = new maplibregl.Map({
           container: el,
-style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+          style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
           center: [initial.lng, initial.lat],
           zoom: initial.zoom,
         });
@@ -154,8 +152,6 @@ style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
         map.addControl(new maplibregl.NavigationControl(), "top-right");
 
         map.on("load", () => {
-
-
           map.addSource("lines", {
             type: "geojson",
             data: geo?.lines ?? { type: "FeatureCollection", features: [] },
@@ -166,26 +162,17 @@ style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
             data: geo?.stations ?? { type: "FeatureCollection", features: [] },
           });
 
-          // Lines layer (colored per feature)
           map.addLayer({
             id: "lines-layer",
             type: "line",
             source: "lines",
             paint: {
-              "line-width": [
-                "interpolate",
-                ["linear"],
-                ["zoom"],
-                10, 3,
-                13, 6,
-                15, 10
-              ],
+              "line-width": ["interpolate", ["linear"], ["zoom"], 10, 3, 13, 6, 15, 10],
               "line-opacity": 0.85,
               "line-color": ["get", "colorHex"],
             },
           });
 
-          // Stations circles
           map.addLayer({
             id: "stations-layer",
             type: "circle",
@@ -198,7 +185,6 @@ style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
             },
           });
 
-          // Station labels
           map.addLayer({
             id: "stations-labels",
             type: "symbol",
@@ -216,13 +202,12 @@ style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
             },
           });
 
-          // Click station -> show popup (y luego lo conectamos a /stations/:id)
-         map.on("click", "stations-layer", (e) => {
-           const f = e.features?.[0];
-           const rawId = (f?.properties as any)?.id;
-           const stationId = Number(rawId);
-           if (Number.isFinite(stationId)) onStationClick(stationId);
-         });
+          map.on("click", "stations-layer", (e) => {
+            const f = e.features?.[0];
+            const rawId = (f?.properties as any)?.id;
+            const stationId = Number(rawId);
+            if (Number.isFinite(stationId)) onStationClick(stationId);
+          });
 
           map.on("mouseenter", "stations-layer", () => {
             map.getCanvas().style.cursor = "pointer";

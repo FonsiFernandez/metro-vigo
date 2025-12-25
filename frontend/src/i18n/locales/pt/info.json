@@ -1,0 +1,60 @@
+{
+  "page": {
+    "title": "Informação",
+    "subtitle": "Guia prático, valores e destaques da cidade. (Projeto fictício)"
+  },
+  "values": {
+    "title": "Os nossos valores",
+    "badge": "Visão",
+    "items": [
+      { "title": "Segurança em primeiro lugar", "text": "Plataformas seguras, sinalização clara e serviço previsível." },
+      { "title": "Acessibilidade", "text": "Acesso sem degraus sempre que possível." },
+      { "title": "Sustentabilidade", "text": "Menos tráfego, ruído e emissões." },
+      { "title": "Confiabilidade", "text": "Linhas simples e alertas eficazes." }
+    ]
+  },
+  "rules": {
+    "title": "Regras do metro",
+    "badge": "Bom saber",
+    "items": [
+      { "title": "Valide antes de viajar", "text": "Tenha sempre um bilhete válido." },
+      { "title": "Escadas rolantes", "text": "Fique à direita, caminhe à esquerda." },
+      { "title": "Zonas silenciosas", "text": "Reduza o volume e chamadas." },
+      { "title": "Proibido fumar", "text": "Não permitido em estações ou comboios." },
+      { "title": "Lugares prioritários", "text": "Para mobilidade reduzida e idosos." },
+      { "title": "Bicicletas", "text": "Permitidas fora de horas de ponta." }
+    ],
+    "disclaimer": "Regras ilustrativas do projeto Vigo Metro."
+  },
+  "fines": {
+    "title": "Multas",
+    "badge": "Indicativo",
+    "items": [
+      { "label": "Bilhete inválido", "amount": "60–120 €", "note": "Depende da situação." },
+      { "label": "Uso indevido de emergência", "amount": "150 €+", "note": "Alarmes falsos incluídos." },
+      { "label": "Vandalismo", "amount": "300 €+", "note": "Custos adicionais." },
+      { "label": "Comportamento inadequado", "amount": "80–200 €", "note": "Segurança levada a sério." }
+    ],
+    "disclaimer": "Políticas finais a definir."
+  },
+  "vigo": {
+    "title": "Vigo — destaques",
+    "badge": "Turismo",
+    "items": [
+      { "title": "Cidade marítima", "text": "Vida portuária e passeios." },
+      { "title": "Praias", "text": "Acesso rápido a Samil." },
+      { "title": "Cultura e comida", "text": "Cozinha galega." },
+      { "title": "Boas ligações", "text": "Comboio e aeroporto." }
+    ],
+    "nextText": "Em breve: sugestões e rotas.",
+    "comingSoon": "Em breve"
+  },
+  "about": {
+    "title": "Sobre o desenvolvedor",
+    "badge": "Pessoal",
+    "photoAlt": "Alfonso",
+    "paragraph1": "Olá, sou {{name}}, o desenvolvedor deste projeto fictício Vigo Metro.",
+    "paragraph2": "Não possui qualquer afiliação oficial.",
+    "footer": "Projeto pessoal · Dados simulados."
+  }
+}
