@@ -441,9 +441,9 @@ export default function Home() {
               </div>
             ))}
 
-            <Button variant="outline" className="w-full">
-              Learn more
-            </Button>
+           <Button variant="outline" className="w-full" asChild>
+                         <Link to="/info">Learn more</Link>
+                       </Button>
           </CardContent>
         </Card>
       </div>

@@ -136,7 +136,7 @@ export default function AppShell({ children }: PropsWithChildren) {
                   Metro de Vigo
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  {isHome ? "Rede urbana · ficticia" : "fictional"}
+                 Rede urbana · ficticia
                 </div>
               </div>
             </Link>

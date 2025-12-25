@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+import { Github, Linkedin } from "lucide-react";
+import profilePhoto from "../assets/Foto.JPG";
 
 export default function InfoPage() {
   const values = [
@@ -134,6 +136,79 @@ export default function InfoPage() {
           </div>
         </CardContent>
       </Card>
+
+ {/* About the developer */}
+ <Card className="border border-border/60">
+   <CardHeader className="pb-3">
+     <div className="flex items-center justify-between gap-3">
+       <CardTitle className="text-base">About the developer</CardTitle>
+       <Badge variant="outline">Personal</Badge>
+     </div>
+   </CardHeader>
+
+   <CardContent className="space-y-5">
+     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+       {/* Photo */}
+       <div className="flex-shrink-0">
+         <img
+           src={profilePhoto}
+           alt="Alfonso"
+           className="
+             h-28 w-28 rounded-2xl object-cover
+             border border-border/60
+             shadow-sm
+           "
+           draggable={false}
+         />
+       </div>
+
+       {/* Text */}
+       <div className="space-y-2">
+         <p className="text-sm text-muted-foreground leading-relaxed">
+           Hi, I’m <span className="font-medium text-foreground">Alfonso</span>, the developer behind this project.
+           <span className="font-medium text-foreground"> Metro Vigo</span> is a{" "}
+           <span className="font-medium text-foreground">fictional</span> application created for fun and exploration:
+           a way to experiment with UI/UX, transport systems, and present a more modern, digital vision of the city of Vigo.
+         </p>
+
+         <p className="text-sm text-muted-foreground leading-relaxed">
+           The project combines frontend design, data modeling, and interaction patterns inspired by real metro networks,
+           but it has <span className="font-medium text-foreground">no official or institutional affiliation</span>.
+         </p>
+       </div>
+     </div>
+
+     {/* Actions */}
+     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+       <Button variant="outline" asChild className="gap-2">
+         <a
+           href="https://github.com/FonsiFernandez"
+           target="_blank"
+           rel="noreferrer"
+         >
+           <Github className="h-4 w-4" />
+           GitHub
+         </a>
+       </Button>
+
+       <Button variant="outline" asChild className="gap-2">
+         <a
+           href="https://www.linkedin.com/in/fonsifernandez/"
+           target="_blank"
+           rel="noreferrer"
+         >
+           <Linkedin className="h-4 w-4" />
+           LinkedIn
+         </a>
+       </Button>
+     </div>
+
+     <div className="text-xs text-muted-foreground">
+       Built as a personal UI/UX and engineering showcase · Data and services simulated.
+     </div>
+   </CardContent>
+ </Card>
     </div>
+
   );
 }
