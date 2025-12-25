@@ -98,7 +98,16 @@ export default function AppShell({ children }: PropsWithChildren) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur">
+      <header className="sticky top-0 z-20 border-b">
+       <div
+          aria-hidden
+          className="
+            absolute inset-0
+            bg-background/80
+            backdrop-blur
+          "
+        />
+        <div className="relative">
         <div className="mx-auto max-w-5xl px-4 py-4 space-y-3">
           <div className="flex items-center justify-between gap-3">
             <Link to="/" className="group flex items-center gap-3">
@@ -184,6 +193,7 @@ export default function AppShell({ children }: PropsWithChildren) {
 
             <StationSearch />
           </div>
+        </div>
         </div>
       </header>
 
