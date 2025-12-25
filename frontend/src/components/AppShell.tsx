@@ -13,7 +13,7 @@ import logo from "../assets/logo-small-noback.png";
 
 // Footer partner logos
 import logoSpain from "../assets/logos-spain.png";
-import logoVigo from "../assets/logo-vigo.JPG";
+import logoVigo from "../assets/logo-vigo.jpg";
 import logoXunta from "../assets/logo-xunta.jpg";
 
 import { Button } from "./ui/button";
