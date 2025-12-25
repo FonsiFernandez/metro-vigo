@@ -8,9 +8,7 @@ import TrainTicker from "../components/TrainTicker";
 import { getStationLines, type Line } from "../lib/api";
 import { Link } from "react-router-dom";
 
-import { BadgeCheck, BadgeX, Bike, Info, Toilet, Elevator, ParkingSquare } from "lucide-react";
-import { Badge } from "../components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { BadgeCheck, BadgeX, Bike, Info, Toilet, ParkingSquare, ArrowUpDown } from "lucide-react";
 
 export default function StationDetail() {
   const params = useParams();
@@ -36,6 +34,40 @@ export default function StationDetail() {
       staleTime: 30_000,
     });
 
+function FacilityPill({
+  ok,
+  label,
+  Icon,
+}: {
+  ok: boolean | null | undefined;
+  label: string;
+  Icon: React.ComponentType<{ className?: string }>;
+}) {
+  const isOn = ok === true;
+
+  return (
+    <div
+     title={`${label}`}
+      className={`
+        flex items-center gap-2 rounded-xl border px-3 py-2
+        ${isOn ? "bg-background/70" : "bg-muted/30"}
+      `}
+      aria-label={`${label}: ${isOn ? "available" : "not available"}`}
+    >
+      <Icon className="h-4 w-4 text-muted-foreground" />
+
+      <span
+        className={`
+          ml-auto text-xs font-medium
+          ${isOn ? "text-emerald-600" : "text-muted-foreground"}
+        `}
+      >
+        {isOn ? "Sí" : "No"}
+      </span>
+    </div>
+  );
+}
+
   return (
     <div className="space-y-6">
       {isLoading && <Card className="h-[160px] animate-pulse" />}
@@ -59,15 +91,57 @@ export default function StationDetail() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Accessibility</CardTitle>
+            <Card className="border border-border/60">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Accesibilidad y servicios</CardTitle>
               </CardHeader>
-              <CardContent>
-                <Badge variant={data.accessible ? "secondary" : "outline"}>
-                  {data.accessible ? "Accessible" : "Limited"}
-                </Badge>
-              </CardContent>
+
+            <CardContent className="space-y-5">
+
+              {/* ACCESIBILIDAD */}
+              <div className="rounded-xl border border-border/50 bg-background/60 p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-xs text-muted-foreground">Accesibilidad</div>
+                    <div className="mt-1 text-base font-semibold">
+                      {data.accessible ? "Acceso sin escalones" : "Acceso limitado"}
+                    </div>
+                    <div className="mt-1 text-sm text-muted-foreground">
+                      {data.accessible
+                        ? "Apta para movilidad reducida en la mayor parte del recorrido."
+                        : "Puede requerir escaleras o tramos sin rampa o ascensor."}
+                    </div>
+                  </div>
+
+                  <Badge
+                    variant={data.accessible ? "secondary" : "outline"}
+                    className="shrink-0"
+                  >
+                    {data.accessible ? "Accessible" : "Limited"}
+                  </Badge>
+                </div>
+              </div>
+
+              {/* SERVICIOS */}
+              <div>
+                <div className="mb-2 text-xs font-medium text-muted-foreground">
+                  Servicios en la estación
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <FacilityPill ok={(data as any).hasElevator} label="Ascensor" Icon={ArrowUpDown} />
+                  <FacilityPill ok={(data as any).hasToilets} label="Baños" Icon={Toilet} />
+                  <FacilityPill ok={(data as any).hasInfoPoint} label="Info" Icon={Info} />
+                  <FacilityPill ok={(data as any).hasEBikes} label="e-Bikes" Icon={Bike} />
+                  <FacilityPill ok={(data as any).hasBikeParking} label="Parking bicis" Icon={ParkingSquare} />
+                </div>
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                Datos orientativos para el proyecto ficticio Metro Vigo.
+              </div>
+            </CardContent>
+
             </Card>
 
             <Card className="sm:col-span-2">

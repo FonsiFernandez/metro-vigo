@@ -5,5 +5,13 @@ public record StationDto(
         String name,
         Double lat,
         Double lon,
-        boolean accessible
+
+        boolean accessible,
+        boolean hasElevator,
+        boolean hasToilets,
+        boolean hasInfoPoint,
+        boolean hasEBikes,
+        boolean hasBikeParking,
+
+        String accessibilityNote
 ) {}

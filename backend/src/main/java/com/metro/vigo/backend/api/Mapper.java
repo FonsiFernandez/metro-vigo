@@ -14,7 +14,19 @@ public class Mapper {
     }
 
     public static StationDto toStationDto(Station s) {
-        return new StationDto(s.getId(), s.getName(), s.getLat(), s.getLon(), s.isAccessible());
+        return new StationDto(
+                s.getId(),
+                s.getName(),
+                s.getLat(),
+                s.getLon(),
+                s.isAccessible(),
+                s.isHasElevator(),
+                s.isHasToilets(),
+                s.isHasInfoPoint(),
+                s.isHasEBikes(),
+                s.isHasBikeParking(),
+                s.getAccessibilityNote()
+        );
     }
 
     public static IncidentDto toIncidentDto(Incident i) {
