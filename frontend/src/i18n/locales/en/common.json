@@ -1,0 +1,5 @@
+{
+  "app": { "name": "Metro de Vigo", "tagline": "Fictional network" },
+  "nav": { "home": "Home", "lines": "Lines", "status": "Status", "map": "Map", "info": "Info" },
+  "home": { "planTrip": "Plan your trip", "from": "From", "to": "To", "date": "Date", "time": "Time", "getRoute": "Get route" }
+}

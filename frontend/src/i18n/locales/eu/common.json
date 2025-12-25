@@ -1,0 +1,5 @@
+{
+  "app": { "name": "Vigoko Metroa", "tagline": "Sare fikziozkoa" },
+  "nav": { "home": "Hasiera", "lines": "Lineak", "status": "Egoera", "map": "Mapa", "info": "Informazioa" },
+  "home": { "planTrip": "Planifikatu zure bidaia", "from": "Irteera", "to": "Helmuga", "date": "Data", "time": "Ordua", "getRoute": "Ibilbidea kalkulatu" }
+}

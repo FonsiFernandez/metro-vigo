@@ -7,6 +7,7 @@ import { AlertTriangle, CircleAlert, Info, Siren } from "lucide-react";
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { applyTheme, getStoredTheme, type Theme } from "../lib/theme";
+import { useTranslation } from "react-i18next";
 
 import logo from "../assets/logo.png";
 
@@ -77,6 +78,8 @@ export default function AppShell({ children }: PropsWithChildren) {
     staleTime: 10_000,
   });
 
+  const { i18n, t } = useTranslation();
+
   const incidents = incidentsQuery.data ?? [];
 
   const [theme, setTheme] = useState<Theme>(() => getStoredTheme() ?? "light");
@@ -109,6 +112,20 @@ export default function AppShell({ children }: PropsWithChildren) {
             </Link>
 
             <div className="flex items-center gap-2">
+            <select
+              value={i18n.language}
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              className="h-9 rounded-xl border bg-background px-3 text-sm"
+              aria-label="Language"
+            >
+              <option value="es">ES</option>
+              <option value="gl">GL</option>
+              <option value="pt">PT</option>
+              <option value="eu">EU</option>
+              <option value="ca">CA</option>
+              <option value="en">EN</option>
+            </select>
+
               <Button
                 variant="outline"
                 size="icon"
@@ -130,11 +147,11 @@ export default function AppShell({ children }: PropsWithChildren) {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <nav className="flex items-center gap-1">
-              <NavItem to="/" label="Home" />
-              <NavItem to="/lines" label="Lines" />
-              <NavItem to="/status" label="Status" />
-              <NavItem to="/map" label="Map" />
-              <NavItem to="/info" label="Info" />
+              <NavItem to="/" label={t("nav.home")} />
+              <NavItem to="/lines" label={t("nav.lines")} />
+              <NavItem to="/status" label={t("nav.status")} />
+              <NavItem to="/map" label={t("nav.map")} />
+              <NavItem to="/info" label={t("nav.info")} />
             </nav>
 
             <StationSearch />

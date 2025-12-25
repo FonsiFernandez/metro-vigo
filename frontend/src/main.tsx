@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { initTheme } from "./lib/theme";
+import "./i18n";
+
 initTheme();
 
 const queryClient = new QueryClient({

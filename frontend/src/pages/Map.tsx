@@ -144,7 +144,7 @@ function MapLibreView({
 
         const map = new maplibregl.Map({
           container: el,
-          style: "https://demotiles.maplibre.org/style.json",
+style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
           center: [initial.lng, initial.lat],
           zoom: initial.zoom,
         });
@@ -154,6 +154,8 @@ function MapLibreView({
         map.addControl(new maplibregl.NavigationControl(), "top-right");
 
         map.on("load", () => {
+
+
           map.addSource("lines", {
             type: "geojson",
             data: geo?.lines ?? { type: "FeatureCollection", features: [] },
@@ -170,7 +172,14 @@ function MapLibreView({
             type: "line",
             source: "lines",
             paint: {
-              "line-width": 4,
+              "line-width": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                10, 3,
+                13, 6,
+                15, 10
+              ],
               "line-opacity": 0.85,
               "line-color": ["get", "colorHex"],
             },
