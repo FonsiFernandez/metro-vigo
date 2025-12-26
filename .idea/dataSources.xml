@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/metro_vigo</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="metro_vigo@dpg-d56hoj3e5dus73cphm00-a.virginia-postgres.render.com" uuid="687a17d8-643d-40a1-a6d8-91046d6a4a2b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dpg-d56hoj3e5dus73cphm00-a.virginia-postgres.render.com:5432/metro_vigo</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
