@@ -1,13 +1,16 @@
 import type { PropsWithChildren } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+
+import { AlertTriangle, CircleAlert, Info, Siren, Moon, Sun, User } from "lucide-react";
 
 import { getActiveIncidents, type Incident } from "../lib/api";
-import { AlertTriangle, CircleAlert, Info, Siren } from "lucide-react";
-import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
 import { applyTheme, getStoredTheme, type Theme } from "../lib/theme";
-import { useTranslation } from "react-i18next";
+
+import { Button } from "./ui/button";
+import StationSearch from "./StationSearch";
 
 import logo from "../assets/logo-small-noback.png";
 
@@ -16,8 +19,25 @@ import logoSpain from "../assets/logos-spain.png";
 import logoVigo from "../assets/logo-vigo.jpg";
 import logoXunta from "../assets/logo-xunta.jpg";
 
-import { Button } from "./ui/button";
-import StationSearch from "./StationSearch";
+function LoginButton() {
+  const { t } = useTranslation(["common"]);
+
+  // Importante: disabled no suele disparar hover/tooltip,
+  // por eso el title va en el wrapper.
+  return (
+    <span title={t("auth.login_profile")} className="inline-flex">
+      <Button
+        variant="secondary"
+        size="icon"
+        disabled
+        aria-label={t("auth.login")}
+        className="cursor-not-allowed"
+      >
+        <User className="h-4 w-4 opacity-60" />
+      </Button>
+    </span>
+  );
+}
 
 function NavItem({ to, label }: { to: string; label: string }) {
   return (
@@ -101,11 +121,7 @@ export default function AppShell({ children }: PropsWithChildren) {
       <header className="sticky top-0 z-20 border-b">
         <div
           aria-hidden
-          className="
-            absolute inset-0
-            bg-background/80
-            backdrop-blur
-          "
+          className="absolute inset-0 bg-background/80 backdrop-blur"
         />
         <div className="relative">
           <div className="mx-auto max-w-5xl px-4 py-4 space-y-3">
@@ -169,18 +185,14 @@ export default function AppShell({ children }: PropsWithChildren) {
                   onClick={() => setTheme((tt) => (tt === "dark" ? "light" : "dark"))}
                   aria-label={t("theme.toggle")}
                 >
-                  {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4" />
+                  ) : (
+                    <Moon className="h-4 w-4" />
+                  )}
                 </Button>
 
-                <Button variant="secondary" asChild>
-                  <a
-                    href={`${import.meta.env.VITE_API_URL ?? "http://localhost:8080"}/api/lines`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    API
-                  </a>
-                </Button>
+                <LoginButton />
               </div>
             </div>
 
@@ -227,10 +239,16 @@ export default function AppShell({ children }: PropsWithChildren) {
                     <SeverityPill severity={i.severity} />
 
                     <span className="text-muted-foreground">
-                      {i.lineCode ? `${i.lineCode}: ` : i.stationName ? `${i.stationName}: ` : ""}
+                      {i.lineCode
+                        ? `${i.lineCode}: `
+                        : i.stationName
+                        ? `${i.stationName}: `
+                        : ""}
                     </span>
 
-                    <span className="truncate max-w-[40ch] font-medium">{i.title}</span>
+                    <span className="truncate max-w-[40ch] font-medium">
+                      {i.title}
+                    </span>
                   </span>
                 ))}
 

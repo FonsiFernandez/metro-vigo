@@ -46,5 +46,9 @@
     "noCoordinates": "Sense coordenades",
     "accessible": "Accessible",
     "limited": "Limitat"
+  },
+  "auth": {
+    "login": "Inicia sessió",
+    "login_profile": "Accés / perfil (pròximament)"
   }
 }

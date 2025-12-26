@@ -50,5 +50,9 @@
     "noCoordinates": "No coordinates",
     "accessible": "Accessible",
     "limited": "Limited"
+  },
+  "auth": {
+    "login": "Login",
+    "login_profile": "Login / profile (coming soon)"
   }
 }

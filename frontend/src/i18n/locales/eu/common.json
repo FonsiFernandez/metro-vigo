@@ -46,5 +46,9 @@
     "noCoordinates": "Koordenaturik ez",
     "accessible": "Irisgarria",
     "limited": "Mugatua"
+  },
+  "auth": {
+    "login": "Saioa hasi",
+    "login_profile": "Saioa / profila (laster)"
   }
 }
