@@ -31,14 +31,14 @@ public class SeedData {
             // 1) LINES
             // -------------------------
             if (lineRepo.count() == 0) {
-                lineRepo.save(new Line("V1", "Iago Aspas · Teis ↔ Balaídos ↔ Coruxo", "#00AEEF", "OK"));
-                lineRepo.save(new Line("V2", "Clara Campoamor · Vialia ↔ Navia", "#8E44AD", "OK"));
-                lineRepo.save(new Line("V3", "Atlántica · Teis ↔ Castrelos", "#27AE60", "DELAYED"));
-                lineRepo.save(new Line("V4", "Julio Verne · CUVI ↔ Centro", "#E67E22", "OK"));
-                lineRepo.save(new Line("V5", "Cíes · Oia ↔ Teis", "#E11D48", "OK"));
-                lineRepo.save(new Line("V6", "Oliveira · Chapela ↔ Vigo Central", "#0EA5E9", "OK"));
-                lineRepo.save(new Line("V7", "Peinador Express · Vigo Central ↔ Aeroporto", "#111827", "OK"));
-                lineRepo.save(new Line("V8", "Circular Ría · Vigo Central ↔ Chapela ↔ Samil ↔ Vigo Central", "#06B6D4", "OK"));
+                lineRepo.save(new Line("V1", "Iago Aspas · Teis ↔ Balaídos ↔ Coruxo", "#008080", "OK"));
+                lineRepo.save(new Line("V2", "Clara Campoamor · Vialia ↔ Navia", "#FF7F50", "OK"));
+                lineRepo.save(new Line("V3", "Atlántica · Teis ↔ Castrelos", "#50C878", "DELAYED"));
+                lineRepo.save(new Line("V4", "Julio Verne · CUVI ↔ Centro", "#9966CC", "OK"));
+                lineRepo.save(new Line("V5", "Cíes · Oia ↔ Teis", "#800020", "OK"));
+                lineRepo.save(new Line("V6", "Oliveira · Chapela ↔ Vigo Central", "#FFDB58", "OK"));
+                lineRepo.save(new Line("V7", "Peinador Express · Vigo Central ↔ Aeroporto", "#0047AB", "OK"));
+                lineRepo.save(new Line("V8", "Circular Ría · Vigo Central ↔ Chapela ↔ Samil ↔ Vigo Central", "#D87093", "OK"));
             }
 
             // -------------------------
